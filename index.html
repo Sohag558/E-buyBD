@@ -34,119 +34,117 @@
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/90 backdrop-blur border-b border-slate-200 dark:border-slate-700 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 shadow-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center justify-between gap-2 sm:gap-4">
       
       <!-- Brand Logo -->
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="showCustomerView()">
-        <div class="bg-gradient-to-r from-brand-600 to-indigo-700 text-white p-2.5 rounded-xl shadow-md">
-          <i class="fa-solid fa-bag-shopping text-2xl"></i>
+      <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer shrink-0" onclick="showCustomerView()">
+        <div class="bg-gradient-to-r from-brand-600 to-indigo-700 text-white p-2 rounded-xl shadow-md">
+          <i class="fa-solid fa-bag-shopping text-xl sm:text-2xl"></i>
         </div>
         <div>
-          <h1 id="logoText" class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">E-buy BD</h1>
-          <p id="taglineText" class="text-xs text-slate-500 dark:text-slate-400" data-i18n="tagline">সহজ ও নিরাপদ শপিং ট্রাস্ট</p>
+          <h1 id="logoText" class="text-lg sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">E-buy BD</h1>
+          <p id="taglineText" class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5" data-i18n="tagline">সহজ ও নিরাপদ শপিং ট্রাস্ট</p>
         </div>
       </div>
 
       <!-- Social Controls, Language Switcher & Auth Nav -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        <a href="https://wa.me/8801731039874" target="_blank" class="p-2 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 rounded-lg transition" title="WhatsApp">
-          <i class="fa-brands fa-whatsapp text-xl"></i>
+      <div class="flex items-center space-x-1 sm:space-x-3">
+        <a href="https://wa.me/8801731039874" target="_blank" class="p-1.5 sm:p-2 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 rounded-lg transition" title="WhatsApp">
+          <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
         </a>
-        <a href="https://t.me/yourtelegram" target="_blank" class="p-2 text-sky-500 hover:bg-sky-50 dark:hover:bg-slate-700 rounded-lg transition" title="Telegram">
-          <i class="fa-brands fa-telegram text-xl"></i>
+        <a href="https://t.me/yourtelegram" target="_blank" class="p-1.5 sm:p-2 text-sky-500 hover:bg-sky-50 dark:hover:bg-slate-700 rounded-lg transition" title="Telegram">
+          <i class="fa-brands fa-telegram text-lg sm:text-xl"></i>
         </a>
 
         <!-- Language Switcher Button -->
-        <button onclick="toggleLanguage()" class="px-2.5 py-1 text-xs font-bold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg border border-slate-300 dark:border-slate-600 transition flex items-center gap-1">
+        <button onclick="toggleLanguage()" class="px-2 py-1 text-[11px] sm:text-xs font-bold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg border border-slate-300 dark:border-slate-600 transition flex items-center gap-1">
           <i class="fa-solid fa-globe text-brand-600"></i>
           <span id="langLabel">English</span>
         </button>
 
-        <div class="h-6 w-[1px] bg-slate-300 dark:bg-slate-700 my-auto"></div>
-
         <!-- Dynamic Customer/Staff Auth UI -->
-        <div id="authNavContainer"></div>
+        <div id="authNavContainer" class="shrink-0"></div>
 
         <!-- Theme Switcher -->
-        <button onclick="toggleTheme()" class="p-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-          <i class="fa-solid fa-moon dark:hidden text-lg"></i>
-          <i class="fa-solid fa-sun hidden dark:inline text-lg text-amber-400"></i>
+        <button onclick="toggleTheme()" class="p-1.5 sm:p-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+          <i class="fa-solid fa-moon dark:hidden text-base sm:text-lg"></i>
+          <i class="fa-solid fa-sun hidden dark:inline text-base sm:text-lg text-amber-400"></i>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Body Content -->
-  <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-6 flex-grow w-full">
     
     <!-- CUSTOMER SHOP VIEW -->
-    <div id="customerView" class="space-y-8">
-      <div class="relative bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-700 text-white rounded-3xl p-6 sm:p-10 overflow-hidden shadow-xl">
+    <div id="customerView" class="space-y-6 sm:space-y-8">
+      <div class="relative bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-700 text-white rounded-2xl sm:rounded-3xl p-5 sm:p-10 overflow-hidden shadow-xl">
         <div class="relative z-10 max-w-xl">
-          <span class="inline-block bg-white/20 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full mb-3 font-semibold" data-i18n="heroBadge">✨ সেরা অফার ও ক্যাশব্যাক ডিল</span>
-          <h2 class="text-3xl sm:text-5xl font-black mb-3 leading-tight" data-i18n="heroTitle">E-buy BD-তে আপনাকে স্বাগতম!</h2>
-          <p class="text-slate-100 text-sm sm:text-base opacity-90 mb-4" data-i18n="heroSub">সহজ ডিপোজিট, ইনস্ট্যান্ট ডিসকাউন্ট এবং দ্রুততম ডেলিভারি।</p>
+          <span class="inline-block bg-white/20 backdrop-blur-md text-white text-[10px] sm:text-xs px-3 py-1 rounded-full mb-2 sm:mb-3 font-semibold" data-i18n="heroBadge">✨ সেরা অফার ও ক্যাশব্যাক ডিল</span>
+          <h2 class="text-2xl sm:text-5xl font-black mb-2 sm:mb-3 leading-tight" data-i18n="heroTitle">E-buy BD-তে আপনাকে স্বাগতম!</h2>
+          <p class="text-slate-100 text-xs sm:text-base opacity-90 mb-2 sm:mb-4" data-i18n="heroSub">সহজ ডিপোজিট, ইনস্ট্যান্ট ডিসকাউন্ট এবং দ্রুততম ডেলিভারি।</p>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h3 class="text-xl font-bold flex items-center gap-2">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+        <h3 class="text-lg sm:text-xl font-bold flex items-center gap-2">
           <i class="fa-solid fa-layer-group text-brand-600"></i> <span data-i18n="allProducts">সব প্রোডাক্টসমূহ</span>
         </h3>
         
         <div class="relative w-full sm:w-80">
-          <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="প্রোডাক্টের নাম দিয়ে খুঁজুন..." data-i18n-ph="searchPlaceholder" class="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition shadow-sm">
-          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+          <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="প্রোডাক্টের নাম দিয়ে খুঁজুন..." data-i18n-ph="searchPlaceholder" class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition shadow-sm">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs sm:text-sm"></i>
         </div>
       </div>
 
-      <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+      <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6"></div>
     </div>
 
     <!-- CUSTOMER PROFILE & WALLET VIEW -->
-    <div id="customerProfileView" class="hidden space-y-8">
-      <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+    <div id="customerProfileView" class="hidden space-y-6 sm:space-y-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
         <div>
-          <h2 class="font-bold text-lg flex items-center gap-2">
+          <h2 class="font-bold text-base sm:text-lg flex items-center gap-2">
             <i class="fa-solid fa-wallet text-emerald-600"></i> <span data-i18n="myWallet">মাই ওয়ালেট ও প্রোফাইল</span>
           </h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="walletSub">ব্যালেন্স এড করুন এবং আপনার অর্ডার হিস্ট্রি দেখুন</p>
+          <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400" data-i18n="walletSub">ব্যালেন্স এড করুন এবং আপনার অর্ডার হিস্ট্রি দেখুন</p>
         </div>
-        <button onclick="showCustomerView()" class="px-4 py-2 text-xs bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition" data-i18n="backToShop">
+        <button onclick="showCustomerView()" class="w-full sm:w-auto px-4 py-2 text-xs bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition" data-i18n="backToShop">
           শপে ফিরে যান
         </button>
       </div>
 
       <!-- Balance & Deposit Section -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         <!-- Balance Card -->
-        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-2xl shadow-lg flex flex-col justify-between">
+        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-5 sm:p-6 rounded-2xl shadow-lg flex flex-col justify-between">
           <div>
-            <span class="text-xs opacity-80 font-bold uppercase tracking-wider" data-i18n="currentBalance">বর্তমান ব্যালেন্স</span>
-            <h3 class="text-3xl font-black mt-1">৳ <span id="userWalletBalanceDisplay">0</span></h3>
+            <span class="text-[11px] sm:text-xs opacity-80 font-bold uppercase tracking-wider" data-i18n="currentBalance">বর্তমান ব্যালেন্স</span>
+            <h3 class="text-2xl sm:text-3xl font-black mt-1">৳ <span id="userWalletBalanceDisplay">0</span></h3>
           </div>
-          <button onclick="openDepositModal()" class="mt-6 w-full py-2.5 bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
+          <button onclick="openDepositModal()" class="mt-4 sm:mt-6 w-full py-2.5 bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-plus-circle text-base"></i> <span data-i18n="depositBtn">ব্যালেন্স ডিপোজিট করুন</span>
           </button>
         </div>
 
         <!-- Profile Edit Card -->
-        <div class="md:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+        <div class="md:col-span-2 bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-user-pen text-brand-600"></i> <span data-i18n="editProfile">প্রোফাইল আপডেট</span>
           </h3>
-          <form onsubmit="handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <form onsubmit="handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label class="block text-xs font-medium mb-1" data-i18n="yourName">আপনার নাম</label>
-              <input type="text" id="editName" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <input type="text" id="editName" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div>
               <label class="block text-xs font-medium mb-1" data-i18n="defaultAddress">ডিফল্ট ঠিকানা</label>
-              <input type="text" id="editAddress" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <input type="text" id="editAddress" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div class="sm:col-span-2 text-right">
-              <button type="submit" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="saveBtn">
+              <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="saveBtn">
                 সেভ করুন
               </button>
             </div>
@@ -155,20 +153,20 @@
       </div>
 
       <!-- Orders & Deposit History Table -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         <!-- Order History -->
-        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+        <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-bag-shopping text-brand-600"></i> <span data-i18n="myOrders">আমার অর্ডারসমূহ</span>
           </h3>
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
+            <table class="w-full text-left text-xs whitespace-nowrap">
               <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
                 <tr>
-                  <th class="p-3">আইডি</th>
-                  <th class="p-3">পণ্য</th>
-                  <th class="p-3">পেমেন্ট</th>
-                  <th class="p-3">স্ট্যাটাস</th>
+                  <th class="p-2 sm:p-3">আইডি</th>
+                  <th class="p-2 sm:p-3">পণ্য</th>
+                  <th class="p-2 sm:p-3">পেমেন্ট</th>
+                  <th class="p-2 sm:p-3">স্ট্যাটাস</th>
                 </tr>
               </thead>
               <tbody id="myOrdersTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -177,18 +175,18 @@
         </div>
 
         <!-- Deposit History -->
-        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+        <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-money-bill-transfer text-emerald-600"></i> <span data-i18n="depositStatus">ডিপোজিট রিকোয়েস্ট স্ট্যাটাস</span>
           </h3>
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
+            <table class="w-full text-left text-xs whitespace-nowrap">
               <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
                 <tr>
-                  <th class="p-3">মেথড</th>
-                  <th class="p-3">পরিমাণ</th>
-                  <th class="p-3">Trx ID</th>
-                  <th class="p-3">স্ট্যাটাস</th>
+                  <th class="p-2 sm:p-3">মেথড</th>
+                  <th class="p-2 sm:p-3">পরিমাণ</th>
+                  <th class="p-2 sm:p-3">Trx ID</th>
+                  <th class="p-2 sm:p-3">স্ট্যাটাস</th>
                 </tr>
               </thead>
               <tbody id="myDepositsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -199,72 +197,72 @@
     </div>
 
     <!-- ADMIN & STAFF PANEL VIEW -->
-    <div id="adminView" class="hidden space-y-8">
-      <div class="flex justify-between items-center bg-slate-200 dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-700">
+    <div id="adminView" class="hidden space-y-6 sm:space-y-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-200 dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-700">
         <div>
-          <h2 class="font-bold text-lg flex items-center gap-2">
+          <h2 class="font-bold text-base sm:text-lg flex items-center gap-2">
             <i class="fa-solid fa-shield-halved text-brand-600"></i> 
             <span id="staffDashboardTitle">এডমিন কন্ট্রোল প্যানেল</span>
           </h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400" id="staffRoleDesc">অর্ডার, ডিপোজিট ও প্রোডাক্ট সেটিংস কন্ট্রোল করুন</p>
+          <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400" id="staffRoleDesc">অর্ডার, ডিপোজিট ও প্রোডাক্ট সেটিংস কন্ট্রোল করুন</p>
         </div>
-        <button onclick="handleLogout()" class="px-4 py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
+        <button onclick="handleLogout()" class="w-full sm:w-auto px-4 py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
           লগআউট
         </button>
       </div>
 
-      <!-- Payment Numbers Manager Card (For Super Admin and Finance Admin) -->
-      <div id="sectionPaymentNumbersManage" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-pink-200 dark:border-pink-800 shadow-sm">
-        <h3 class="font-bold text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-pink-600">
+      <!-- Payment Numbers Manager Card -->
+      <div id="sectionPaymentNumbersManage" class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-pink-200 dark:border-pink-800 shadow-sm">
+        <h3 class="font-bold text-sm sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-pink-600">
           <span class="flex items-center gap-2">
             <i class="fa-solid fa-gears"></i> পেমেন্ট নম্বর সেটিংস (ডিপোজিট নম্বর পরিবর্তন)
           </span>
         </h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">লিমিট শেষ হয়ে গেলে ডিপোজিটের bKash, Nagad ও Rocket নম্বর পরিবর্তন করুন।</p>
+        <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mb-4">লিমিট শেষ হয়ে গেলে ডিপোজিটের bKash, Nagad ও Rocket নম্বর পরিবর্তন করুন।</p>
         
-        <form onsubmit="handlePaymentNumbersUpdate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <form onsubmit="handlePaymentNumbersUpdate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <div>
             <label class="block text-xs font-bold mb-1 text-pink-600">bKash Number</label>
-            <input type="text" id="adminBkashNo" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+            <input type="text" id="adminBkashNo" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
           </div>
           <div>
             <label class="block text-xs font-bold mb-1 text-orange-600">Nagad Number</label>
-            <input type="text" id="adminNagadNo" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+            <input type="text" id="adminNagadNo" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
           </div>
           <div>
             <label class="block text-xs font-bold mb-1 text-purple-600">Rocket Number</label>
-            <input type="text" id="adminRocketNo" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+            <input type="text" id="adminRocketNo" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
           </div>
           <div class="sm:col-span-3 text-right">
-            <button type="submit" class="px-6 py-2.5 bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-xl shadow transition">
+            <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-xl shadow transition">
               নম্বর আপডেট করুন
             </button>
           </div>
         </form>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         
         <!-- Product Posting Section -->
         <div id="sectionProductPost" class="space-y-6">
-          <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-            <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+          <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
               <i class="fa-solid fa-plus text-brand-600"></i> নতুন পণ্য পোস্ট করুন
             </h3>
-            <form onsubmit="handleAddProduct(event)" class="space-y-4">
+            <form onsubmit="handleAddProduct(event)" class="space-y-3 sm:space-y-4">
               <div>
                 <label class="block text-xs font-medium mb-1">প্রোডাক্টের নাম</label>
-                <input type="text" id="pTitle" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+                <input type="text" id="pTitle" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
               </div>
               
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-medium mb-1">মূল্য (৳)</label>
-                  <input type="number" id="pPrice" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+                  <input type="number" id="pPrice" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
                 </div>
                 <div>
                   <label class="block text-xs font-medium mb-1">ডিসকাউন্ট (৳)</label>
-                  <input type="number" id="pDiscount" value="0" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+                  <input type="number" id="pDiscount" value="0" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
                 </div>
               </div>
 
@@ -282,7 +280,7 @@
 
               <div>
                 <label class="block text-xs font-medium mb-1">ছবির লিংক (Image URL)</label>
-                <input type="text" id="pImgUrl" required placeholder="https://..." class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+                <input type="text" id="pImgUrl" required placeholder="https://..." class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
               </div>
 
               <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
@@ -296,22 +294,22 @@
         <div id="sectionStaffContent" class="lg:col-span-2 space-y-6">
           
           <!-- Deposit Approval Table -->
-          <div id="sectionDepositsList" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-sm overflow-hidden">
-            <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+          <div id="sectionDepositsList" class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-sm overflow-hidden">
+            <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
               <span class="flex items-center gap-2 text-emerald-600">
-                <i class="fa-solid fa-money-bill-wave"></i> লেনদেন / কাস্টমার ডিপোজিট রিকোয়েস্ট (Finance)
+                <i class="fa-solid fa-money-bill-wave"></i> লেনদেন / কাস্টমার ডিপোজিট (Finance)
               </span>
             </h3>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs">
+              <table class="w-full text-left text-xs whitespace-nowrap">
                 <thead class="bg-emerald-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase">
                   <tr>
-                    <th class="p-3">ইউজার</th>
-                    <th class="p-3">মেথড</th>
-                    <th class="p-3">পরিমাণ</th>
-                    <th class="p-3">Trx ID</th>
-                    <th class="p-3">স্ট্যাটাস</th>
-                    <th class="p-3">অ্যাকশন</th>
+                    <th class="p-2 sm:p-3">ইউজার</th>
+                    <th class="p-2 sm:p-3">মেথড</th>
+                    <th class="p-2 sm:p-3">পরিমাণ</th>
+                    <th class="p-2 sm:p-3">Trx ID</th>
+                    <th class="p-2 sm:p-3">স্ট্যাটাস</th>
+                    <th class="p-2 sm:p-3">অ্যাকশন</th>
                   </tr>
                 </thead>
                 <tbody id="adminDepositsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -320,21 +318,21 @@
           </div>
 
           <!-- Customer Orders Management Table -->
-          <div id="sectionOrdersList" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-            <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+          <div id="sectionOrdersList" class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+            <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
               <i class="fa-solid fa-boxes-packing text-brand-600"></i> কাস্টমার অর্ডার ম্যানেজমেন্ট (Order Manager)
             </h3>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs">
+              <table class="w-full text-left text-xs whitespace-nowrap">
                 <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
                   <tr>
-                    <th class="p-3">আইডি</th>
-                    <th class="p-3">কাস্টমার ও ঠিকানা</th>
-                    <th class="p-3">পণ্য</th>
-                    <th class="p-3">মূল্য</th>
-                    <th class="p-3">পেমেন্ট</th>
-                    <th class="p-3">স্ট্যাটাস</th>
-                    <th class="p-3">অ্যাকশন</th>
+                    <th class="p-2 sm:p-3">আইডি</th>
+                    <th class="p-2 sm:p-3">কাস্টমার ও ঠিকানা</th>
+                    <th class="p-2 sm:p-3">পণ্য</th>
+                    <th class="p-2 sm:p-3">মূল্য</th>
+                    <th class="p-2 sm:p-3">পেমেন্ট</th>
+                    <th class="p-2 sm:p-3">স্ট্যাটাস</th>
+                    <th class="p-2 sm:p-3">অ্যাকশন</th>
                   </tr>
                 </thead>
                 <tbody id="ordersTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -350,16 +348,16 @@
   </main>
 
   <!-- DEPOSIT MODAL -->
-  <div id="depositModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
+  <div id="depositModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
       <button onclick="closeDepositModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
 
-      <h3 class="font-bold text-lg mb-1 flex items-center gap-2 text-emerald-600">
+      <h3 class="font-bold text-base sm:text-lg mb-1 flex items-center gap-2 text-emerald-600">
         <i class="fa-solid fa-wallet"></i> <span data-i18n="depositModalTitle">ওয়ালেট ব্যালেন্স ডিপোজিট</span>
       </h3>
-      <p class="text-xs text-slate-500 mb-4" data-i18n="depositModalSub">নিচের মেথড নির্বাচন করে টাকা পাঠান ও Trx ID দিন</p>
+      <p class="text-[11px] sm:text-xs text-slate-500 mb-4" data-i18n="depositModalSub">নিচের মেথড নির্বাচন করে টাকা পাঠান ও Trx ID দিন</p>
 
       <div class="grid grid-cols-3 gap-2 mb-4">
         <button onclick="selectDepositMethod('bkash')" id="btnBkash" class="py-2 rounded-xl font-bold text-xs border border-pink-500 bg-pink-50 text-pink-600 flex flex-col items-center gap-1">
@@ -374,19 +372,19 @@
       </div>
 
       <div class="p-3 bg-pink-50 dark:bg-slate-700 border border-pink-200 dark:border-slate-600 rounded-xl mb-4 text-center">
-        <span class="text-xs text-slate-600 dark:text-slate-300 block" data-i18n="sendMoneyTo">সেন্ড মানি করুন এই পার্সোনাল নম্বরে:</span>
-        <span id="depositNumberDisplay" class="text-lg font-black text-pink-600 dark:text-pink-400 tracking-wider">01731039874 (bKash)</span>
+        <span class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 block" data-i18n="sendMoneyTo">সেন্ড মানি করুন এই পার্সোনাল নম্বরে:</span>
+        <span id="depositNumberDisplay" class="text-base sm:text-lg font-black text-pink-600 dark:text-pink-400 tracking-wider">01731039874 (bKash)</span>
       </div>
 
       <form onsubmit="handleDepositSubmit(event)" class="space-y-3">
         <input type="hidden" id="selectedMethod" value="bkash">
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="amountLabel">টাকার পরিমাণ (৳)</label>
-          <input type="number" id="depositAmount" required placeholder="500" min="10" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+          <input type="number" id="depositAmount" required placeholder="500" min="10" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
         </div>
         <div>
           <label class="block text-xs font-medium mb-1">ট্রানজেকশন আইডি (Trx ID)</label>
-          <input type="text" id="depositTrxId" required placeholder="8N7A6D..." class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none font-mono uppercase">
+          <input type="text" id="depositTrxId" required placeholder="8N7A6D..." class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none font-mono uppercase">
         </div>
         <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="submitDeposit">
           ডিপোজিট সাবমিট করুন
@@ -396,8 +394,8 @@
   </div>
 
   <!-- Login/Signup Modal -->
-  <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
+  <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
       <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
@@ -407,32 +405,32 @@
         <button id="tabSignup" onclick="switchAuthTab('signup')" class="w-1/2 py-2 text-sm font-bold text-slate-400" data-i18n="signup">সাইনআপ</button>
       </div>
 
-      <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+      <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-3 sm:space-y-4">
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="phone">মোবাইল নম্বর</label>
-          <input type="tel" id="loginPhone" required placeholder="01731039874" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+          <input type="tel" id="loginPhone" required placeholder="01731039874" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
         </div>
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="password">পাসওয়ার্ড</label>
-          <input type="password" id="loginPass" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+          <input type="password" id="loginPass" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
         </div>
         <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition" data-i18n="loginBtn">
           লগইন করুন
         </button>
       </form>
 
-      <form id="formSignup" onsubmit="handleSignupSubmit(event)" class="space-y-4 hidden">
+      <form id="formSignup" onsubmit="handleSignupSubmit(event)" class="space-y-3 sm:space-y-4 hidden">
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="yourName">আপনার নাম</label>
-          <input type="text" id="signupName" required placeholder="আরিফ হোসেন" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+          <input type="text" id="signupName" required placeholder="আরিফ হোসেন" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
         </div>
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="phone">মোবাইল নম্বর</label>
-          <input type="tel" id="signupPhone" required placeholder="017xxxxxxxx" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+          <input type="tel" id="signupPhone" required placeholder="017xxxxxxxx" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
         </div>
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="password">পাসওয়ার্ড দিন</label>
-          <input type="password" id="signupPass" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+          <input type="password" id="signupPass" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
         </div>
         <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition" data-i18n="signupBtn">
           সাইনআপ করুন
@@ -442,27 +440,38 @@
   </div>
 
   <!-- Checkout Modal -->
-  <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
+  <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative max-h-[90vh] overflow-y-auto">
       <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-slate-400 font-bold">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
-      <h3 class="font-bold text-lg mb-1" data-i18n="completeOrder">অর্ডার সম্পন্ন করুন</h3>
-      <div id="checkoutSummaryBox" class="p-3 bg-slate-50 dark:bg-slate-700 rounded-xl mb-4 text-xs space-y-1"></div>
+      <h3 class="font-bold text-base sm:text-lg mb-1" data-i18n="completeOrder">অর্ডার সম্পন্ন করুন</h3>
+      <div id="checkoutSummaryBox" class="p-3 bg-slate-50 dark:bg-slate-700 rounded-xl mb-3 text-xs space-y-1"></div>
 
       <form onsubmit="handleOrderSubmit(event)" class="space-y-3">
         <input type="hidden" id="orderProductId">
+        
+        <!-- Quantity Selection -->
+        <div>
+          <label class="block text-xs font-bold mb-1" data-i18n="quantityLabel">পরিমাণ (Quantity)</label>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="adjustQuantity(-1)" class="w-9 h-9 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg flex items-center justify-center text-sm">-</button>
+            <input type="number" id="orderQuantity" value="1" min="1" max="50" onchange="updateCheckoutTotal()" class="w-20 text-center p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none font-bold">
+            <button type="button" onclick="adjustQuantity(1)" class="w-9 h-9 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg flex items-center justify-center text-sm">+</button>
+          </div>
+        </div>
+
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="yourName">আপনার নাম</label>
-          <input type="text" id="custName" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+          <input type="text" id="custName" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
         </div>
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="phone">মোবাইল নম্বর</label>
-          <input type="tel" id="custPhone" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+          <input type="tel" id="custPhone" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
         </div>
         <div>
           <label class="block text-xs font-medium mb-1" data-i18n="fullAddress">পূর্ণাঙ্গ ঠিকানা</label>
-          <textarea id="custAddress" required rows="2" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none"></textarea>
+          <textarea id="custAddress" required rows="2" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none"></textarea>
         </div>
 
         <div>
@@ -471,7 +480,7 @@
           </select>
         </div>
 
-        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md transition" data-i18n="confirmOrder">
+        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition" data-i18n="confirmOrder">
           কনফার্ম অর্ডার
         </button>
       </form>
@@ -479,8 +488,8 @@
   </div>
 
   <!-- PROFESSIONAL FOOTER -->
-  <footer class="bg-slate-900 text-slate-300 pt-12 pb-6 border-t border-slate-800 mt-12">
-    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+  <footer class="bg-slate-900 text-slate-300 pt-10 sm:pt-12 pb-6 border-t border-slate-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">
       
       <!-- Col 1: Brand Info -->
       <div class="space-y-3">
@@ -574,11 +583,12 @@
         fullAddress: "পূর্ণাঙ্গ ঠিকানা",
         selectPayment: "পেমেন্ট মেথড সিলেক্ট করুন",
         confirmOrder: "কনফার্ম অর্ডার",
-        footerDesc: "বাংলাদেশের দ্রুততম এবং সবচেয়ে নির্ভরযোগ্য ই-কমার্স শপ। আপনার পছন্দের যেকোনো প্রোডাক্ট সেরা দামে কিনুন নিরাপদে।",
+        footerDesc: "বাংলাদেশের দ্রুততম এবং সবচেয়ে নির্ভরযোগ্য ই-কমার্স শপ। আপনার পছন্দের যেকোনো প্রোডাক্ট সেরা দামে কিনুন নিরাপদে.",
         quickLinks: "কুইক লিংকস",
         navShop: "হোম / শপ",
         customerSupport: "হেল্প ও সাপোর্ট",
-        acceptPayments: "সিকিউর পেমেন্ট মেথড"
+        acceptPayments: "সিকিউর পেমেন্ট মেথড",
+        quantityLabel: "পরিমাণ (Quantity)"
       },
       en: {
         tagline: "Easy & Trusted Shopping",
@@ -617,7 +627,8 @@
         quickLinks: "Quick Links",
         navShop: "Home / Shop",
         customerSupport: "Help & Support",
-        acceptPayments: "Secure Payments"
+        acceptPayments: "Secure Payments",
+        quantityLabel: "Quantity"
       }
     };
 
@@ -642,12 +653,11 @@
       });
     }
 
-    // Initial Setup with SAME phone number for all admin accounts
     function initApp() {
       const defaultUsers = [
         { name: "Super Admin", phone: "01731039874", pass: "admin123", role: "super_admin", balance: 0 },
-        { name: "Finance Admin (লেনদেন)", phone: "01731039874", pass: "finance123", role: "finance_admin", balance: 0 },
-        { name: "Order Manager (অর্ডার)", phone: "01731039874", pass: "order123", role: "order_manager", balance: 0 },
+        { name: "Finance Admin", phone: "01731039874", pass: "finance123", role: "finance_admin", balance: 0 },
+        { name: "Order Manager", phone: "01731039874", pass: "order123", role: "order_manager", balance: 0 },
         { name: "Product Manager", phone: "01731039874", pass: "manager123", role: "product_manager", balance: 0 },
         { name: "Sohag Islam", phone: "01731039874", pass: "123456", role: "client", balance: 1000, address: "Dhaka, Bangladesh" }
       ];
@@ -656,7 +666,6 @@
         localStorage.setItem('ebuy_users', JSON.stringify(defaultUsers));
       }
 
-      // Dynamic Deposit Numbers Storage
       const defaultNumbers = {
         bkash: "01731039874",
         nagad: "01731039874",
@@ -678,7 +687,6 @@
     let deposits = JSON.parse(localStorage.getItem('ebuy_deposits')) || [];
     let loggedInUser = JSON.parse(localStorage.getItem('ebuy_logged_user')) || null;
 
-    // Render Main Shop Products
     function renderProducts(items = products) {
       const grid = document.getElementById('productsGrid');
       if(items.length === 0) {
@@ -691,24 +699,24 @@
         return `
         <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col justify-between">
           <div>
-            <div class="h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
+            <div class="h-36 sm:h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
               <img src="${p.image}" class="h-full w-full object-cover">
-              ${p.discount > 0 ? `<span class="absolute top-2 right-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">৳ ${p.discount} ছাড়</span>` : ''}
+              ${p.discount > 0 ? `<span class="absolute top-2 right-2 bg-red-600 text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full">৳ ${p.discount} ছাড়</span>` : ''}
             </div>
-            <div class="p-4">
-              <h4 class="font-bold text-slate-800 dark:text-white text-md mb-1">${p.title}</h4>
+            <div class="p-3 sm:p-4">
+              <h4 class="font-bold text-slate-800 dark:text-white text-xs sm:text-md mb-1 line-clamp-1">${p.title}</h4>
               <div class="flex items-baseline gap-2 mb-2">
-                <span class="text-brand-600 dark:text-brand-500 font-bold text-lg">৳ ${finalPrice}</span>
-                ${p.discount > 0 ? `<span class="text-xs text-slate-400 line-through">৳ ${p.price}</span>` : ''}
+                <span class="text-brand-600 dark:text-brand-500 font-bold text-sm sm:text-lg">৳ ${finalPrice}</span>
+                ${p.discount > 0 ? `<span class="text-[11px] sm:text-xs text-slate-400 line-through">৳ ${p.price}</span>` : ''}
               </div>
-              <div class="flex gap-1 text-[10px] font-semibold text-slate-500">
-                ${p.allowCOD ? `<span class="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded">COD</span>` : ''}
-                ${p.allowWallet ? `<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded">Wallet Pay</span>` : ''}
+              <div class="flex gap-1 text-[9px] sm:text-[10px] font-semibold text-slate-500 flex-wrap">
+                ${p.allowCOD ? `<span class="bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">COD</span>` : ''}
+                ${p.allowWallet ? `<span class="bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded">Wallet</span>` : ''}
               </div>
             </div>
           </div>
-          <div class="p-4 pt-0">
-            <button onclick="openOrderModal(${p.id})" class="w-full py-2.5 bg-slate-900 dark:bg-brand-600 hover:bg-slate-800 dark:hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+          <div class="p-3 sm:p-4 pt-0">
+            <button onclick="openOrderModal(${p.id})" class="w-full py-2 sm:py-2.5 bg-slate-900 dark:bg-brand-600 hover:bg-slate-800 dark:hover:bg-brand-700 text-white text-[11px] sm:text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
               <i class="fa-solid fa-cart-shopping"></i> ${currentLang === 'bn' ? 'অর্ডার করুন' : 'Order Now'}
             </button>
           </div>
@@ -716,24 +724,23 @@
       `}).join('');
     }
 
-    // Auth Navigation Header
     function updateAuthNav() {
       const container = document.getElementById('authNavContainer');
       if (loggedInUser) {
         const isStaff = loggedInUser.role && loggedInUser.role !== 'client';
         container.innerHTML = `
-          <div class="flex items-center gap-2">
-            <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-2 px-3 py-1.5 text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-xl font-bold border border-brand-200 dark:border-slate-600">
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] sm:text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-xl font-bold border border-brand-200 dark:border-slate-600 max-w-[120px] sm:max-w-none truncate">
               <i class="fa-solid fa-circle-user text-sm"></i>
-              <span>${loggedInUser.name} (${isStaff ? 'ড্যাশবোর্ড' : '৳' + (loggedInUser.balance || 0)})</span>
+              <span class="truncate">${loggedInUser.name}</span>
             </button>
             <button onclick="handleLogout()" class="text-xs text-red-500 hover:text-red-700 p-1" title="লগআউট"><i class="fa-solid fa-power-off"></i></button>
           </div>
         `;
       } else {
         container.innerHTML = `
-          <button onclick="openAuthModal()" class="px-3 py-1.5 text-xs font-bold bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition">
-            ${currentLang === 'bn' ? 'লগইন / সাইনআপ' : 'Login / Signup'}
+          <button onclick="openAuthModal()" class="px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-bold bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition">
+            ${currentLang === 'bn' ? 'লগইন' : 'Login'}
           </button>
         `;
       }
@@ -761,7 +768,6 @@
       }
     }
 
-    // Role-Based Smart Login Handle
     function handleLoginSubmit(e) {
       e.preventDefault();
       users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
@@ -812,7 +818,6 @@
       showCustomerView();
     }
 
-    // Deposit Handling
     function openDepositModal() {
       if(!loggedInUser) { openAuthModal(); return; }
       selectDepositMethod('bkash');
@@ -868,19 +873,14 @@
       showCustomerProfile();
     }
 
-    // Order Checkout Modal
+    // Checkout & Quantity Logic
     function openOrderModal(pId) {
       const p = products.find(prod => prod.id == pId);
       if(!p) return;
 
       document.getElementById('orderProductId').value = pId;
-
-      const finalPrice = p.price - (p.discount || 0);
-      document.getElementById('checkoutSummaryBox').innerHTML = `
-        <p class="font-bold text-slate-800 dark:text-white">${p.title}</p>
-        <p>মূল্য: ৳ ${p.price} | ডিসকাউন্ট: ৳ ${p.discount || 0}</p>
-        <p class="font-bold text-brand-600">মোট দেওয় মূল্য: ৳ ${finalPrice}</p>
-      `;
+      document.getElementById('orderQuantity').value = 1;
+      updateCheckoutTotal();
 
       const select = document.getElementById('payMethodSelect');
       select.innerHTML = '';
@@ -903,6 +903,32 @@
       document.getElementById('orderModal').classList.add('flex');
     }
 
+    function adjustQuantity(val) {
+      const qtyInput = document.getElementById('orderQuantity');
+      let currentQty = parseInt(qtyInput.value) || 1;
+      currentQty += val;
+      if(currentQty < 1) currentQty = 1;
+      if(currentQty > 50) currentQty = 50;
+      qtyInput.value = currentQty;
+      updateCheckoutTotal();
+    }
+
+    function updateCheckoutTotal() {
+      const pId = document.getElementById('orderProductId').value;
+      const p = products.find(prod => prod.id == pId);
+      if(!p) return;
+
+      const qty = parseInt(document.getElementById('orderQuantity').value) || 1;
+      const unitPrice = p.price - (p.discount || 0);
+      const totalPrice = unitPrice * qty;
+
+      document.getElementById('checkoutSummaryBox').innerHTML = `
+        <p class="font-bold text-slate-800 dark:text-white">${p.title}</p>
+        <p>প্রতি পিস মূল্য: ৳ ${unitPrice} × ${qty} পিস</p>
+        <p class="font-bold text-brand-600 text-sm">সর্বমোট প্রদেয় মূল্য: ৳ ${totalPrice}</p>
+      `;
+    }
+
     function closeOrderModal() {
       document.getElementById('orderModal').classList.add('hidden');
       document.getElementById('orderModal').classList.remove('flex');
@@ -920,15 +946,17 @@
       const pId = document.getElementById('orderProductId').value;
       const product = products.find(p => p.id == pId);
       const payMethod = document.getElementById('payMethodSelect').value;
-      const finalPrice = product.price - (product.discount || 0);
+      const qty = parseInt(document.getElementById('orderQuantity').value) || 1;
+      const unitPrice = product.price - (product.discount || 0);
+      const totalPrice = unitPrice * qty;
 
       if(payMethod === 'Wallet') {
-        if((loggedInUser.balance || 0) < finalPrice) {
+        if((loggedInUser.balance || 0) < totalPrice) {
           alert("আপনার ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই! দয়া করে ডিপোজিট করুন।");
           return;
         }
 
-        loggedInUser.balance -= finalPrice;
+        loggedInUser.balance -= totalPrice;
         users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
         const idx = users.findIndex(u => u.phone === loggedInUser.phone && u.role === loggedInUser.role);
         if(idx !== -1) users[idx].balance = loggedInUser.balance;
@@ -942,8 +970,8 @@
         name: document.getElementById('custName').value,
         phone: document.getElementById('custPhone').value,
         address: document.getElementById('custAddress').value,
-        product: product.title,
-        price: finalPrice,
+        product: `${product.title} (${qty} Pcs)`,
+        price: totalPrice,
         payMethod: payMethod,
         status: 'Pending'
       };
@@ -993,20 +1021,20 @@
       const myOrders = orders.filter(o => o.phone === loggedInUser.phone);
       document.getElementById('myOrdersTableBody').innerHTML = myOrders.map(o => `
         <tr>
-          <td class="p-3 font-bold text-brand-600">${o.id}</td>
-          <td class="p-3">${o.product}</td>
-          <td class="p-3 font-bold">${o.payMethod}</td>
-          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-100 text-amber-700 font-bold">${o.status}</span></td>
+          <td class="p-2 sm:p-3 font-bold text-brand-600">${o.id}</td>
+          <td class="p-2 sm:p-3">${o.product}</td>
+          <td class="p-2 sm:p-3 font-bold">${o.payMethod}</td>
+          <td class="p-2 sm:p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-100 text-amber-700 font-bold">${o.status}</span></td>
         </tr>
       `).join('');
 
       const myDeposits = deposits.filter(d => d.userPhone === loggedInUser.phone);
       document.getElementById('myDepositsTableBody').innerHTML = myDeposits.map(d => `
         <tr>
-          <td class="p-3 font-bold">${d.method}</td>
-          <td class="p-3 font-bold text-emerald-600">৳ ${d.amount}</td>
-          <td class="p-3 font-mono">${d.trxId}</td>
-          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status === 'Approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${d.status}</span></td>
+          <td class="p-2 sm:p-3 font-bold">${d.method}</td>
+          <td class="p-2 sm:p-3 font-bold text-emerald-600">৳ ${d.amount}</td>
+          <td class="p-2 sm:p-3 font-mono">${d.trxId}</td>
+          <td class="p-2 sm:p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status === 'Approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${d.status}</span></td>
         </tr>
       `).join('');
     }
@@ -1026,7 +1054,6 @@
       alert("তথ্য আপডেট সেভ হয়েছে!");
     }
 
-    // Role-based Dashboard Views Configuration
     function showStaffDashboard() {
       document.getElementById('customerView').classList.add('hidden');
       document.getElementById('customerProfileView').classList.add('hidden');
@@ -1039,13 +1066,11 @@
       const ordSection = document.getElementById('sectionOrdersList');
       const numSection = document.getElementById('sectionPaymentNumbersManage');
 
-      // Populate current payment numbers
       paymentNumbers = JSON.parse(localStorage.getItem('ebuy_payment_numbers')) || {};
       document.getElementById('adminBkashNo').value = paymentNumbers.bkash || '';
       document.getElementById('adminNagadNo').value = paymentNumbers.nagad || '';
       document.getElementById('adminRocketNo').value = paymentNumbers.rocket || '';
 
-      // Reset Visibility
       prodSection.style.display = "block";
       depSection.style.display = "block";
       ordSection.style.display = "block";
@@ -1101,13 +1126,13 @@
 
       tbody.innerHTML = deposits.map(d => `
         <tr>
-          <td class="p-3 font-bold">${d.userName} (${d.userPhone})</td>
-          <td class="p-3 font-bold text-pink-600">${d.method}</td>
-          <td class="p-3 font-bold text-emerald-600">৳ ${d.amount}</td>
-          <td class="p-3 font-mono">${d.trxId}</td>
-          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status==='Approved'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${d.status}</span></td>
-          <td class="p-3">
-            ${d.status === 'Pending' ? `<button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[10px]">Approve & Add Balance</button>` : 'Done'}
+          <td class="p-2 sm:p-3 font-bold">${d.userName} (${d.userPhone})</td>
+          <td class="p-2 sm:p-3 font-bold text-pink-600">${d.method}</td>
+          <td class="p-2 sm:p-3 font-bold text-emerald-600">৳ ${d.amount}</td>
+          <td class="p-2 sm:p-3 font-mono">${d.trxId}</td>
+          <td class="p-2 sm:p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status==='Approved'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${d.status}</span></td>
+          <td class="p-2 sm:p-3">
+            ${d.status === 'Pending' ? `<button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[10px]">Approve</button>` : 'Done'}
           </td>
         </tr>
       `).join('');
@@ -1146,15 +1171,15 @@
 
       tbody.innerHTML = orders.map(o => `
         <tr>
-          <td class="p-3 font-bold text-brand-600">${o.id}</td>
-          <td class="p-3 font-medium">
+          <td class="p-2 sm:p-3 font-bold text-brand-600">${o.id}</td>
+          <td class="p-2 sm:p-3 font-medium">
             <div class="font-bold">${o.name} (${o.phone})</div>
             <div class="text-[10px] text-slate-400">${o.address}</div>
           </td>
-          <td class="p-3">${o.product}</td>
-          <td class="p-3 font-bold">৳ ${o.price}</td>
-          <td class="p-3 font-bold text-xs">${o.payMethod}</td>
-          <td class="p-3">
+          <td class="p-2 sm:p-3">${o.product}</td>
+          <td class="p-2 sm:p-3 font-bold">৳ ${o.price}</td>
+          <td class="p-2 sm:p-3 font-bold text-xs">${o.payMethod}</td>
+          <td class="p-2 sm:p-3">
             <select onchange="updateOrderStatus('${o.id}', this.value)" class="p-1 text-[10px] font-bold rounded border bg-white dark:bg-slate-700">
               <option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option>
               <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
@@ -1162,7 +1187,7 @@
               <option value="Cancelled" ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
             </select>
           </td>
-          <td class="p-3">
+          <td class="p-2 sm:p-3">
             <button onclick="deleteOrder('${o.id}')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
@@ -1195,7 +1220,6 @@
       renderProducts(products.filter(p => p.title.toLowerCase().includes(query)));
     }
 
-    // Run Updates
     updateAuthNav();
     renderProducts();
   </script>
