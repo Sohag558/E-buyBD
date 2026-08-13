@@ -2,7 +2,7 @@
 <html lang="bn" class="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>E-buy BD - Premium Online Shopping</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -27,103 +27,107 @@
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    body { font-family: 'Hind Siliguri', sans-serif; }
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+      font-family: 'Hind Siliguri', sans-serif;
+    }
   </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 shadow-sm">
-    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center justify-between gap-2 sm:gap-4">
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 shadow-sm w-full">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 py-2 flex items-center justify-between gap-1 sm:gap-4">
       
-      <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer shrink-0" onclick="showCustomerView()">
-        <div class="bg-gradient-to-r from-brand-600 to-indigo-700 text-white p-2 rounded-xl shadow-md">
-          <i class="fa-solid fa-bag-shopping text-xl sm:text-2xl"></i>
+      <div class="flex items-center space-x-1.5 sm:space-x-3 cursor-pointer shrink-0" onclick="showCustomerView()">
+        <div class="bg-gradient-to-r from-brand-600 to-indigo-700 text-white p-1.5 sm:p-2 rounded-xl shadow-md">
+          <i class="fa-solid fa-bag-shopping text-base sm:text-2xl"></i>
         </div>
         <div>
-          <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">E-buy BD</h1>
-          <p id="lblTagline" class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">সহজ ও নিরাপদ শপিং ট্রাস্ট</p>
+          <h1 class="text-sm sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">E-buy BD</h1>
+          <p id="lblTagline" class="text-[9px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 hidden xs:block">সহজ ও নিরাপদ শপিং ট্রাস্ট</p>
         </div>
       </div>
 
-      <div class="flex items-center space-x-1 sm:space-x-3">
-        <button onclick="openCartModal()" class="relative p-1.5 sm:p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition" title="Cart">
-          <i class="fa-solid fa-cart-shopping text-lg sm:text-xl"></i>
-          <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+      <div class="flex items-center space-x-0.5 sm:space-x-2 shrink-0">
+        <button onclick="openCartModal()" class="relative p-1 sm:p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition" title="Cart">
+          <i class="fa-solid fa-cart-shopping text-base sm:text-xl"></i>
+          <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-[9px] sm:text-[10px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
         </button>
 
-        <a href="https://wa.me/8801731039874" target="_blank" class="p-1.5 sm:p-2 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 rounded-lg transition" title="WhatsApp Chat">
-          <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
+        <a href="https://wa.me/8801731039874" target="_blank" class="p-1 sm:p-2 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 rounded-lg transition" title="WhatsApp Chat">
+          <i class="fa-brands fa-whatsapp text-base sm:text-xl"></i>
         </a>
 
-        <a href="https://t.me/8801731039874" target="_blank" class="p-1.5 sm:p-2 text-sky-500 hover:bg-sky-50 dark:hover:bg-slate-700 rounded-lg transition" title="Telegram Chat">
-          <i class="fa-brands fa-telegram text-lg sm:text-xl"></i>
+        <a href="https://t.me/8801731039874" target="_blank" class="p-1 sm:p-2 text-sky-500 hover:bg-sky-50 dark:hover:bg-slate-700 rounded-lg transition" title="Telegram Chat">
+          <i class="fa-brands fa-telegram text-base sm:text-xl"></i>
         </a>
 
-        <button onclick="toggleLanguage()" class="px-2 py-1 text-[11px] sm:text-xs font-bold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg border border-slate-300 dark:border-slate-600 transition flex items-center gap-1">
-          <i class="fa-solid fa-globe text-brand-600"></i>
-          <span id="langLabel">English</span>
+        <button onclick="toggleLanguage()" class="px-1.5 py-1 text-[10px] sm:text-xs font-bold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg border border-slate-300 dark:border-slate-600 transition flex items-center gap-0.5 sm:gap-1">
+          <i class="fa-solid fa-globe text-brand-600 text-xs"></i>
+          <span id="langLabel">EN</span>
         </button>
 
         <div id="authNavContainer" class="shrink-0"></div>
 
-        <button onclick="toggleTheme()" class="p-1.5 sm:p-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-          <i class="fa-solid fa-moon dark:hidden text-base sm:text-lg"></i>
-          <i class="fa-solid fa-sun hidden dark:inline text-base sm:text-lg text-amber-400"></i>
+        <button onclick="toggleTheme()" class="p-1 sm:p-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+          <i class="fa-solid fa-moon dark:hidden text-sm sm:text-lg"></i>
+          <i class="fa-solid fa-sun hidden dark:inline text-sm sm:text-lg text-amber-400"></i>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Body Content -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-6 flex-grow w-full">
+  <main class="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-6 flex-grow w-full box-border">
     
     <!-- CUSTOMER SHOP VIEW -->
-    <div id="customerView" class="space-y-6 sm:space-y-8">
-      <div class="relative bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-700 text-white rounded-2xl sm:rounded-3xl p-5 sm:p-10 overflow-hidden shadow-xl">
+    <div id="customerView" class="space-y-4 sm:space-y-8">
+      <div class="relative bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-700 text-white rounded-xl sm:rounded-3xl p-4 sm:p-10 overflow-hidden shadow-xl">
         <div class="relative z-10 max-w-xl">
-          <span id="lblBannerBadge" class="inline-block bg-white/20 backdrop-blur-md text-white text-[10px] sm:text-xs px-3 py-1 rounded-full mb-2 sm:mb-3 font-semibold">✨ সেরা অফার ও ক্যাশব্যাক ডিল</span>
-          <h2 id="lblBannerTitle" class="text-2xl sm:text-5xl font-black mb-2 sm:mb-3 leading-tight">E-buy BD-তে আপনাকে স্বাগতম!</h2>
-          <p id="lblBannerDesc" class="text-slate-100 text-xs sm:text-base opacity-90 mb-2 sm:mb-4">সহজ ডিপোজিট, ইনস্ট্যান্ট ডিসকাউন্ট এবং দ্রুততম ডেলিভারি।</p>
+          <span id="lblBannerBadge" class="inline-block bg-white/20 backdrop-blur-md text-white text-[9px] sm:text-xs px-2.5 py-0.5 sm:py-1 rounded-full mb-1.5 sm:mb-3 font-semibold">✨ সেরা অফার ও ক্যাশব্যাক ডিল</span>
+          <h2 id="lblBannerTitle" class="text-xl sm:text-5xl font-black mb-1 sm:mb-3 leading-tight">E-buy BD-তে আপনাকে স্বাগতম!</h2>
+          <p id="lblBannerDesc" class="text-slate-100 text-[11px] sm:text-base opacity-90 mb-1 sm:mb-4">সহজ ডিপোজিট, ইনস্ট্যান্ট ডিসকাউন্ট এবং দ্রুততম ডেলিভারি।</p>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
-        <h3 id="lblAllProducts" class="text-lg sm:text-xl font-bold flex items-center gap-2">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4">
+        <h3 id="lblAllProducts" class="text-base sm:text-xl font-bold flex items-center gap-2">
           <i class="fa-solid fa-layer-group text-brand-600"></i> <span>সব প্রোডাক্টসমূহ</span>
         </h3>
         
         <div class="relative w-full sm:w-80">
-          <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="প্রোডাক্টের নাম দিয়ে খুঁজুন..." class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition shadow-sm">
-          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs sm:text-sm"></i>
+          <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="প্রোডাক্টের নাম দিয়ে খুঁজুন..." class="w-full pl-9 pr-3 py-1.5 sm:py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition shadow-sm">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 sm:top-3.5 text-slate-400 text-xs sm:text-sm"></i>
         </div>
       </div>
 
-      <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6"></div>
+      <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-6"></div>
     </div>
 
     <!-- PRODUCT DETAILS VIEW -->
-    <div id="productDetailsView" class="hidden space-y-6">
-      <button onclick="showCustomerView()" class="px-4 py-2 text-xs bg-slate-200 dark:bg-slate-700 font-bold rounded-xl hover:bg-slate-300 transition">
+    <div id="productDetailsView" class="hidden space-y-4 sm:space-y-6">
+      <button onclick="showCustomerView()" class="px-3 py-1.5 sm:px-4 sm:py-2 text-xs bg-slate-200 dark:bg-slate-700 font-bold rounded-xl hover:bg-slate-300 transition">
         <i class="fa-solid fa-arrow-left mr-1"></i> <span id="lblBackToShop">শপে ফিরে যান</span>
       </button>
-      <div id="productDetailsContainer" class="bg-white dark:bg-slate-800 p-5 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+      <div id="productDetailsContainer" class="bg-white dark:bg-slate-800 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8"></div>
     </div>
 
     <!-- CUSTOMER PROFILE & WALLET VIEW -->
-    <div id="customerProfileView" class="hidden space-y-6 sm:space-y-8">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+    <div id="customerProfileView" class="hidden space-y-4 sm:space-y-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
         <div>
-          <h2 class="font-bold text-base sm:text-lg flex items-center gap-2">
+          <h2 class="font-bold text-sm sm:text-lg flex items-center gap-2">
             <i class="fa-solid fa-wallet text-emerald-600"></i> <span id="lblWalletHeader">মাই ওয়ালেট ও প্রোফাইল</span>
           </h2>
-          <p id="lblWalletSub" class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">ব্যালেন্স এড করুন এবং আপনার অর্ডার হিস্ট্রি দেখুন</p>
+          <p id="lblWalletSub" class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">ব্যালেন্স এড করুন এবং আপনার অর্ডার হিস্ট্রি দেখুন</p>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button onclick="resetCustomerAccount(loggedInUser.phone)" class="flex-1 sm:flex-none px-3 py-2 text-xs bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition">
+          <button onclick="resetCustomerAccount(loggedInUser.phone)" class="flex-1 sm:flex-none px-2.5 py-1.5 text-[11px] sm:text-xs bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition">
             <i class="fa-solid fa-rotate-right mr-1"></i> রিসেট প্রোফাইল
           </button>
-          <button onclick="deleteCustomerAccount(loggedInUser.phone)" class="flex-1 sm:flex-none px-3 py-2 text-xs bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition">
+          <button onclick="deleteCustomerAccount(loggedInUser.phone)" class="flex-1 sm:flex-none px-2.5 py-1.5 text-[11px] sm:text-xs bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition">
             <i class="fa-solid fa-trash-can mr-1"></i> ডিলিট প্রোফাইল
           </button>
           <button onclick="showCustomerView()" class="hidden sm:block px-4 py-2 text-xs bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition">
@@ -133,47 +137,47 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-5 sm:p-6 rounded-2xl shadow-lg flex flex-col justify-between">
+        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-4 sm:p-6 rounded-2xl shadow-lg flex flex-col justify-between">
           <div>
-            <span id="lblCurrentBalTitle" class="text-[11px] sm:text-xs opacity-80 font-bold uppercase tracking-wider">বর্তমান ব্যালেন্স</span>
-            <h3 class="text-2xl sm:text-3xl font-black mt-1">৳ <span id="userWalletBalanceDisplay">0</span></h3>
+            <span id="lblCurrentBalTitle" class="text-[10px] sm:text-xs opacity-80 font-bold uppercase tracking-wider">বর্তমান ব্যালেন্স</span>
+            <h3 class="text-xl sm:text-3xl font-black mt-1">৳ <span id="userWalletBalanceDisplay">0</span></h3>
           </div>
-          <button onclick="openDepositModal()" class="mt-4 sm:mt-6 w-full py-2.5 bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-plus-circle text-base"></i> <span id="lblDepositBtnText">ব্যালেন্স ডিপোজিট করুন</span>
+          <button onclick="openDepositModal()" class="mt-3 sm:mt-6 w-full py-2 sm:py-2.5 bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-plus-circle text-sm sm:text-base"></i> <span id="lblDepositBtnText">ব্যালেন্স ডিপোজিট করুন</span>
           </button>
         </div>
 
-        <div class="md:col-span-2 bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+        <div class="md:col-span-2 bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-xs sm:text-md mb-3 sm:mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-user-pen text-brand-600"></i> <span id="lblProfileUpdateTitle">প্রোফাইল ও পাসওয়ার্ড আপডেট</span>
           </h3>
-          <form onsubmit="handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <form onsubmit="handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
             <div>
-              <label class="block text-xs font-medium mb-1">আপনার নাম</label>
-              <input type="text" id="editName" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <label class="block text-[11px] sm:text-xs font-medium mb-1">আপনার নাম</label>
+              <input type="text" id="editName" required class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div>
-              <label class="block text-xs font-medium mb-1">জিমেইল (Gmail)</label>
-              <input type="email" id="editEmail" placeholder="example@gmail.com" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <label class="block text-[11px] sm:text-xs font-medium mb-1">জিমেইল (Gmail)</label>
+              <input type="email" id="editEmail" placeholder="example@gmail.com" class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div>
-              <label class="block text-xs font-medium mb-1">হোয়াটসঅ্যাপ নম্বর (WhatsApp)</label>
-              <input type="text" id="editWhatsapp" placeholder="017xxxxxxxx" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <label class="block text-[11px] sm:text-xs font-medium mb-1">হোয়াটসঅ্যাপ নম্বর (WhatsApp)</label>
+              <input type="text" id="editWhatsapp" placeholder="017xxxxxxxx" class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div>
-              <label class="block text-xs font-medium mb-1">টেলিগ্রাম লিংক বা ইউজারনেম (Telegram)</label>
-              <input type="text" id="editTelegram" placeholder="@username বা লিংক" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <label class="block text-[11px] sm:text-xs font-medium mb-1">টেলিগ্রাম লিংক বা ইউজারনেম (Telegram)</label>
+              <input type="text" id="editTelegram" placeholder="@username বা লিংক" class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div>
-              <label class="block text-xs font-medium mb-1">নতুন পাসওয়ার্ড (পরিবর্তন করতে চাইলে)</label>
-              <input type="password" id="editPass" placeholder="নতুন পাসওয়ার্ড দিন" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <label class="block text-[11px] sm:text-xs font-medium mb-1">নতুন পাসওয়ার্ড (পরিবর্তন করতে চাইলে)</label>
+              <input type="password" id="editPass" placeholder="নতুন পাসওয়ার্ড দিন" class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div>
-              <label class="block text-xs font-medium mb-1">ডিফল্ট ঠিকানা</label>
-              <input type="text" id="editAddress" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <label class="block text-[11px] sm:text-xs font-medium mb-1">ডিফল্ট ঠিকানা</label>
+              <input type="text" id="editAddress" class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div class="sm:col-span-2 text-right">
-              <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
+              <button type="submit" class="w-full sm:w-auto px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
                 সেভ করুন
               </button>
             </div>
@@ -181,19 +185,19 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-        <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+        <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-bag-shopping text-brand-600"></i> <span>আমার অর্ডারসমূহ</span>
           </h3>
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs whitespace-nowrap">
-              <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
+            <table class="w-full text-left text-xs min-w-[300px]">
+              <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
                 <tr>
-                  <th class="p-2 sm:p-3">আইডি</th>
-                  <th class="p-2 sm:p-3">পণ্য</th>
-                  <th class="p-2 sm:p-3">পেমেন্ট</th>
-                  <th class="p-2 sm:p-3">স্ট্যাটাস</th>
+                  <th class="p-1.5 sm:p-3">আইডি</th>
+                  <th class="p-1.5 sm:p-3">পণ্য</th>
+                  <th class="p-1.5 sm:p-3">পেমেন্ট</th>
+                  <th class="p-1.5 sm:p-3">স্ট্যাটাস</th>
                 </tr>
               </thead>
               <tbody id="myOrdersTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -201,18 +205,18 @@
           </div>
         </div>
 
-        <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+        <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-money-bill-transfer text-emerald-600"></i> <span>ডিপোজিট রিকোয়েস্ট স্ট্যাটাস</span>
           </h3>
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs whitespace-nowrap">
-              <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
+            <table class="w-full text-left text-xs min-w-[300px]">
+              <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
                 <tr>
-                  <th class="p-2 sm:p-3">মেথড</th>
-                  <th class="p-2 sm:p-3">পরিমাণ</th>
-                  <th class="p-2 sm:p-3">Trx ID</th>
-                  <th class="p-2 sm:p-3">স্ট্যাটাস</th>
+                  <th class="p-1.5 sm:p-3">মেথড</th>
+                  <th class="p-1.5 sm:p-3">পরিমাণ</th>
+                  <th class="p-1.5 sm:p-3">Trx ID</th>
+                  <th class="p-1.5 sm:p-3">স্ট্যাটাস</th>
                 </tr>
               </thead>
               <tbody id="myDepositsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -223,36 +227,36 @@
     </div>
 
     <!-- ADMIN & STAFF PANEL VIEW -->
-    <div id="adminView" class="hidden space-y-6 sm:space-y-8">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-200 dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-700">
+    <div id="adminView" class="hidden space-y-4 sm:space-y-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-200 dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-300 dark:border-slate-700">
         <div>
-          <h2 class="font-bold text-base sm:text-lg flex items-center gap-2">
+          <h2 class="font-bold text-sm sm:text-lg flex items-center gap-2">
             <i class="fa-solid fa-shield-halved text-brand-600"></i> 
             <span id="staffDashboardTitle">এডমিন কন্ট্রোল প্যানেল</span>
           </h2>
-          <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">সকল কাস্টমার প্রোফাইল, অর্ডার ও ডিপোজিট কন্ট্রোল করুন</p>
+          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">সকল কাস্টমার প্রোফাইল, অর্ডার ও ডিপোজিট কন্ট্রোল করুন</p>
         </div>
-        <button onclick="handleLogout()" class="w-full sm:w-auto px-4 py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
+        <button onclick="handleLogout()" class="w-full sm:w-auto px-4 py-1.5 sm:py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
           লগআউট
         </button>
       </div>
 
       <!-- ALL CLIENTS PROFILES -->
-      <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-indigo-200 dark:border-indigo-800 shadow-sm">
-        <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-indigo-600">
+      <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-indigo-200 dark:border-indigo-800 shadow-sm">
+        <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-indigo-600">
           <span class="flex items-center gap-2">
             <i class="fa-solid fa-users-viewfinder"></i> রেজিস্টার্ড কাস্টমার প্রোফাইল, পাসওয়ার্ড পরিবর্তন ও ম্যানেজমেন্ট
           </span>
         </h3>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs whitespace-nowrap">
-            <thead class="bg-indigo-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase">
+          <table class="w-full text-left text-xs min-w-[600px]">
+            <thead class="bg-indigo-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
               <tr>
-                <th class="p-2 sm:p-3">নাম ও ফোন</th>
-                <th class="p-2 sm:p-3">Gmail / WhatsApp / Telegram</th>
-                <th class="p-2 sm:p-3">ওয়ালেট ব্যালেন্স</th>
-                <th class="p-2 sm:p-3">পাসওয়ার্ড পরিবর্তন (অ্যাডমিন)</th>
-                <th class="p-2 sm:p-3">অ্যাকশন (রিসেট / ডিলিট)</th>
+                <th class="p-2">নাম ও ফোন</th>
+                <th class="p-2">Gmail / WhatsApp / Telegram</th>
+                <th class="p-2">ওয়ালেট ব্যালেন্স</th>
+                <th class="p-2">পাসওয়ার্ড পরিবর্তন (অ্যাডমিন)</th>
+                <th class="p-2">অ্যাকশন (রিসেট / ডিলিট)</th>
               </tr>
             </thead>
             <tbody id="adminAllClientsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -261,73 +265,73 @@
       </div>
 
       <!-- Payment Numbers Manager Card -->
-      <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-pink-200 dark:border-pink-800 shadow-sm">
-        <h3 class="font-bold text-sm sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 text-pink-600 flex items-center gap-2">
+      <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-pink-200 dark:border-pink-800 shadow-sm">
+        <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 text-pink-600 flex items-center gap-2">
           <i class="fa-solid fa-gears"></i> পেমেন্ট নম্বর সেটিংস
         </h3>
-        <form onsubmit="handlePaymentNumbersUpdate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <form onsubmit="handlePaymentNumbersUpdate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4">
           <div>
             <label class="block text-xs font-bold mb-1 text-pink-600">bKash Number</label>
-            <input type="text" id="adminBkashNo" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+            <input type="text" id="adminBkashNo" required class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
           </div>
           <div>
             <label class="block text-xs font-bold mb-1 text-orange-600">Nagad Number</label>
-            <input type="text" id="adminNagadNo" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+            <input type="text" id="adminNagadNo" required class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
           </div>
           <div>
             <label class="block text-xs font-bold mb-1 text-purple-600">Rocket Number</label>
-            <input type="text" id="adminRocketNo" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+            <input type="text" id="adminRocketNo" required class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
           </div>
           <div class="sm:col-span-3 text-right">
-            <button type="submit" class="px-6 py-2.5 bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-xl shadow transition">
+            <button type="submit" class="w-full sm:w-auto px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-xl shadow transition">
               নম্বর আপডেট করুন
             </button>
           </div>
         </form>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
         <!-- Product Posting Section -->
-        <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-          <h3 class="font-bold text-sm sm:text-md pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+        <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+          <h3 class="font-bold text-xs sm:text-md pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-plus text-brand-600"></i> নতুন পণ্য পোস্ট করুন
           </h3>
-          <form onsubmit="handleAddProduct(event)" class="space-y-3">
+          <form onsubmit="handleAddProduct(event)" class="space-y-2.5">
             <div>
               <label class="block text-xs font-medium mb-1">প্রোডাক্টের নাম</label>
-              <input type="text" id="pTitle" required class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              <input type="text" id="pTitle" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="block text-xs font-medium mb-1">মূল্য (৳)</label>
-                <input type="number" id="pPrice" required class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+                <input type="number" id="pPrice" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
               </div>
               <div>
                 <label class="block text-xs font-medium mb-1">ডিসকাউন্ট (৳)</label>
-                <input type="number" id="pDiscount" value="0" class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+                <input type="number" id="pDiscount" value="0" class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
               </div>
             </div>
             <div>
               <label class="block text-xs font-medium mb-1">প্রোডাক্ট বিবরণ (Details)</label>
-              <textarea id="pDesc" rows="3" required class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none"></textarea>
+              <textarea id="pDesc" rows="3" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none"></textarea>
             </div>
             <div>
               <label class="block text-xs font-medium mb-1">ছবি আপলোড (একাধিক)</label>
-              <input type="file" id="pImageFiles" accept="image/*" multiple required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600">
+              <input type="file" id="pImageFiles" accept="image/*" multiple required class="w-full p-1.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600">
             </div>
-            <button type="submit" id="postProductBtn" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow">পাবলিশ করুন</button>
+            <button type="submit" id="postProductBtn" class="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow">পাবলিশ করুন</button>
           </form>
         </div>
 
         <!-- Management Section -->
-        <div class="lg:col-span-2 space-y-6">
-          <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-sm overflow-hidden">
-            <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 text-emerald-600 flex items-center gap-2">
+        <div class="lg:col-span-2 space-y-4 sm:space-y-6">
+          <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-sm overflow-hidden">
+            <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 text-emerald-600 flex items-center gap-2">
               <i class="fa-solid fa-money-bill-wave"></i> কাস্টমার ডিপোজিট রিকোয়েস্ট
             </h3>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs whitespace-nowrap">
-                <thead class="bg-emerald-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase">
+              <table class="w-full text-left text-xs min-w-[500px]">
+                <thead class="bg-emerald-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
                   <tr>
                     <th class="p-2">ইউজার</th>
                     <th class="p-2">মেথড</th>
@@ -342,13 +346,13 @@
             </div>
           </div>
 
-          <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
-            <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+          <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+            <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
               <i class="fa-solid fa-boxes-packing text-brand-600"></i> অর্ডার ম্যানেজমেন্ট
             </h3>
             <div class="overflow-x-auto">
-              <table class="w-full text-left text-xs whitespace-nowrap">
-                <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
+              <table class="w-full text-left text-xs min-w-[550px]">
+                <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
                   <tr>
                     <th class="p-2">আইডি</th>
                     <th class="p-2">কাস্টমার ও ঠিকানা</th>
@@ -370,165 +374,165 @@
   </main>
 
   <!-- CART MODAL -->
-  <div id="cartModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeCartModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
-      <h3 class="font-bold text-base sm:text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-brand-600"></i> আপনার শপিং কার্ট</h3>
+  <div id="cartModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeCartModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <h3 class="font-bold text-sm sm:text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-brand-600"></i> আপনার শপিং কার্ট</h3>
       <div id="cartItemsContainer" class="space-y-3 mb-4 divide-y divide-slate-200"></div>
-      <div class="border-t pt-4 space-y-3">
-        <div class="flex justify-between font-bold text-sm sm:text-base">
+      <div class="border-t pt-3 space-y-3">
+        <div class="flex justify-between font-bold text-xs sm:text-base">
           <span>মোট মূল্য:</span>
           <span id="cartTotalPrice" class="text-brand-600">৳ 0</span>
         </div>
-        <button onclick="proceedCartCheckout()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow">কার্ট থেকে অর্ডার করুন</button>
+        <button onclick="proceedCartCheckout()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow">কার্ট থেকে অর্ডার করুন</button>
       </div>
     </div>
   </div>
 
   <!-- DEPOSIT MODAL -->
-  <div id="depositModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border relative">
-      <button onclick="closeDepositModal()" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
-      <h3 class="font-bold text-base sm:text-lg mb-1 text-emerald-600 flex items-center gap-2"><i class="fa-solid fa-wallet"></i> ওয়ালেট ব্যালেন্স ডিপোজিট</h3>
-      <p class="text-[11px] sm:text-xs text-slate-500 mb-4">মেথড নির্বাচন করে টাকা পাঠান ও Trx ID দিন</p>
+  <div id="depositModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border relative">
+      <button onclick="closeDepositModal()" class="absolute top-3 right-3 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <h3 class="font-bold text-sm sm:text-lg mb-1 text-emerald-600 flex items-center gap-2"><i class="fa-solid fa-wallet"></i> ওয়ালেট ব্যালেন্স ডিপোজিট</h3>
+      <p class="text-[10px] sm:text-xs text-slate-500 mb-3">মেথড নির্বাচন করে টাকা পাঠান ও Trx ID দিন</p>
       
-      <div class="grid grid-cols-3 gap-2 mb-4">
-        <button onclick="selectDepositMethod('bkash')" id="btnBkash" class="py-2 rounded-xl font-bold text-xs border border-pink-500 bg-pink-50 text-pink-600 flex flex-col items-center gap-1">bKash</button>
-        <button onclick="selectDepositMethod('nagad')" id="btnNagad" class="py-2 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">Nagad</button>
-        <button onclick="selectDepositMethod('rocket')" id="btnRocket" class="py-2 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">Rocket</button>
+      <div class="grid grid-cols-3 gap-2 mb-3">
+        <button onclick="selectDepositMethod('bkash')" id="btnBkash" class="py-1.5 rounded-xl font-bold text-xs border border-pink-500 bg-pink-50 text-pink-600 flex flex-col items-center gap-1">bKash</button>
+        <button onclick="selectDepositMethod('nagad')" id="btnNagad" class="py-1.5 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">Nagad</button>
+        <button onclick="selectDepositMethod('rocket')" id="btnRocket" class="py-1.5 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">Rocket</button>
       </div>
 
-      <div class="p-3 bg-pink-50 dark:bg-slate-700 rounded-xl mb-4 text-center">
-        <span class="text-[11px] text-slate-600 dark:text-slate-300 block">পার্সোনাল নম্বর:</span>
-        <span id="depositNumberDisplay" class="text-base sm:text-lg font-black text-pink-600 tracking-wider">017XXXXXXXX</span>
+      <div class="p-2.5 bg-pink-50 dark:bg-slate-700 rounded-xl mb-3 text-center">
+        <span class="text-[10px] text-slate-600 dark:text-slate-300 block">পার্সোনাল নম্বর:</span>
+        <span id="depositNumberDisplay" class="text-sm sm:text-lg font-black text-pink-600 tracking-wider">017XXXXXXXX</span>
       </div>
 
-      <form onsubmit="handleDepositSubmit(event)" class="space-y-3">
+      <form onsubmit="handleDepositSubmit(event)" class="space-y-2.5">
         <input type="hidden" id="selectedMethod" value="bkash">
         <div>
-          <label class="block text-xs font-medium mb-1">টাকার পরিমাণ (৳)</label>
-          <input type="number" id="depositAmount" required min="10" class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 outline-none">
+          <label class="block text-[11px] font-medium mb-1">টাকার পরিমাণ (৳)</label>
+          <input type="number" id="depositAmount" required min="10" class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 outline-none">
         </div>
         <div>
-          <label class="block text-xs font-medium mb-1">ট্রানজেকশন আইডি (Trx ID)</label>
-          <input type="text" id="depositTrxId" required class="w-full p-2.5 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 outline-none font-mono uppercase">
+          <label class="block text-[11px] font-medium mb-1">ট্রানজেকশন আইডি (Trx ID)</label>
+          <input type="text" id="depositTrxId" required class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 outline-none font-mono uppercase">
         </div>
-        <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow">ডিপোজিট সাবমিট করুন</button>
+        <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow">ডিপোজিট সাবমিট করুন</button>
       </form>
     </div>
   </div>
 
   <!-- Login/Signup Modal -->
-  <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border relative">
-      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
-      <div class="flex border-b mb-4">
-        <button id="tabLogin" onclick="switchAuthTab('login')" class="w-1/2 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600">লগইন</button>
-        <button id="tabSignup" onclick="switchAuthTab('signup')" class="w-1/2 py-2 text-sm font-bold text-slate-400">সাইনআপ</button>
+  <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-4 sm:p-6 shadow-2xl border relative">
+      <button onclick="closeAuthModal()" class="absolute top-3 right-3 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <div class="flex border-b mb-3">
+        <button id="tabLogin" onclick="switchAuthTab('login')" class="w-1/2 py-2 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600">লগইন</button>
+        <button id="tabSignup" onclick="switchAuthTab('signup')" class="w-1/2 py-2 text-xs sm:text-sm font-bold text-slate-400">সাইনআপ</button>
       </div>
-      <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-3">
+      <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-2.5">
         <div>
-          <label class="block text-xs font-medium mb-1">মোবাইল নম্বর</label>
-          <input type="tel" id="loginPhone" required placeholder="017xxxxxxxx" class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 outline-none">
+          <label class="block text-[11px] font-medium mb-1">মোবাইল নম্বর</label>
+          <input type="tel" id="loginPhone" required placeholder="017xxxxxxxx" class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
         </div>
         <div>
-          <label class="block text-xs font-medium mb-1">পাসওয়ার্ড</label>
-          <input type="password" id="loginPass" required class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 outline-none">
+          <label class="block text-[11px] font-medium mb-1">পাসওয়ার্ড</label>
+          <input type="password" id="loginPass" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
         </div>
         
-        <div class="text-right pt-1">
-          <a href="https://wa.me/8801731039874" target="_blank" class="text-xs text-brand-600 font-bold hover:underline">
-            <i class="fa-solid fa-key mr-1"></i> পাসওয়ার্ড পরিবর্তন
+        <div class="text-right pt-0.5">
+          <a href="https://wa.me/8801731039874" target="_blank" class="text-[11px] text-brand-600 font-bold hover:underline">
+            <i class="fa-solid fa-key mr-0.5"></i> পাসওয়ার্ড পরিবর্তন
           </a>
-          <span class="text-xs text-slate-400 mx-1">|</span>
-          <a href="https://t.me/8801731039874" target="_blank" class="text-xs text-sky-500 font-bold hover:underline">
+          <span class="text-[11px] text-slate-400 mx-1">|</span>
+          <a href="https://t.me/8801731039874" target="_blank" class="text-[11px] text-sky-500 font-bold hover:underline">
             <i class="fa-brands fa-telegram"></i> Telegram
           </a>
         </div>
 
-        <button type="submit" class="w-full py-2.5 bg-brand-600 text-white font-bold text-xs rounded-xl">লগইন করুন</button>
+        <button type="submit" class="w-full py-2 bg-brand-600 text-white font-bold text-xs rounded-xl">লগইন করুন</button>
       </form>
 
-      <form id="formSignup" onsubmit="handleSignupSubmit(event)" class="space-y-3 hidden">
+      <form id="formSignup" onsubmit="handleSignupSubmit(event)" class="space-y-2.5 hidden">
         <div>
-          <label class="block text-xs font-medium mb-1">আপনার নাম</label>
-          <input type="text" id="signupName" required class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 outline-none">
+          <label class="block text-[11px] font-medium mb-1">আপনার নাম</label>
+          <input type="text" id="signupName" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
         </div>
         <div>
-          <label class="block text-xs font-medium mb-1">মোবাইল নম্বর</label>
-          <input type="tel" id="signupPhone" required placeholder="017xxxxxxxx" class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 outline-none">
+          <label class="block text-[11px] font-medium mb-1">মোবাইল নম্বর</label>
+          <input type="tel" id="signupPhone" required placeholder="017xxxxxxxx" class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
         </div>
         <div>
-          <label class="block text-xs font-medium mb-1">পাসওয়ার্ড</label>
-          <input type="password" id="signupPass" required class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 outline-none">
+          <label class="block text-[11px] font-medium mb-1">পাসওয়ার্ড</label>
+          <input type="password" id="signupPass" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
         </div>
-        <button type="submit" class="w-full py-2.5 bg-brand-600 text-white font-bold text-xs rounded-xl">সাইনআপ করুন</button>
+        <button type="submit" class="w-full py-2 bg-brand-600 text-white font-bold text-xs rounded-xl">সাইনআপ করুন</button>
       </form>
     </div>
   </div>
 
   <!-- Checkout Modal -->
-  <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 z-50">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-slate-400 font-bold"><i class="fa-solid fa-xmark text-xl"></i></button>
-      <h3 class="font-bold text-base sm:text-lg mb-1">অর্ডার সম্পন্ন করুন</h3>
-      <div id="checkoutSummaryBox" class="p-3 bg-slate-50 dark:bg-slate-700 rounded-xl mb-3 text-xs space-y-1"></div>
-      <form onsubmit="handleOrderSubmit(event)" class="space-y-3">
+  <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeOrderModal()" class="absolute top-3 right-3 text-slate-400 font-bold"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <h3 class="font-bold text-sm sm:text-lg mb-1">অর্ডার সম্পন্ন করুন</h3>
+      <div id="checkoutSummaryBox" class="p-2.5 bg-slate-50 dark:bg-slate-700 rounded-xl mb-2.5 text-xs space-y-1"></div>
+      <form onsubmit="handleOrderSubmit(event)" class="space-y-2.5">
         <input type="hidden" id="orderProductId">
         <div>
-          <label class="block text-xs font-bold mb-1">পরিমাণ (Quantity)</label>
-          <div class="flex items-center gap-3">
-            <button type="button" onclick="adjustQuantity(-1)" class="w-9 h-9 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg">-</button>
-            <input type="number" id="orderQuantity" value="1" min="1" max="50" onchange="updateCheckoutTotal()" class="w-20 text-center p-2 text-xs rounded-lg border dark:bg-slate-700 font-bold">
-            <button type="button" onclick="adjustQuantity(1)" class="w-9 h-9 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg">+</button>
+          <label class="block text-[11px] font-bold mb-1">পরিমাণ (Quantity)</label>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="adjustQuantity(-1)" class="w-8 h-8 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg">-</button>
+            <input type="number" id="orderQuantity" value="1" min="1" max="50" onchange="updateCheckoutTotal()" class="w-16 text-center p-1.5 text-xs rounded-lg border dark:bg-slate-700 font-bold">
+            <button type="button" onclick="adjustQuantity(1)" class="w-8 h-8 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg">+</button>
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium mb-1">আপনার নাম</label>
-          <input type="text" id="custName" required class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 outline-none">
+          <label class="block text-[11px] font-medium mb-1">আপনার নাম</label>
+          <input type="text" id="custName" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
         </div>
         <div>
-          <label class="block text-xs font-medium mb-1">মোবাইল নম্বর</label>
-          <input type="tel" id="custPhone" required class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 outline-none">
+          <label class="block text-[11px] font-medium mb-1">মোবাইল নম্বর</label>
+          <input type="tel" id="custPhone" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
         </div>
         <div>
-          <label class="block text-xs font-medium mb-1">পূর্ণাঙ্গ ঠিকানা</label>
-          <textarea id="custAddress" required rows="2" class="w-full p-2.5 text-xs rounded-lg border dark:bg-slate-700 outline-none"></textarea>
+          <label class="block text-[11px] font-medium mb-1">পূর্ণাঙ্গ ঠিকানা</label>
+          <textarea id="custAddress" required rows="2" class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none"></textarea>
         </div>
         <div>
-          <label class="block text-xs font-bold mb-1">পেমেন্ট মেথড</label>
-          <select id="payMethodSelect" required class="w-full p-2.5 text-xs border rounded-lg dark:bg-slate-700 font-bold bg-white"></select>
+          <label class="block text-[11px] font-bold mb-1">পেমেন্ট মেথড</label>
+          <select id="payMethodSelect" required class="w-full p-2 text-xs border rounded-lg dark:bg-slate-700 font-bold bg-white"></select>
         </div>
-        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow">কনফার্ম অর্ডার</button>
+        <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow">কনফার্ম অর্ডার</button>
       </form>
     </div>
   </div>
 
-  <footer class="bg-slate-900 text-slate-300 pt-10 pb-6 border-t border-slate-800 mt-12">
-    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-      <div class="space-y-3">
-        <div class="flex items-center space-x-3">
-          <div class="bg-brand-600 text-white p-2 rounded-lg"><i class="fa-solid fa-bag-shopping text-xl"></i></div>
-          <span class="text-xl font-bold text-white">E-buy BD</span>
+  <footer class="bg-slate-900 text-slate-300 pt-8 pb-6 border-t border-slate-800 mt-8 sm:mt-12">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+      <div class="space-y-2">
+        <div class="flex items-center space-x-2">
+          <div class="bg-brand-600 text-white p-1.5 rounded-lg"><i class="fa-solid fa-bag-shopping text-lg"></i></div>
+          <span class="text-lg font-bold text-white">E-buy BD</span>
         </div>
         <p class="text-xs text-slate-400">বাংলাদেশের দ্রুততম এবং সবচেয়ে নির্ভরযোগ্য ই-কমার্স শপ।</p>
       </div>
       <div>
-        <h4 class="text-white font-bold text-sm mb-3">কুইক লিংকস</h4>
-        <ul class="space-y-2 text-xs">
+        <h4 class="text-white font-bold text-xs sm:text-sm mb-2">কুইক লিংকস</h4>
+        <ul class="space-y-1.5 text-xs">
           <li><a href="#" onclick="showCustomerView()" class="hover:text-brand-500">হোম / শপ</a></li>
           <li><a href="#" onclick="openDepositModal()" class="hover:text-brand-500">ব্যালেন্স ডিপোজিট</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="text-white font-bold text-sm mb-3">হেল্প ও সাপোর্ট</h4>
-        <p class="text-xs text-slate-400"><i class="fa-solid fa-headset text-brand-500 mr-2"></i> ২৪/৭ লাইভ সাপোর্ট</p>
+        <h4 class="text-white font-bold text-xs sm:text-sm mb-2">হেল্প ও সাপোর্ট</h4>
+        <p class="text-xs text-slate-400"><i class="fa-solid fa-headset text-brand-500 mr-1.5"></i> ২৪/৭ লাইভ সাপোর্ট</p>
       </div>
       <div>
-        <h4 class="text-white font-bold text-sm mb-3">সিকিউর পেমেন্ট</h4>
-        <div class="flex flex-wrap gap-2 text-xs font-bold">
-          <span class="px-2.5 py-1 bg-pink-900/50 text-pink-400 border rounded">bKash</span>
-          <span class="px-2.5 py-1 bg-orange-900/50 text-orange-400 border rounded">Nagad</span>
+        <h4 class="text-white font-bold text-xs sm:text-sm mb-2">সিকিউর পেমেন্ট</h4>
+        <div class="flex flex-wrap gap-1.5 text-xs font-bold">
+          <span class="px-2 py-0.5 bg-pink-900/50 text-pink-400 border rounded">bKash</span>
+          <span class="px-2 py-0.5 bg-orange-900/50 text-orange-400 border rounded">Nagad</span>
         </div>
       </div>
     </div>
@@ -898,7 +902,7 @@
     let currentLang = 'bn';
     function toggleLanguage() {
       currentLang = currentLang === 'bn' ? 'en' : 'bn';
-      document.getElementById('langLabel').innerText = currentLang === 'bn' ? 'English' : 'বাংলা';
+      document.getElementById('langLabel').innerText = currentLang === 'bn' ? 'EN' : 'BN';
       applyTranslations();
     }
 
@@ -923,7 +927,7 @@
     function renderProducts(items = window.products) {
       const grid = document.getElementById('productsGrid');
       if(!items || items.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400">কোনো প্রোডাক্ট পাওয়া যায়নি</div>`;
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400 text-xs sm:text-sm">কোনো প্রোডাক্ট পাওয়া যায়নি</div>`;
         return;
       }
 
@@ -931,23 +935,23 @@
         const finalPrice = p.price - (p.discount || 0);
         const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : '';
         return `
-        <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+        <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col justify-between">
           <div class="cursor-pointer" onclick="showProductDetails('${p.id}')">
-            <div class="h-36 sm:h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
+            <div class="h-32 sm:h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
               <img src="${imgSrc}" class="h-full w-full object-cover">
-              ${p.discount > 0 ? `<span class="absolute top-2 right-2 bg-red-600 text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full">৳ ${p.discount} ছাড়</span>` : ''}
+              ${p.discount > 0 ? `<span class="absolute top-1.5 right-1.5 bg-red-600 text-white text-[8px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full">৳ ${p.discount} ছাড়</span>` : ''}
             </div>
-            <div class="p-3 sm:p-4">
+            <div class="p-2 sm:p-4">
               <h4 class="font-bold text-slate-800 dark:text-white text-xs sm:text-md mb-1 line-clamp-1">${p.title}</h4>
-              <div class="flex items-baseline gap-2 mb-2">
-                <span class="text-brand-600 font-bold text-sm sm:text-lg">৳ ${finalPrice}</span>
-                ${p.discount > 0 ? `<span class="text-[11px] text-slate-400 line-through">৳ ${p.price}</span>` : ''}
+              <div class="flex items-baseline gap-1.5 mb-1.5">
+                <span class="text-brand-600 font-bold text-xs sm:text-lg">৳ ${finalPrice}</span>
+                ${p.discount > 0 ? `<span class="text-[10px] sm:text-[11px] text-slate-400 line-through">৳ ${p.price}</span>` : ''}
               </div>
             </div>
           </div>
-          <div class="p-3 pt-0 grid grid-cols-2 gap-1.5">
-            <button onclick="addToCart('${p.id}')" class="py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-xs font-bold rounded-xl transition"><i class="fa-solid fa-cart-plus"></i> কার্ট</button>
-            <button onclick="openOrderModal('${p.id}')" class="py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition">অর্ডার</button>
+          <div class="p-2 pt-0 grid grid-cols-2 gap-1">
+            <button onclick="addToCart('${p.id}')" class="py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-[11px] font-bold rounded-lg sm:rounded-xl transition flex items-center justify-center gap-1"><i class="fa-solid fa-cart-plus"></i> <span class="hidden xs:inline">কার্ট</span></button>
+            <button onclick="openOrderModal('${p.id}')" class="py-1.5 bg-brand-600 hover:bg-brand-700 text-white text-[11px] font-bold rounded-lg sm:rounded-xl transition">অর্ডার</button>
           </div>
         </div>
       `}).join('');
@@ -965,12 +969,12 @@
       let imagesHtml = '';
       if(p.images && p.images.length > 0) {
         imagesHtml = `
-          <div class="space-y-3">
-            <div class="h-72 sm:h-96 w-full rounded-2xl overflow-hidden border bg-slate-100">
+          <div class="space-y-2.5">
+            <div class="h-56 sm:h-96 w-full rounded-2xl overflow-hidden border bg-slate-100">
               <img id="mainDetailImg" src="${p.images[0]}" class="w-full h-full object-cover">
             </div>
-            <div class="flex gap-2 overflow-x-auto">
-              ${p.images.map(img => `<img src="${img}" onclick="document.getElementById('mainDetailImg').src='${img}'" class="w-16 h-16 object-cover rounded-xl border cursor-pointer">`).join('')}
+            <div class="flex gap-2 overflow-x-auto pb-1">
+              ${p.images.map(img => `<img src="${img}" onclick="document.getElementById('mainDetailImg').src='${img}'" class="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-xl border cursor-pointer shrink-0">`).join('')}
             </div>
           </div>
         `;
@@ -978,16 +982,16 @@
 
       document.getElementById('productDetailsContainer').innerHTML = `
         ${imagesHtml}
-        <div class="space-y-4">
-          <h2 class="text-xl sm:text-3xl font-extrabold">${p.title}</h2>
-          <div class="flex items-baseline gap-3">
-            <span class="text-2xl font-black text-brand-600">৳ ${finalPrice}</span>
-            ${p.discount > 0 ? `<span class="text-sm text-slate-400 line-through">৳ ${p.price}</span>` : ''}
+        <div class="space-y-3 sm:space-y-4">
+          <h2 class="text-lg sm:text-3xl font-extrabold">${p.title}</h2>
+          <div class="flex items-baseline gap-2 sm:gap-3">
+            <span class="text-xl sm:text-2xl font-black text-brand-600">৳ ${finalPrice}</span>
+            ${p.discount > 0 ? `<span class="text-xs sm:text-sm text-slate-400 line-through">৳ ${p.price}</span>` : ''}
           </div>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">${p.desc}</p>
-          <div class="flex gap-3 pt-4">
-            <button onclick="addToCart('${p.id}')" class="flex-1 py-3 bg-slate-100 dark:bg-slate-700 font-bold text-xs rounded-xl"><i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart</button>
-            <button onclick="openOrderModal('${p.id}')" class="flex-1 py-3 bg-brand-600 text-white font-bold text-xs rounded-xl shadow">অর্ডার করুন</button>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${p.desc}</p>
+          <div class="flex gap-2 sm:gap-3 pt-2 sm:pt-4">
+            <button onclick="addToCart('${p.id}')" class="flex-1 py-2.5 sm:py-3 bg-slate-100 dark:bg-slate-700 font-bold text-xs rounded-xl"><i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart</button>
+            <button onclick="openOrderModal('${p.id}')" class="flex-1 py-2.5 sm:py-3 bg-brand-600 text-white font-bold text-xs rounded-xl shadow">অর্ডার করুন</button>
           </div>
         </div>
       `;
@@ -1020,9 +1024,9 @@
           total += itemPrice;
           return `
             <div class="flex items-center justify-between py-2 text-xs">
-              <div class="flex items-center gap-3">
-                <img src="${item.images[0]}" class="w-12 h-12 object-cover rounded-lg">
-                <div><p class="font-bold">${item.title}</p><p class="text-slate-500">৳ ${item.price - (item.discount || 0)} × ${item.qty}</p></div>
+              <div class="flex items-center gap-2 sm:gap-3">
+                <img src="${item.images[0]}" class="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg">
+                <div><p class="font-bold line-clamp-1 max-w-[120px] sm:max-w-xs">${item.title}</p><p class="text-slate-500 text-[10px] sm:text-xs">৳ ${item.price - (item.discount || 0)} × ${item.qty}</p></div>
               </div>
               <div class="flex items-center gap-2">
                 <span class="font-bold text-brand-600">৳ ${itemPrice}</span>
@@ -1060,16 +1064,16 @@
       if (window.loggedInUser) {
         const isStaff = window.loggedInUser.role && window.loggedInUser.role !== 'client';
         container.innerHTML = `
-          <div class="flex items-center gap-1.5 sm:gap-2">
-            <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] sm:text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-xl font-bold border border-brand-200">
-              <i class="fa-solid fa-circle-user text-sm"></i>
-              <span class="truncate max-w-[100px]">${window.loggedInUser.name}</span>
+          <div class="flex items-center gap-1">
+            <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-1 px-2 py-1 text-[10px] sm:text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-lg font-bold border border-brand-200">
+              <i class="fa-solid fa-circle-user text-xs"></i>
+              <span class="truncate max-w-[60px] sm:max-w-[100px]">${window.loggedInUser.name}</span>
             </button>
             <button onclick="handleLogout()" class="text-xs text-red-500 p-1" title="লগআউট"><i class="fa-solid fa-power-off"></i></button>
           </div>
         `;
       } else {
-        container.innerHTML = `<button onclick="openAuthModal()" class="px-3 py-1.5 text-xs font-bold bg-brand-600 text-white rounded-lg">লগইন</button>`;
+        container.innerHTML = `<button onclick="openAuthModal()" class="px-2.5 py-1 text-xs font-bold bg-brand-600 text-white rounded-lg">লগইন</button>`;
       }
     }
 
@@ -1086,13 +1090,13 @@
       if(tab === 'login') {
         document.getElementById('formLogin').classList.remove('hidden');
         document.getElementById('formSignup').classList.add('hidden');
-        document.getElementById('tabLogin').className = "w-1/2 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600";
-        document.getElementById('tabSignup').className = "w-1/2 py-2 text-sm font-bold text-slate-400";
+        document.getElementById('tabLogin').className = "w-1/2 py-2 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600";
+        document.getElementById('tabSignup').className = "w-1/2 py-2 text-xs sm:text-sm font-bold text-slate-400";
       } else {
         document.getElementById('formLogin').classList.add('hidden');
         document.getElementById('formSignup').classList.remove('hidden');
-        document.getElementById('tabSignup').className = "w-1/2 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600";
-        document.getElementById('tabLogin').className = "w-1/2 py-2 text-sm font-bold text-slate-400";
+        document.getElementById('tabSignup').className = "w-1/2 py-2 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600";
+        document.getElementById('tabLogin').className = "w-1/2 py-2 text-xs sm:text-sm font-bold text-slate-400";
       }
     }
 
@@ -1193,19 +1197,19 @@
 
       document.getElementById('myOrdersTableBody').innerHTML = window.orders.filter(o => o.phone === window.loggedInUser.phone).map(o => `
         <tr>
-          <td class="p-2 font-bold text-brand-600">${o.id}</td>
-          <td class="p-2">${o.product}</td>
-          <td class="p-2 font-bold">${o.payMethod}</td>
-          <td class="p-2"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-100 text-amber-700 font-bold">${o.status}</span></td>
+          <td class="p-1.5 sm:p-2 font-bold text-brand-600">${o.id}</td>
+          <td class="p-1.5 sm:p-2">${o.product}</td>
+          <td class="p-1.5 sm:p-2 font-bold">${o.payMethod}</td>
+          <td class="p-1.5 sm:p-2"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] bg-amber-100 text-amber-700 font-bold">${o.status}</span></td>
         </tr>
       `).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
 
       document.getElementById('myDepositsTableBody').innerHTML = window.deposits.filter(d => d.userPhone === window.loggedInUser.phone).map(d => `
         <tr>
-          <td class="p-2 font-bold">${d.method}</td>
-          <td class="p-2 font-bold text-emerald-600">৳ ${d.amount}</td>
-          <td class="p-2 font-mono">${d.trxId}</td>
-          <td class="p-2"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status === 'Approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${d.status}</span></td>
+          <td class="p-1.5 sm:p-2 font-bold">${d.method}</td>
+          <td class="p-1.5 sm:p-2 font-bold text-emerald-600">৳ ${d.amount}</td>
+          <td class="p-1.5 sm:p-2 font-mono">${d.trxId}</td>
+          <td class="p-1.5 sm:p-2"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${d.status === 'Approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${d.status}</span></td>
         </tr>
       `).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো ডিপোজিট নেই</td></tr>`;
     }
@@ -1276,7 +1280,7 @@
           <td class="p-2 font-bold text-pink-600">${d.method}</td>
           <td class="p-2 font-bold text-emerald-600">৳ ${d.amount}</td>
           <td class="p-2 font-mono">${d.trxId}</td>
-          <td class="p-2"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status==='Approved'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${d.status}</span></td>
+          <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${d.status==='Approved'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${d.status}</span></td>
           <td class="p-2">
             ${d.status === 'Pending' ? `<button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 text-white font-bold rounded text-[10px]">Approve</button>` : 'Done'}
           </td>
