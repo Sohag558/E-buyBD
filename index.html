@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="bn" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-buy BD - Premium Online Shopping</title>
+  
+  <!-- Tailwind CSS & FontAwesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Hind Siliguri', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/90 backdrop-blur border-b border-slate-200 dark:border-slate-700 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="showCustomerView()">
+        <div class="bg-gradient-to-r from-brand-600 to-indigo-700 text-white p-2.5 rounded-xl shadow-md">
+          <i class="fa-solid fa-bag-shopping text-2xl"></i>
+        </div>
+        <div>
+          <h1 id="logoText" class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">E-buy BD</h1>
+          <p id="taglineText" class="text-xs text-slate-500 dark:text-slate-400" data-i18n="tagline">সহজ ও নিরাপদ শপিং ট্রাস্ট</p>
+        </div>
+      </div>
+
+      <!-- Social Controls, Language Switcher & Auth Nav -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <a href="https://wa.me/8801731039874" target="_blank" class="p-2 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 rounded-lg transition" title="WhatsApp">
+          <i class="fa-brands fa-whatsapp text-xl"></i>
+        </a>
+        <a href="https://t.me/yourtelegram" target="_blank" class="p-2 text-sky-500 hover:bg-sky-50 dark:hover:bg-slate-700 rounded-lg transition" title="Telegram">
+          <i class="fa-brands fa-telegram text-xl"></i>
+        </a>
+
+        <!-- Language Switcher Button -->
+        <button onclick="toggleLanguage()" class="px-2.5 py-1 text-xs font-bold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg border border-slate-300 dark:border-slate-600 transition flex items-center gap-1">
+          <i class="fa-solid fa-globe text-brand-600"></i>
+          <span id="langLabel">English</span>
+        </button>
+
+        <div class="h-6 w-[1px] bg-slate-300 dark:bg-slate-700 my-auto"></div>
+
+        <!-- Dynamic Customer/Staff Auth UI -->
+        <div id="authNavContainer"></div>
+
+        <!-- Theme Switcher -->
+        <button onclick="toggleTheme()" class="p-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+          <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+          <i class="fa-solid fa-sun hidden dark:inline text-lg text-amber-400"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Body Content -->
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+    
+    <!-- CUSTOMER SHOP VIEW -->
+    <div id="customerView" class="space-y-8">
+      <div class="relative bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-700 text-white rounded-3xl p-6 sm:p-10 overflow-hidden shadow-xl">
+        <div class="relative z-10 max-w-xl">
+          <span class="inline-block bg-white/20 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full mb-3 font-semibold" data-i18n="heroBadge">✨ সেরা অফার ও ক্যাশব্যাক ডিল</span>
+          <h2 class="text-3xl sm:text-5xl font-black mb-3 leading-tight" data-i18n="heroTitle">E-buy BD-তে আপনাকে স্বাগতম!</h2>
+          <p class="text-slate-100 text-sm sm:text-base opacity-90 mb-4" data-i18n="heroSub">সহজ ডিপোজিট, ইনস্ট্যান্ট ডিসকাউন্ট এবং দ্রুততম ডেলিভারি।</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h3 class="text-xl font-bold flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-brand-600"></i> <span data-i18n="allProducts">সব প্রোডাক্টসমূহ</span>
+        </h3>
+        
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="প্রোডাক্টের নাম দিয়ে খুঁজুন..." data-i18n-ph="searchPlaceholder" class="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition shadow-sm">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+        </div>
+      </div>
+
+      <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+    </div>
+
+    <!-- CUSTOMER PROFILE & WALLET VIEW -->
+    <div id="customerProfileView" class="hidden space-y-8">
+      <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div>
+          <h2 class="font-bold text-lg flex items-center gap-2">
+            <i class="fa-solid fa-wallet text-emerald-600"></i> <span data-i18n="myWallet">মাই ওয়ালেট ও প্রোফাইল</span>
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="walletSub">ব্যালেন্স এড করুন এবং আপনার অর্ডার হিস্ট্রি দেখুন</p>
+        </div>
+        <button onclick="showCustomerView()" class="px-4 py-2 text-xs bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition" data-i18n="backToShop">
+          শপে ফিরে যান
+        </button>
+      </div>
+
+      <!-- Balance & Deposit Section -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Balance Card -->
+        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-2xl shadow-lg flex flex-col justify-between">
+          <div>
+            <span class="text-xs opacity-80 font-bold uppercase tracking-wider" data-i18n="currentBalance">বর্তমান ব্যালেন্স</span>
+            <h3 class="text-3xl font-black mt-1">৳ <span id="userWalletBalanceDisplay">0</span></h3>
+          </div>
+          <button onclick="openDepositModal()" class="mt-6 w-full py-2.5 bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-plus-circle text-base"></i> <span data-i18n="depositBtn">ব্যালেন্স ডিপোজিট করুন</span>
+          </button>
+        </div>
+
+        <!-- Profile Edit Card -->
+        <div class="md:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+            <i class="fa-solid fa-user-pen text-brand-600"></i> <span data-i18n="editProfile">প্রোফাইল আপডেট</span>
+          </h3>
+          <form onsubmit="handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-medium mb-1" data-i18n="yourName">আপনার নাম</label>
+              <input type="text" id="editName" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-medium mb-1" data-i18n="defaultAddress">ডিফল্ট ঠিকানা</label>
+              <input type="text" id="editAddress" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+            </div>
+            <div class="sm:col-span-2 text-right">
+              <button type="submit" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="saveBtn">
+                সেভ করুন
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Orders & Deposit History Table -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Order History -->
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping text-brand-600"></i> <span data-i18n="myOrders">আমার অর্ডারসমূহ</span>
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
+                <tr>
+                  <th class="p-3">আইডি</th>
+                  <th class="p-3">পণ্য</th>
+                  <th class="p-3">পেমেন্ট</th>
+                  <th class="p-3">স্ট্যাটাস</th>
+                </tr>
+              </thead>
+              <tbody id="myOrdersTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Deposit History -->
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+            <i class="fa-solid fa-money-bill-transfer text-emerald-600"></i> <span data-i18n="depositStatus">ডিপোজিট রিকোয়েস্ট স্ট্যাটাস</span>
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
+                <tr>
+                  <th class="p-3">মেথড</th>
+                  <th class="p-3">পরিমাণ</th>
+                  <th class="p-3">Trx ID</th>
+                  <th class="p-3">স্ট্যাটাস</th>
+                </tr>
+              </thead>
+              <tbody id="myDepositsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN & STAFF PANEL VIEW -->
+    <div id="adminView" class="hidden space-y-8">
+      <div class="flex justify-between items-center bg-slate-200 dark:bg-slate-800 p-4 rounded-2xl border border-slate-300 dark:border-slate-700">
+        <div>
+          <h2 class="font-bold text-lg flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-brand-600"></i> 
+            <span id="staffDashboardTitle">এডমিন কন্ট্রোল প্যানেল</span>
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400" id="staffRoleDesc">অর্ডার, ডিপোজিট ও প্রোডাক্ট সেটিংস কন্ট্রোল করুন</p>
+        </div>
+        <button onclick="handleLogout()" class="px-4 py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
+          লগআউট
+        </button>
+      </div>
+
+      <!-- Payment Numbers Manager Card (For Super Admin and Finance Admin) -->
+      <div id="sectionPaymentNumbersManage" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-pink-200 dark:border-pink-800 shadow-sm">
+        <h3 class="font-bold text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-pink-600">
+          <span class="flex items-center gap-2">
+            <i class="fa-solid fa-gears"></i> পেমেন্ট নম্বর সেটিংস (ডিপোজিট নম্বর পরিবর্তন)
+          </span>
+        </h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">লিমিট শেষ হয়ে গেলে ডিপোজিটের bKash, Nagad ও Rocket নম্বর পরিবর্তন করুন।</p>
+        
+        <form onsubmit="handlePaymentNumbersUpdate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold mb-1 text-pink-600">bKash Number</label>
+            <input type="text" id="adminBkashNo" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1 text-orange-600">Nagad Number</label>
+            <input type="text" id="adminNagadNo" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1 text-purple-600">Rocket Number</label>
+            <input type="text" id="adminRocketNo" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
+          </div>
+          <div class="sm:col-span-3 text-right">
+            <button type="submit" class="px-6 py-2.5 bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-xl shadow transition">
+              নম্বর আপডেট করুন
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Product Posting Section -->
+        <div id="sectionProductPost" class="space-y-6">
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+              <i class="fa-solid fa-plus text-brand-600"></i> নতুন পণ্য পোস্ট করুন
+            </h3>
+            <form onsubmit="handleAddProduct(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-medium mb-1">প্রোডাক্টের নাম</label>
+                <input type="text" id="pTitle" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              </div>
+              
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium mb-1">মূল্য (৳)</label>
+                  <input type="number" id="pPrice" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+                </div>
+                <div>
+                  <label class="block text-xs font-medium mb-1">ডিসকাউন্ট (৳)</label>
+                  <input type="number" id="pDiscount" value="0" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl space-y-2 border border-slate-200 dark:border-slate-600">
+                <label class="block text-xs font-bold text-slate-700 dark:text-slate-200">অ্যালাউড পেমেন্ট মেথড:</label>
+                <div class="flex items-center gap-4 text-xs">
+                  <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input type="checkbox" id="payCOD" checked class="rounded text-brand-600"> Cash On Delivery
+                  </label>
+                  <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input type="checkbox" id="payWallet" checked class="rounded text-brand-600"> Wallet Pay
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium mb-1">ছবির লিংক (Image URL)</label>
+                <input type="text" id="pImgUrl" required placeholder="https://..." class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+              </div>
+
+              <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
+                পাবলিশ করুন
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Dynamic Management Section -->
+        <div id="sectionStaffContent" class="lg:col-span-2 space-y-6">
+          
+          <!-- Deposit Approval Table -->
+          <div id="sectionDepositsList" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-sm overflow-hidden">
+            <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <span class="flex items-center gap-2 text-emerald-600">
+                <i class="fa-solid fa-money-bill-wave"></i> লেনদেন / কাস্টমার ডিপোজিট রিকোয়েস্ট (Finance)
+              </span>
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-emerald-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase">
+                  <tr>
+                    <th class="p-3">ইউজার</th>
+                    <th class="p-3">মেথড</th>
+                    <th class="p-3">পরিমাণ</th>
+                    <th class="p-3">Trx ID</th>
+                    <th class="p-3">স্ট্যাটাস</th>
+                    <th class="p-3">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="adminDepositsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Customer Orders Management Table -->
+          <div id="sectionOrdersList" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+            <h3 class="font-bold text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+              <i class="fa-solid fa-boxes-packing text-brand-600"></i> কাস্টমার অর্ডার ম্যানেজমেন্ট (Order Manager)
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase">
+                  <tr>
+                    <th class="p-3">আইডি</th>
+                    <th class="p-3">কাস্টমার ও ঠিকানা</th>
+                    <th class="p-3">পণ্য</th>
+                    <th class="p-3">মূল্য</th>
+                    <th class="p-3">পেমেন্ট</th>
+                    <th class="p-3">স্ট্যাটাস</th>
+                    <th class="p-3">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- DEPOSIT MODAL -->
+  <div id="depositModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
+      <button onclick="closeDepositModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <h3 class="font-bold text-lg mb-1 flex items-center gap-2 text-emerald-600">
+        <i class="fa-solid fa-wallet"></i> <span data-i18n="depositModalTitle">ওয়ালেট ব্যালেন্স ডিপোজিট</span>
+      </h3>
+      <p class="text-xs text-slate-500 mb-4" data-i18n="depositModalSub">নিচের মেথড নির্বাচন করে টাকা পাঠান ও Trx ID দিন</p>
+
+      <div class="grid grid-cols-3 gap-2 mb-4">
+        <button onclick="selectDepositMethod('bkash')" id="btnBkash" class="py-2 rounded-xl font-bold text-xs border border-pink-500 bg-pink-50 text-pink-600 flex flex-col items-center gap-1">
+          <i class="fa-solid fa-mobile-screen text-base"></i> bKash
+        </button>
+        <button onclick="selectDepositMethod('nagad')" id="btnNagad" class="py-2 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">
+          <i class="fa-solid fa-mobile-screen text-base"></i> Nagad
+        </button>
+        <button onclick="selectDepositMethod('rocket')" id="btnRocket" class="py-2 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">
+          <i class="fa-solid fa-mobile-screen text-base"></i> Rocket
+        </button>
+      </div>
+
+      <div class="p-3 bg-pink-50 dark:bg-slate-700 border border-pink-200 dark:border-slate-600 rounded-xl mb-4 text-center">
+        <span class="text-xs text-slate-600 dark:text-slate-300 block" data-i18n="sendMoneyTo">সেন্ড মানি করুন এই পার্সোনাল নম্বরে:</span>
+        <span id="depositNumberDisplay" class="text-lg font-black text-pink-600 dark:text-pink-400 tracking-wider">01731039874 (bKash)</span>
+      </div>
+
+      <form onsubmit="handleDepositSubmit(event)" class="space-y-3">
+        <input type="hidden" id="selectedMethod" value="bkash">
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="amountLabel">টাকার পরিমাণ (৳)</label>
+          <input type="number" id="depositAmount" required placeholder="500" min="10" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium mb-1">ট্রানজেকশন আইডি (Trx ID)</label>
+          <input type="text" id="depositTrxId" required placeholder="8N7A6D..." class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none font-mono uppercase">
+        </div>
+        <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition" data-i18n="submitDeposit">
+          ডিপোজিট সাবমিট করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login/Signup Modal -->
+  <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+      <div id="authTabHeader" class="flex border-b border-slate-200 dark:border-slate-700 mb-4">
+        <button id="tabLogin" onclick="switchAuthTab('login')" class="w-1/2 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600" data-i18n="login">লগইন</button>
+        <button id="tabSignup" onclick="switchAuthTab('signup')" class="w-1/2 py-2 text-sm font-bold text-slate-400" data-i18n="signup">সাইনআপ</button>
+      </div>
+
+      <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="phone">মোবাইল নম্বর</label>
+          <input type="tel" id="loginPhone" required placeholder="01731039874" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="password">পাসওয়ার্ড</label>
+          <input type="password" id="loginPass" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+        </div>
+        <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition" data-i18n="loginBtn">
+          লগইন করুন
+        </button>
+      </form>
+
+      <form id="formSignup" onsubmit="handleSignupSubmit(event)" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="yourName">আপনার নাম</label>
+          <input type="text" id="signupName" required placeholder="আরিফ হোসেন" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="phone">মোবাইল নম্বর</label>
+          <input type="tel" id="signupPhone" required placeholder="017xxxxxxxx" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="password">পাসওয়ার্ড দিন</label>
+          <input type="password" id="signupPass" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+        </div>
+        <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition" data-i18n="signupBtn">
+          সাইনআপ করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 relative">
+      <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-slate-400 font-bold">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <h3 class="font-bold text-lg mb-1" data-i18n="completeOrder">অর্ডার সম্পন্ন করুন</h3>
+      <div id="checkoutSummaryBox" class="p-3 bg-slate-50 dark:bg-slate-700 rounded-xl mb-4 text-xs space-y-1"></div>
+
+      <form onsubmit="handleOrderSubmit(event)" class="space-y-3">
+        <input type="hidden" id="orderProductId">
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="yourName">আপনার নাম</label>
+          <input type="text" id="custName" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="phone">মোবাইল নম্বর</label>
+          <input type="tel" id="custPhone" required class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-medium mb-1" data-i18n="fullAddress">পূর্ণাঙ্গ ঠিকানা</label>
+          <textarea id="custAddress" required rows="2" class="w-full p-2.5 text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold mb-1" data-i18n="selectPayment">পেমেন্ট মেথড সিলেক্ট করুন</label>
+          <select id="payMethodSelect" required class="w-full p-2.5 text-xs border rounded-lg dark:bg-slate-700 dark:border-slate-600 font-bold outline-none bg-white">
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md transition" data-i18n="confirmOrder">
+          কনফার্ম অর্ডার
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PROFESSIONAL FOOTER -->
+  <footer class="bg-slate-900 text-slate-300 pt-12 pb-6 border-t border-slate-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Col 1: Brand Info -->
+      <div class="space-y-3">
+        <div class="flex items-center space-x-3">
+          <div class="bg-brand-600 text-white p-2 rounded-lg">
+            <i class="fa-solid fa-bag-shopping text-xl"></i>
+          </div>
+          <span class="text-xl font-bold text-white">E-buy BD</span>
+        </div>
+        <p class="text-xs text-slate-400 leading-relaxed" data-i18n="footerDesc">
+          বাংলাদেশের দ্রুততম এবং সবচেয়ে নির্ভরযোগ্য ই-কমার্স শপ। আপনার পছন্দের যেকোনো প্রোডাক্ট সেরা দামে কিনুন নিরাপদে।
+        </p>
+      </div>
+
+      <!-- Col 2: Quick Links -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-1" data-i18n="quickLinks">কুইক লিংকস</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a href="#" onclick="showCustomerView()" class="hover:text-brand-500 transition" data-i18n="navShop">হোম / শপ</a></li>
+          <li><a href="#" onclick="openDepositModal()" class="hover:text-brand-500 transition" data-i18n="depositBtn">ব্যালেন্স ডিপোজিট</a></li>
+          <li><a href="#" onclick="showCustomerProfile()" class="hover:text-brand-500 transition" data-i18n="myWallet">মাই প্রোফাইল</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Customer Care -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-1" data-i18n="customerSupport">হেল্প ও সাপোর্ট</h4>
+        <div class="space-y-2 text-xs text-slate-400">
+          <p><i class="fa-solid fa-headset text-brand-500 mr-2"></i> হেল্পলাইন: 01731039874</p>
+          <p><i class="fa-solid fa-envelope text-brand-500 mr-2"></i> ইমেইল: support@ebuybd.com</p>
+          <p><i class="fa-solid fa-clock text-brand-500 mr-2"></i> ২৪/৭ লাইভ সাপোর্ট সার্ভিস</p>
+        </div>
+      </div>
+
+      <!-- Col 4: Payment Methods -->
+      <div>
+        <h4 class="text-white font-bold text-sm mb-3 border-b border-slate-800 pb-1" data-i18n="acceptPayments">সিকিউর পেমেন্ট মেথড</h4>
+        <div class="flex flex-wrap gap-2 text-xs font-bold">
+          <span class="px-2.5 py-1 bg-pink-900/50 text-pink-400 border border-pink-700/50 rounded">bKash</span>
+          <span class="px-2.5 py-1 bg-orange-900/50 text-orange-400 border border-orange-700/50 rounded">Nagad</span>
+          <span class="px-2.5 py-1 bg-purple-900/50 text-purple-400 border border-purple-700/50 rounded">Rocket</span>
+          <span class="px-2.5 py-1 bg-slate-800 text-slate-300 border border-slate-700 rounded">Cash on Delivery</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 pt-4 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-2">
+      <p>© 2026 E-buy BD. All rights reserved.</p>
+      <div class="flex space-x-4">
+        <a href="https://wa.me/8801731039874" class="hover:text-emerald-500"><i class="fa-brands fa-whatsapp text-base"></i></a>
+        <a href="https://t.me/yourtelegram" class="hover:text-sky-500"><i class="fa-brands fa-telegram text-base"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Engine -->
+  <script>
+    // Language Dictionary
+    const translations = {
+      bn: {
+        tagline: "সহজ ও নিরাপদ শপিং ট্রাস্ট",
+        heroBadge: "✨ সেরা অফার ও ক্যাশব্যাক ডিল",
+        heroTitle: "E-buy BD-তে আপনাকে স্বাগতম!",
+        heroSub: "সহজ ডিপোজিট, ইনস্ট্যান্ট ডিসকাউন্ট এবং দ্রুততম ডেলিভারি।",
+        allProducts: "সব প্রোডাক্টসমূহ",
+        searchPlaceholder: "প্রোডাক্টের নাম দিয়ে খুঁজুন...",
+        myWallet: "মাই ওয়ালেট ও প্রোফাইল",
+        walletSub: "ব্যালেন্স এড করুন এবং আপনার অর্ডার হিস্ট্রি দেখুন",
+        backToShop: "শপে ফিরে যান",
+        currentBalance: "বর্তমান ব্যালেন্স",
+        depositBtn: "ব্যালেন্স ডিপোজিট করুন",
+        editProfile: "প্রোফাইল আপডেট",
+        yourName: "আপনার নাম",
+        defaultAddress: "ডিফল্ট ঠিকানা",
+        saveBtn: "সেভ করুন",
+        myOrders: "আমার অর্ডারসমূহ",
+        depositStatus: "ডিপোজিট রিকোয়েস্ট স্ট্যাটাস",
+        depositModalTitle: "ওয়ালেট ব্যালেন্স ডিপোজিট",
+        depositModalSub: "নিচের মেথড নির্বাচন করে টাকা পাঠান ও Trx ID দিন",
+        sendMoneyTo: "সেন্ড মানি করুন এই পার্সোনাল নম্বরে:",
+        amountLabel: "টাকার পরিমাণ (৳)",
+        submitDeposit: "ডিপোজিট সাবমিট করুন",
+        login: "লগইন",
+        signup: "সাইনআপ",
+        phone: "মোবাইল নম্বর",
+        password: "পাসওয়ার্ড",
+        loginBtn: "লগইন করুন",
+        signupBtn: "সাইনআপ করুন",
+        completeOrder: "অর্ডার সম্পন্ন করুন",
+        fullAddress: "পূর্ণাঙ্গ ঠিকানা",
+        selectPayment: "পেমেন্ট মেথড সিলেক্ট করুন",
+        confirmOrder: "কনফার্ম অর্ডার",
+        footerDesc: "বাংলাদেশের দ্রুততম এবং সবচেয়ে নির্ভরযোগ্য ই-কমার্স শপ। আপনার পছন্দের যেকোনো প্রোডাক্ট সেরা দামে কিনুন নিরাপদে।",
+        quickLinks: "কুইক লিংকস",
+        navShop: "হোম / শপ",
+        customerSupport: "হেল্প ও সাপোর্ট",
+        acceptPayments: "সিকিউর পেমেন্ট মেথড"
+      },
+      en: {
+        tagline: "Easy & Trusted Shopping",
+        heroBadge: "✨ Best Offers & Cashback Deals",
+        heroTitle: "Welcome to E-buy BD!",
+        heroSub: "Easy deposit, instant discount and fastest delivery.",
+        allProducts: "All Products",
+        searchPlaceholder: "Search products by name...",
+        myWallet: "My Wallet & Profile",
+        walletSub: "Add balance and view your order history",
+        backToShop: "Back to Shop",
+        currentBalance: "Current Balance",
+        depositBtn: "Deposit Balance",
+        editProfile: "Update Profile",
+        yourName: "Your Name",
+        defaultAddress: "Default Address",
+        saveBtn: "Save Profile",
+        myOrders: "My Orders",
+        depositStatus: "Deposit Requests Status",
+        depositModalTitle: "Wallet Balance Deposit",
+        depositModalSub: "Send money to the number below & enter Trx ID",
+        sendMoneyTo: "Send Money to Personal Number:",
+        amountLabel: "Amount (৳)",
+        submitDeposit: "Submit Deposit",
+        login: "Login",
+        signup: "Sign Up",
+        phone: "Phone Number",
+        password: "Password",
+        loginBtn: "Login Now",
+        signupBtn: "Sign Up Now",
+        completeOrder: "Complete Order",
+        fullAddress: "Full Address",
+        selectPayment: "Select Payment Method",
+        confirmOrder: "Confirm Order",
+        footerDesc: "Fastest and most reliable e-commerce store in Bangladesh. Buy your favorite products safely at best prices.",
+        quickLinks: "Quick Links",
+        navShop: "Home / Shop",
+        customerSupport: "Help & Support",
+        acceptPayments: "Secure Payments"
+      }
+    };
+
+    let currentLang = 'bn';
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'bn' ? 'en' : 'bn';
+      document.getElementById('langLabel').innerText = currentLang === 'bn' ? 'English' : 'বাংলা';
+      
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[currentLang][key]) {
+          el.innerText = translations[currentLang][key];
+        }
+      });
+
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        if (translations[currentLang][key]) {
+          el.placeholder = translations[currentLang][key];
+        }
+      });
+    }
+
+    // Initial Setup with SAME phone number for all admin accounts
+    function initApp() {
+      const defaultUsers = [
+        { name: "Super Admin", phone: "01731039874", pass: "admin123", role: "super_admin", balance: 0 },
+        { name: "Finance Admin (লেনদেন)", phone: "01731039874", pass: "finance123", role: "finance_admin", balance: 0 },
+        { name: "Order Manager (অর্ডার)", phone: "01731039874", pass: "order123", role: "order_manager", balance: 0 },
+        { name: "Product Manager", phone: "01731039874", pass: "manager123", role: "product_manager", balance: 0 },
+        { name: "Sohag Islam", phone: "01731039874", pass: "123456", role: "client", balance: 1000, address: "Dhaka, Bangladesh" }
+      ];
+
+      if (!localStorage.getItem('ebuy_users')) {
+        localStorage.setItem('ebuy_users', JSON.stringify(defaultUsers));
+      }
+
+      // Dynamic Deposit Numbers Storage
+      const defaultNumbers = {
+        bkash: "01731039874",
+        nagad: "01731039874",
+        rocket: "01731039874-8"
+      };
+      if (!localStorage.getItem('ebuy_payment_numbers')) {
+        localStorage.setItem('ebuy_payment_numbers', JSON.stringify(defaultNumbers));
+      }
+    }
+    initApp();
+
+    let users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
+    let paymentNumbers = JSON.parse(localStorage.getItem('ebuy_payment_numbers'));
+    let products = JSON.parse(localStorage.getItem('ebuy_products')) || [
+      { id: 1, title: 'স্মার্ট ওয়াচ প্রিমিয়াম', price: 1850, discount: 0, allowCOD: true, allowWallet: true, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500' },
+      { id: 2, title: 'ওয়্যারলেস নয়েজ ক্যানসেলিং হেডফোন', price: 2450, discount: 200, allowCOD: true, allowWallet: true, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500' }
+    ];
+    let orders = JSON.parse(localStorage.getItem('ebuy_orders')) || [];
+    let deposits = JSON.parse(localStorage.getItem('ebuy_deposits')) || [];
+    let loggedInUser = JSON.parse(localStorage.getItem('ebuy_logged_user')) || null;
+
+    // Render Main Shop Products
+    function renderProducts(items = products) {
+      const grid = document.getElementById('productsGrid');
+      if(items.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400">কোনো প্রোডাক্ট পাওয়া যায়নি</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(p => {
+        const finalPrice = p.price - (p.discount || 0);
+        return `
+        <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+          <div>
+            <div class="h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
+              <img src="${p.image}" class="h-full w-full object-cover">
+              ${p.discount > 0 ? `<span class="absolute top-2 right-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">৳ ${p.discount} ছাড়</span>` : ''}
+            </div>
+            <div class="p-4">
+              <h4 class="font-bold text-slate-800 dark:text-white text-md mb-1">${p.title}</h4>
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class="text-brand-600 dark:text-brand-500 font-bold text-lg">৳ ${finalPrice}</span>
+                ${p.discount > 0 ? `<span class="text-xs text-slate-400 line-through">৳ ${p.price}</span>` : ''}
+              </div>
+              <div class="flex gap-1 text-[10px] font-semibold text-slate-500">
+                ${p.allowCOD ? `<span class="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded">COD</span>` : ''}
+                ${p.allowWallet ? `<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded">Wallet Pay</span>` : ''}
+              </div>
+            </div>
+          </div>
+          <div class="p-4 pt-0">
+            <button onclick="openOrderModal(${p.id})" class="w-full py-2.5 bg-slate-900 dark:bg-brand-600 hover:bg-slate-800 dark:hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cart-shopping"></i> ${currentLang === 'bn' ? 'অর্ডার করুন' : 'Order Now'}
+            </button>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    // Auth Navigation Header
+    function updateAuthNav() {
+      const container = document.getElementById('authNavContainer');
+      if (loggedInUser) {
+        const isStaff = loggedInUser.role && loggedInUser.role !== 'client';
+        container.innerHTML = `
+          <div class="flex items-center gap-2">
+            <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-2 px-3 py-1.5 text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-xl font-bold border border-brand-200 dark:border-slate-600">
+              <i class="fa-solid fa-circle-user text-sm"></i>
+              <span>${loggedInUser.name} (${isStaff ? 'ড্যাশবোর্ড' : '৳' + (loggedInUser.balance || 0)})</span>
+            </button>
+            <button onclick="handleLogout()" class="text-xs text-red-500 hover:text-red-700 p-1" title="লগআউট"><i class="fa-solid fa-power-off"></i></button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <button onclick="openAuthModal()" class="px-3 py-1.5 text-xs font-bold bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition">
+            ${currentLang === 'bn' ? 'লগইন / সাইনআপ' : 'Login / Signup'}
+          </button>
+        `;
+      }
+    }
+
+    function openAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+      document.getElementById('authModal').classList.add('flex');
+    }
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+      document.getElementById('authModal').classList.remove('flex');
+    }
+    function switchAuthTab(tab) {
+      if(tab === 'login') {
+        document.getElementById('formLogin').classList.remove('hidden');
+        document.getElementById('formSignup').classList.add('hidden');
+        document.getElementById('tabLogin').className = "w-1/2 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600";
+        document.getElementById('tabSignup').className = "w-1/2 py-2 text-sm font-bold text-slate-400";
+      } else {
+        document.getElementById('formLogin').classList.add('hidden');
+        document.getElementById('formSignup').classList.remove('hidden');
+        document.getElementById('tabSignup').className = "w-1/2 py-2 text-sm font-bold border-b-2 border-brand-600 text-brand-600";
+        document.getElementById('tabLogin').className = "w-1/2 py-2 text-sm font-bold text-slate-400";
+      }
+    }
+
+    // Role-Based Smart Login Handle
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
+      const phone = document.getElementById('loginPhone').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
+
+      const user = users.find(u => u.phone === phone && u.pass === pass);
+      if(user) {
+        loggedInUser = user;
+        localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
+        updateAuthNav();
+        closeAuthModal();
+        if (user.role && user.role !== 'client') showStaffDashboard();
+        else showCustomerProfile();
+      } else {
+        alert("ভুল নম্বর বা পাসওয়ার্ড দিয়েছেন!");
+      }
+    }
+
+    function handleSignupSubmit(e) {
+      e.preventDefault();
+      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
+      const phone = document.getElementById('signupPhone').value.trim();
+      const pass = document.getElementById('signupPass').value.trim();
+
+      const newUser = {
+        name: document.getElementById('signupName').value,
+        phone: phone,
+        pass: pass,
+        role: 'client',
+        balance: 0,
+        address: ''
+      };
+
+      users.push(newUser);
+      localStorage.setItem('ebuy_users', JSON.stringify(users));
+      loggedInUser = newUser;
+      localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
+      updateAuthNav();
+      closeAuthModal();
+      alert("সাইনআপ সফল হয়েছে!");
+    }
+
+    function handleLogout() {
+      loggedInUser = null;
+      localStorage.removeItem('ebuy_logged_user');
+      updateAuthNav();
+      showCustomerView();
+    }
+
+    // Deposit Handling
+    function openDepositModal() {
+      if(!loggedInUser) { openAuthModal(); return; }
+      selectDepositMethod('bkash');
+      document.getElementById('depositModal').classList.remove('hidden');
+      document.getElementById('depositModal').classList.add('flex');
+    }
+    function closeDepositModal() {
+      document.getElementById('depositModal').classList.add('hidden');
+      document.getElementById('depositModal').classList.remove('flex');
+    }
+
+    function selectDepositMethod(method) {
+      paymentNumbers = JSON.parse(localStorage.getItem('ebuy_payment_numbers')) || { bkash: "01731039874", nagad: "01731039874", rocket: "01731039874-8" };
+      document.getElementById('selectedMethod').value = method;
+      const display = document.getElementById('depositNumberDisplay');
+      
+      document.getElementById('btnBkash').className = "py-2 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1";
+      document.getElementById('btnNagad').className = "py-2 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1";
+      document.getElementById('btnRocket').className = "py-2 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1";
+
+      if(method === 'bkash') {
+        document.getElementById('btnBkash').className = "py-2 rounded-xl font-bold text-xs border border-pink-500 bg-pink-50 text-pink-600 flex flex-col items-center gap-1";
+        display.innerText = `${paymentNumbers.bkash} (bKash)`;
+      } else if(method === 'nagad') {
+        document.getElementById('btnNagad').className = "py-2 rounded-xl font-bold text-xs border border-orange-500 bg-orange-50 text-orange-600 flex flex-col items-center gap-1";
+        display.innerText = `${paymentNumbers.nagad} (Nagad)`;
+      } else if(method === 'rocket') {
+        document.getElementById('btnRocket').className = "py-2 rounded-xl font-bold text-xs border border-purple-500 bg-purple-50 text-purple-600 flex flex-col items-center gap-1";
+        display.innerText = `${paymentNumbers.rocket} (Rocket)`;
+      }
+    }
+
+    function handleDepositSubmit(e) {
+      e.preventDefault();
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      const trxId = document.getElementById('depositTrxId').value.trim();
+      const method = document.getElementById('selectedMethod').value;
+
+      const newDeposit = {
+        id: 'DEP-' + Date.now(),
+        userPhone: loggedInUser.phone,
+        userName: loggedInUser.name,
+        method: method.toUpperCase(),
+        amount: amount,
+        trxId: trxId,
+        status: 'Pending'
+      };
+
+      deposits.push(newDeposit);
+      localStorage.setItem('ebuy_deposits', JSON.stringify(deposits));
+      closeDepositModal();
+      alert("ডিপোজিট রিকোয়েস্ট সাবমিট হয়েছে!");
+      showCustomerProfile();
+    }
+
+    // Order Checkout Modal
+    function openOrderModal(pId) {
+      const p = products.find(prod => prod.id == pId);
+      if(!p) return;
+
+      document.getElementById('orderProductId').value = pId;
+
+      const finalPrice = p.price - (p.discount || 0);
+      document.getElementById('checkoutSummaryBox').innerHTML = `
+        <p class="font-bold text-slate-800 dark:text-white">${p.title}</p>
+        <p>মূল্য: ৳ ${p.price} | ডিসকাউন্ট: ৳ ${p.discount || 0}</p>
+        <p class="font-bold text-brand-600">মোট দেওয় মূল্য: ৳ ${finalPrice}</p>
+      `;
+
+      const select = document.getElementById('payMethodSelect');
+      select.innerHTML = '';
+
+      if(p.allowCOD !== false) {
+        select.innerHTML += `<option value="Cash On Delivery">Cash On Delivery (ক্যাশ অন ডেলিভারি)</option>`;
+      }
+      if(p.allowWallet !== false) {
+        const userBal = loggedInUser ? loggedInUser.balance : 0;
+        select.innerHTML += `<option value="Wallet">Wallet Balance (আপনার ওয়ালেট ব্যালেন্স: ৳${userBal})</option>`;
+      }
+
+      if (loggedInUser) {
+        document.getElementById('custName').value = loggedInUser.name || '';
+        document.getElementById('custPhone').value = loggedInUser.phone || '';
+        document.getElementById('custAddress').value = loggedInUser.address || '';
+      }
+
+      document.getElementById('orderModal').classList.remove('hidden');
+      document.getElementById('orderModal').classList.add('flex');
+    }
+
+    function closeOrderModal() {
+      document.getElementById('orderModal').classList.add('hidden');
+      document.getElementById('orderModal').classList.remove('flex');
+    }
+
+    function handleOrderSubmit(e) {
+      e.preventDefault();
+      if(!loggedInUser) { 
+        alert("অর্ডার সম্পন্ন করতে প্রথমে লগইন করুন!"); 
+        closeOrderModal();
+        openAuthModal(); 
+        return; 
+      }
+
+      const pId = document.getElementById('orderProductId').value;
+      const product = products.find(p => p.id == pId);
+      const payMethod = document.getElementById('payMethodSelect').value;
+      const finalPrice = product.price - (product.discount || 0);
+
+      if(payMethod === 'Wallet') {
+        if((loggedInUser.balance || 0) < finalPrice) {
+          alert("আপনার ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই! দয়া করে ডিপোজিট করুন।");
+          return;
+        }
+
+        loggedInUser.balance -= finalPrice;
+        users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
+        const idx = users.findIndex(u => u.phone === loggedInUser.phone && u.role === loggedInUser.role);
+        if(idx !== -1) users[idx].balance = loggedInUser.balance;
+
+        localStorage.setItem('ebuy_users', JSON.stringify(users));
+        localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
+      }
+
+      const newOrder = {
+        id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+        name: document.getElementById('custName').value,
+        phone: document.getElementById('custPhone').value,
+        address: document.getElementById('custAddress').value,
+        product: product.title,
+        price: finalPrice,
+        payMethod: payMethod,
+        status: 'Pending'
+      };
+
+      orders.push(newOrder);
+      localStorage.setItem('ebuy_orders', JSON.stringify(orders));
+      closeOrderModal();
+      updateAuthNav();
+      alert(`অর্ডার কনফার্ম হয়েছে! আইডি: ${newOrder.id}`);
+    }
+
+    function handleAddProduct(e) {
+      e.preventDefault();
+      const newProduct = {
+        id: Date.now(),
+        title: document.getElementById('pTitle').value,
+        price: parseFloat(document.getElementById('pPrice').value),
+        discount: parseFloat(document.getElementById('pDiscount').value) || 0,
+        allowCOD: document.getElementById('payCOD').checked,
+        allowWallet: document.getElementById('payWallet').checked,
+        image: document.getElementById('pImgUrl').value
+      };
+
+      products.push(newProduct);
+      localStorage.setItem('ebuy_products', JSON.stringify(products));
+      renderProducts();
+      e.target.reset();
+      alert('নতুন প্রোডাক্ট পোস্ট করা হয়েছে!');
+    }
+
+    function showCustomerView() {
+      document.getElementById('adminView').classList.add('hidden');
+      document.getElementById('customerProfileView').classList.add('hidden');
+      document.getElementById('customerView').classList.remove('hidden');
+    }
+
+    function showCustomerProfile() {
+      if(!loggedInUser) return;
+      document.getElementById('customerView').classList.add('hidden');
+      document.getElementById('adminView').classList.add('hidden');
+      document.getElementById('customerProfileView').classList.remove('hidden');
+
+      document.getElementById('userWalletBalanceDisplay').innerText = loggedInUser.balance || 0;
+      document.getElementById('editName').value = loggedInUser.name || '';
+      document.getElementById('editAddress').value = loggedInUser.address || '';
+
+      const myOrders = orders.filter(o => o.phone === loggedInUser.phone);
+      document.getElementById('myOrdersTableBody').innerHTML = myOrders.map(o => `
+        <tr>
+          <td class="p-3 font-bold text-brand-600">${o.id}</td>
+          <td class="p-3">${o.product}</td>
+          <td class="p-3 font-bold">${o.payMethod}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-amber-100 text-amber-700 font-bold">${o.status}</span></td>
+        </tr>
+      `).join('');
+
+      const myDeposits = deposits.filter(d => d.userPhone === loggedInUser.phone);
+      document.getElementById('myDepositsTableBody').innerHTML = myDeposits.map(d => `
+        <tr>
+          <td class="p-3 font-bold">${d.method}</td>
+          <td class="p-3 font-bold text-emerald-600">৳ ${d.amount}</td>
+          <td class="p-3 font-mono">${d.trxId}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status === 'Approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${d.status}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function handleProfileUpdate(e) {
+      e.preventDefault();
+      loggedInUser.name = document.getElementById('editName').value;
+      loggedInUser.address = document.getElementById('editAddress').value;
+
+      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
+      const idx = users.findIndex(u => u.phone === loggedInUser.phone && u.role === loggedInUser.role);
+      if(idx !== -1) users[idx] = loggedInUser;
+
+      localStorage.setItem('ebuy_users', JSON.stringify(users));
+      localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
+      updateAuthNav();
+      alert("তথ্য আপডেট সেভ হয়েছে!");
+    }
+
+    // Role-based Dashboard Views Configuration
+    function showStaffDashboard() {
+      document.getElementById('customerView').classList.add('hidden');
+      document.getElementById('customerProfileView').classList.add('hidden');
+      document.getElementById('adminView').classList.remove('hidden');
+
+      const title = document.getElementById('staffDashboardTitle');
+      const desc = document.getElementById('staffRoleDesc');
+      const prodSection = document.getElementById('sectionProductPost');
+      const depSection = document.getElementById('sectionDepositsList');
+      const ordSection = document.getElementById('sectionOrdersList');
+      const numSection = document.getElementById('sectionPaymentNumbersManage');
+
+      // Populate current payment numbers
+      paymentNumbers = JSON.parse(localStorage.getItem('ebuy_payment_numbers')) || {};
+      document.getElementById('adminBkashNo').value = paymentNumbers.bkash || '';
+      document.getElementById('adminNagadNo').value = paymentNumbers.nagad || '';
+      document.getElementById('adminRocketNo').value = paymentNumbers.rocket || '';
+
+      // Reset Visibility
+      prodSection.style.display = "block";
+      depSection.style.display = "block";
+      ordSection.style.display = "block";
+      numSection.style.display = "block";
+
+      if (loggedInUser.role === 'finance_admin') {
+        title.innerText = "ফিন্যান্স অ্যাডমিন ড্যাশবোর্ড";
+        desc.innerText = "আপনি কাস্টমার ডিপোজিট রিকোয়েস্ট ও ডিপোজিট নম্বর নিয়ন্ত্রণ করতে পারবেন।";
+        prodSection.style.display = "none";
+        ordSection.style.display = "none";
+      } 
+      else if (loggedInUser.role === 'order_manager') {
+        title.innerText = "অর্ডার ম্যানেজার ড্যাশবোর্ড";
+        desc.innerText = "কাস্টমারদের সমস্ত অর্ডার প্রসেসিং ও ডেলিভারি আপডেট করুন।";
+        prodSection.style.display = "none";
+        depSection.style.display = "none";
+        numSection.style.display = "none";
+      } 
+      else if (loggedInUser.role === 'product_manager') {
+        title.innerText = "প্রোডাক্ট ম্যানেজার ড্যাশবোর্ড";
+        desc.innerText = "নতুন পণ্য পোস্ট ও ডিসকাউন্ট পরিচালনা করুন।";
+        depSection.style.display = "none";
+        ordSection.style.display = "none";
+        numSection.style.display = "none";
+      } 
+      else {
+        title.innerText = "সুপার এডমিন কন্ট্রোল প্যানেল";
+        desc.innerText = "অর্ডার, ডিপোজিট লেনদেন ও প্রোডাক্ট সেটিংসের ফুল এক্সেস";
+      }
+
+      renderAdminDeposits();
+      renderAdminOrders();
+    }
+
+    function handlePaymentNumbersUpdate(e) {
+      e.preventDefault();
+      const updatedNumbers = {
+        bkash: document.getElementById('adminBkashNo').value.trim(),
+        nagad: document.getElementById('adminNagadNo').value.trim(),
+        rocket: document.getElementById('adminRocketNo').value.trim()
+      };
+
+      localStorage.setItem('ebuy_payment_numbers', JSON.stringify(updatedNumbers));
+      alert('পেমেন্ট নম্বরসমূহ সফলভাবে আপডেট করা হয়েছে!');
+    }
+
+    function renderAdminDeposits() {
+      const tbody = document.getElementById('adminDepositsTableBody');
+      if(deposits.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">কোনো ডিপোজিট লেনদেন পেন্ডিং নেই</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = deposits.map(d => `
+        <tr>
+          <td class="p-3 font-bold">${d.userName} (${d.userPhone})</td>
+          <td class="p-3 font-bold text-pink-600">${d.method}</td>
+          <td class="p-3 font-bold text-emerald-600">৳ ${d.amount}</td>
+          <td class="p-3 font-mono">${d.trxId}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status==='Approved'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${d.status}</span></td>
+          <td class="p-3">
+            ${d.status === 'Pending' ? `<button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[10px]">Approve & Add Balance</button>` : 'Done'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function approveDeposit(depId) {
+      const dep = deposits.find(d => d.id === depId);
+      if(dep && dep.status === 'Pending') {
+        dep.status = 'Approved';
+        
+        users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
+        const u = users.find(user => user.phone === dep.userPhone && user.role === 'client');
+        if(u) {
+          u.balance = (u.balance || 0) + dep.amount;
+        }
+
+        if(loggedInUser && loggedInUser.phone === dep.userPhone && loggedInUser.role === 'client') {
+          loggedInUser.balance = u.balance;
+          localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
+        }
+
+        localStorage.setItem('ebuy_users', JSON.stringify(users));
+        localStorage.setItem('ebuy_deposits', JSON.stringify(deposits));
+        renderAdminDeposits();
+        updateAuthNav();
+        alert("ডিপোজিট এপ্রুভ হয়েছে এবং কাস্টমারের অ্যাকাউন্টে ব্যালেন্স যোগ করা হয়েছে!");
+      }
+    }
+
+    function renderAdminOrders() {
+      const tbody = document.getElementById('ordersTableBody');
+      if(orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">কোনো নতুন অর্ডার আসেনি</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => `
+        <tr>
+          <td class="p-3 font-bold text-brand-600">${o.id}</td>
+          <td class="p-3 font-medium">
+            <div class="font-bold">${o.name} (${o.phone})</div>
+            <div class="text-[10px] text-slate-400">${o.address}</div>
+          </td>
+          <td class="p-3">${o.product}</td>
+          <td class="p-3 font-bold">৳ ${o.price}</td>
+          <td class="p-3 font-bold text-xs">${o.payMethod}</td>
+          <td class="p-3">
+            <select onchange="updateOrderStatus('${o.id}', this.value)" class="p-1 text-[10px] font-bold rounded border bg-white dark:bg-slate-700">
+              <option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option>
+              <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
+              <option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option>
+              <option value="Cancelled" ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
+            </select>
+          </td>
+          <td class="p-3">
+            <button onclick="deleteOrder('${o.id}')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function updateOrderStatus(id, newStatus) {
+      const order = orders.find(o => o.id === id);
+      if(order) {
+        order.status = newStatus;
+        localStorage.setItem('ebuy_orders', JSON.stringify(orders));
+        alert(`অর্ডার স্ট্যাটাস পরিবর্তন করে '${newStatus}' করা হয়েছে!`);
+      }
+    }
+
+    function deleteOrder(id) {
+      if(confirm('অর্ডার মুছে ফেলতে চান?')) {
+        orders = orders.filter(o => o.id !== id);
+        localStorage.setItem('ebuy_orders', JSON.stringify(orders));
+        renderAdminOrders();
+      }
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      renderProducts(products.filter(p => p.title.toLowerCase().includes(query)));
+    }
+
+    // Run Updates
+    updateAuthNav();
+    renderProducts();
+  </script>
+</body>
+</html>
