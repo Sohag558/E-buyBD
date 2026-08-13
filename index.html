@@ -52,12 +52,10 @@
           <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
         </button>
 
-        <!-- WhatsApp Link -->
         <a href="https://wa.me/8801731039874" target="_blank" class="p-1.5 sm:p-2 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 rounded-lg transition" title="WhatsApp Chat">
           <i class="fa-brands fa-whatsapp text-lg sm:text-xl"></i>
         </a>
 
-        <!-- Telegram Link -->
         <a href="https://t.me/8801731039874" target="_blank" class="p-1.5 sm:p-2 text-sky-500 hover:bg-sky-50 dark:hover:bg-slate-700 rounded-lg transition" title="Telegram Chat">
           <i class="fa-brands fa-telegram text-lg sm:text-xl"></i>
         </a>
@@ -239,7 +237,7 @@
         </button>
       </div>
 
-      <!-- ALL CLIENTS PROFILES & HISTORY SECTION -->
+      <!-- ALL CLIENTS PROFILES -->
       <div class="bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-indigo-200 dark:border-indigo-800 shadow-sm">
         <h3 class="font-bold text-sm sm:text-md mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-indigo-600">
           <span class="flex items-center gap-2">
@@ -317,7 +315,7 @@
               <label class="block text-xs font-medium mb-1">ছবি আপলোড (একাধিক)</label>
               <input type="file" id="pImageFiles" accept="image/*" multiple required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600">
             </div>
-            <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow">পাবলিশ করুন</button>
+            <button type="submit" id="postProductBtn" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow">পাবলিশ করুন</button>
           </form>
         </div>
 
@@ -539,6 +537,330 @@
     </div>
   </footer>
 
+  <!-- Firebase Integration Script Module -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getFirestore, collection, addDoc, getDocs, setDoc, doc, getDoc, updateDoc, deleteDoc, query, where, onSnapshot 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0Nmcp-gIBr3xTxNeAyZ_gaY7LK5rYB_4",
+      authDomain: "e-buybd.firebaseapp.com",
+      projectId: "e-buybd",
+      storageBucket: "e-buybd.firebasestorage.app",
+      messagingSenderId: "70529885850",
+      appId: "1:70529885850:web:48452ffc4954a2e3b36123",
+      measurementId: "G-M5Z41Y2ZGD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Dynamic Variables
+    window.products = [];
+    window.users = [];
+    window.orders = [];
+    window.deposits = [];
+    window.paymentNumbers = { bkash: '01700000000', nagad: '01700000000', rocket: '01700000000' };
+    window.cart = JSON.parse(localStorage.getItem('ebuy_cart')) || [];
+    window.loggedInUser = JSON.parse(localStorage.getItem('ebuy_logged_user')) || null;
+
+    // Listen to Firebase Collections in Realtime
+    function syncFirebaseData() {
+      // 1. Sync Products
+      onSnapshot(collection(db, "products"), (snapshot) => {
+        window.products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderProducts();
+      });
+
+      // 2. Sync Payment Numbers
+      onSnapshot(doc(db, "settings", "paymentNumbers"), (docSnap) => {
+        if(docSnap.exists()) {
+          window.paymentNumbers = docSnap.data();
+        } else {
+          setDoc(doc(db, "settings", "paymentNumbers"), window.paymentNumbers);
+        }
+      });
+
+      // 3. Sync Users
+      onSnapshot(collection(db, "users"), (snapshot) => {
+        window.users = snapshot.docs.map(doc => doc.data());
+        if (window.loggedInUser) {
+          const freshUser = window.users.find(u => u.phone === window.loggedInUser.phone);
+          if (freshUser) {
+            window.loggedInUser = freshUser;
+            localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
+          }
+        }
+        updateAuthNav();
+      });
+
+      // 4. Sync Orders
+      onSnapshot(collection(db, "orders"), (snapshot) => {
+        window.orders = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
+      });
+
+      // 5. Sync Deposits
+      onSnapshot(collection(db, "deposits"), (snapshot) => {
+        window.deposits = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
+      });
+    }
+
+    // Initialize Default Super Admin Account into DB
+    async function initDB() {
+      const adminDoc = await getDoc(doc(db, "users", "01700000000"));
+      if (!adminDoc.exists()) {
+        await setDoc(doc(db, "users", "01700000000"), {
+          name: "Super Admin", phone: "01700000000", pass: "admin123", role: "super_admin", balance: 0, email: "admin@ebuy.com", whatsapp: "01700000000", telegram: "@admin"
+        });
+      }
+      syncFirebaseData();
+    }
+    initDB();
+
+    // UI Handlers attached to window object
+    window.handleLoginSubmit = async function(e) {
+      e.preventDefault();
+      const phone = document.getElementById('loginPhone').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
+
+      const userDoc = await getDoc(doc(db, "users", phone));
+      if (userDoc.exists() && userDoc.data().pass === pass) {
+        window.loggedInUser = userDoc.data();
+        localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
+        updateAuthNav();
+        closeAuthModal();
+        if (window.loggedInUser.role && window.loggedInUser.role !== 'client') showStaffDashboard();
+        else showCustomerProfile();
+      } else {
+        alert("ভুল নম্বর বা পাসওয়ার্ড দিয়েছেন!");
+      }
+    };
+
+    window.handleSignupSubmit = async function(e) {
+      e.preventDefault();
+      const phone = document.getElementById('signupPhone').value.trim();
+      const userDoc = await getDoc(doc(db, "users", phone));
+
+      if(userDoc.exists()) {
+        alert("এই নম্বর দিয়ে আগেই অ্যাকাউন্ট খোলা হয়েছে!");
+        return;
+      }
+
+      const newUser = {
+        name: document.getElementById('signupName').value,
+        phone: phone,
+        pass: document.getElementById('signupPass').value,
+        role: 'client',
+        balance: 0,
+        email: '',
+        whatsapp: phone,
+        telegram: '',
+        address: ''
+      };
+
+      await setDoc(doc(db, "users", phone), newUser);
+      window.loggedInUser = newUser;
+      localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
+      updateAuthNav();
+      closeAuthModal();
+      alert("সাইনআপ সফল হয়েছে!");
+      showCustomerProfile();
+    };
+
+    window.handleAddProduct = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('postProductBtn');
+      btn.innerText = "পাবলিশ হচ্ছে...";
+      btn.disabled = true;
+
+      const files = document.getElementById('pImageFiles').files;
+      let base64Images = [];
+
+      for (let i = 0; i < files.length; i++) {
+        let reader = new FileReader();
+        reader.readAsDataURL(files[i]);
+        await new Promise(resolve => {
+          reader.onload = function(event) {
+            base64Images.push(event.target.result);
+            resolve();
+          };
+        });
+      }
+
+      try {
+        await addDoc(collection(db, "products"), {
+          title: document.getElementById('pTitle').value,
+          price: parseFloat(document.getElementById('pPrice').value),
+          discount: parseFloat(document.getElementById('pDiscount').value) || 0,
+          desc: document.getElementById('pDesc').value,
+          images: base64Images
+        });
+        e.target.reset();
+        alert('প্রোডাক্ট সফলভাবে পোস্ট করা হয়েছে!');
+      } catch (err) {
+        alert('পোস্ট করতে সমস্যা হয়েছে!');
+      } finally {
+        btn.innerText = "পাবলিশ করুন";
+        btn.disabled = false;
+      }
+    };
+
+    window.handleDepositSubmit = async function(e) {
+      e.preventDefault();
+      const newDeposit = {
+        id: 'DEP-' + Date.now(),
+        userPhone: window.loggedInUser.phone,
+        userName: window.loggedInUser.name,
+        method: document.getElementById('selectedMethod').value.toUpperCase(),
+        amount: parseFloat(document.getElementById('depositAmount').value),
+        trxId: document.getElementById('depositTrxId').value.trim(),
+        status: 'Pending'
+      };
+
+      await addDoc(collection(db, "deposits"), newDeposit);
+      closeDepositModal();
+      alert("ডিপোজিট রিকোয়েস্ট সাবমিট হয়েছে!");
+      showCustomerProfile();
+    };
+
+    window.handleOrderSubmit = async function(e) {
+      e.preventDefault();
+      if(!window.loggedInUser) { closeOrderModal(); openAuthModal(); return; }
+
+      const product = window.products.find(p => p.id == document.getElementById('orderProductId').value);
+      const payMethod = document.getElementById('payMethodSelect').value;
+      const qty = parseInt(document.getElementById('orderQuantity').value) || 1;
+      const totalPrice = (product.price - (product.discount || 0)) * qty;
+
+      if(payMethod === 'Wallet' && window.loggedInUser.balance < totalPrice) {
+        alert("ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই!");
+        return;
+      }
+
+      if(payMethod === 'Wallet') {
+        const newBal = window.loggedInUser.balance - totalPrice;
+        await updateDoc(doc(db, "users", window.loggedInUser.phone), { balance: newBal });
+        window.loggedInUser.balance = newBal;
+        localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
+      }
+
+      const newOrder = {
+        id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+        name: document.getElementById('custName').value,
+        phone: document.getElementById('custPhone').value,
+        address: document.getElementById('custAddress').value,
+        product: `${product.title} (${qty} Pcs)`,
+        price: totalPrice,
+        payMethod: payMethod,
+        status: 'Pending'
+      };
+
+      await addDoc(collection(db, "orders"), newOrder);
+      closeOrderModal();
+      updateAuthNav();
+      alert(`অর্ডার কনফার্ম হয়েছে!`);
+    };
+
+    window.handleProfileUpdate = async function(e) {
+      e.preventDefault();
+      const updatedData = {
+        name: document.getElementById('editName').value,
+        email: document.getElementById('editEmail').value,
+        whatsapp: document.getElementById('editWhatsapp').value,
+        telegram: document.getElementById('editTelegram').value,
+        address: document.getElementById('editAddress').value
+      };
+
+      const newPass = document.getElementById('editPass').value.trim();
+      if(newPass !== '') updatedData.pass = newPass;
+
+      await updateDoc(doc(db, "users", window.loggedInUser.phone), updatedData);
+      Object.assign(window.loggedInUser, updatedData);
+      localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
+      updateAuthNav();
+      alert("প্রোফাইল ও পাসওয়ার্ড সফলভাবে আপডেট হয়েছে!");
+    };
+
+    window.approveDeposit = async function(depId) {
+      const dep = window.deposits.find(d => d.id === depId);
+      if(dep && dep.status === 'Pending') {
+        await updateDoc(doc(db, "deposits", dep.firebaseId), { status: 'Approved' });
+        
+        const userDoc = await getDoc(doc(db, "users", dep.userPhone));
+        if (userDoc.exists()) {
+          const newBalance = (userDoc.data().balance || 0) + dep.amount;
+          await updateDoc(doc(db, "users", dep.userPhone), { balance: newBalance });
+        }
+
+        renderAdminDeposits();
+        renderAdminAllClients();
+        alert("ডিপোজিট এপ্রুভ হয়েছে!");
+      }
+    };
+
+    window.adminChangeClientPassword = async function(phone) {
+      const newPassInput = document.getElementById(`adminPassInput_${phone}`);
+      const newPass = newPassInput.value.trim();
+      if(!newPass) { alert("দয়া করে নতুন পাসওয়ার্ড লিখুন!"); return; }
+
+      await updateDoc(doc(db, "users", phone), { pass: newPass });
+      newPassInput.value = '';
+      alert("কাস্টমারের পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!");
+    };
+
+    window.handlePaymentNumbersUpdate = async function(e) {
+      e.preventDefault();
+      const updatedNumbers = {
+        bkash: document.getElementById('adminBkashNo').value.trim(),
+        nagad: document.getElementById('adminNagadNo').value.trim(),
+        rocket: document.getElementById('adminRocketNo').value.trim()
+      };
+      await setDoc(doc(db, "settings", "paymentNumbers"), updatedNumbers);
+      alert('পেমেন্ট নম্বর আপডেট করা হয়েছে!');
+    };
+
+    window.updateOrderStatus = async function(id, newStatus) {
+      const order = window.orders.find(o => o.id === id);
+      if(order) {
+        await updateDoc(doc(db, "orders", order.firebaseId), { status: newStatus });
+        alert(`স্ট্যাটাস পরিবর্তন করা হয়েছে!`);
+      }
+    };
+
+    window.deleteOrder = async function(id) {
+      if(confirm('মুছে ফেলতে চান?')) {
+        const order = window.orders.find(o => o.id === id);
+        if(order) {
+          await deleteDoc(doc(db, "orders", order.firebaseId));
+          renderAdminOrders();
+        }
+      }
+    };
+
+    window.deleteCustomerAccount = async function(phone) {
+      if(confirm('আপনি কি নিশ্চিতভাবে এই অ্যাকাউন্টটি ডিলিট করতে চান?')) {
+        await deleteDoc(doc(db, "users", phone));
+        if(window.loggedInUser && window.loggedInUser.phone === phone) {
+          handleLogout();
+        }
+        alert('অ্যাকাউন্ট সফলভাবে ডিলিট করা হয়েছে।');
+        showCustomerView();
+      }
+    };
+
+    window.resetCustomerAccount = async function(phone) {
+      if(confirm('প্রোফাইল রিসেট করতে চান?')) {
+        await updateDoc(doc(db, "users", phone), { balance: 0, email: '', telegram: '', address: '' });
+        alert('প্রোফাইল সফলভাবে রিসেট করা হয়েছে!');
+        showCustomerProfile();
+      }
+    };
+  </script>
+
+  <!-- Navigation & Interface Scripts -->
   <script>
     const translations = {
       bn: {
@@ -598,44 +920,9 @@
       if(document.getElementById('staffDashboardTitle')) document.getElementById('staffDashboardTitle').innerText = t.staffTitle;
     }
 
-    function initApp() {
-      const defaultUsers = [
-        { name: "Super Admin", phone: "01700000000", pass: "admin123", role: "super_admin", balance: 0, email: "admin@ebuy.com", whatsapp: "01700000000", telegram: "@admin" },
-        { name: "Sohag Islam", phone: "01731039874", pass: "123456", role: "client", balance: 1500, email: "sohag@gmail.com", whatsapp: "01731039874", telegram: "@sohag", address: "Dhaka, Bangladesh" }
-      ];
-
-      if (!localStorage.getItem('ebuy_users')) {
-        localStorage.setItem('ebuy_users', JSON.stringify(defaultUsers));
-      }
-
-      if (!localStorage.getItem('ebuy_payment_numbers')) {
-        localStorage.setItem('ebuy_payment_numbers', JSON.stringify({ bkash: "01700000001", nagad: "01700000001", rocket: "01700000001" }));
-      }
-    }
-    initApp();
-
-    let users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-    let paymentNumbers = JSON.parse(localStorage.getItem('ebuy_payment_numbers'));
-    let products = JSON.parse(localStorage.getItem('ebuy_products')) || [
-      { id: 1, title: 'স্মার্ট ওয়াচ প্রিমিয়াম', price: 1850, discount: 0, desc: 'প্রিমিয়াম স্মার্ট ওয়াচ।', images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'] }
-    ];
-    let orders = JSON.parse(localStorage.getItem('ebuy_orders')) || [];
-    let deposits = JSON.parse(localStorage.getItem('ebuy_deposits')) || [];
-    let cart = JSON.parse(localStorage.getItem('ebuy_cart')) || [];
-    let loggedInUser = JSON.parse(localStorage.getItem('ebuy_logged_user')) || null;
-
-    if(loggedInUser) {
-      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-      const freshUser = users.find(u => u.phone === loggedInUser.phone);
-      if(freshUser) {
-        loggedInUser = freshUser;
-        localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
-      }
-    }
-
-    function renderProducts(items = products) {
+    function renderProducts(items = window.products) {
       const grid = document.getElementById('productsGrid');
-      if(items.length === 0) {
+      if(!items || items.length === 0) {
         grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400">কোনো প্রোডাক্ট পাওয়া যায়নি</div>`;
         return;
       }
@@ -645,7 +932,7 @@
         const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : '';
         return `
         <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col justify-between">
-          <div class="cursor-pointer" onclick="showProductDetails(${p.id})">
+          <div class="cursor-pointer" onclick="showProductDetails('${p.id}')">
             <div class="h-36 sm:h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
               <img src="${imgSrc}" class="h-full w-full object-cover">
               ${p.discount > 0 ? `<span class="absolute top-2 right-2 bg-red-600 text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full">৳ ${p.discount} ছাড়</span>` : ''}
@@ -659,15 +946,15 @@
             </div>
           </div>
           <div class="p-3 pt-0 grid grid-cols-2 gap-1.5">
-            <button onclick="addToCart(${p.id})" class="py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-xs font-bold rounded-xl transition"><i class="fa-solid fa-cart-plus"></i> কার্ট</button>
-            <button onclick="openOrderModal(${p.id})" class="py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition">অর্ডার</button>
+            <button onclick="addToCart('${p.id}')" class="py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-xs font-bold rounded-xl transition"><i class="fa-solid fa-cart-plus"></i> কার্ট</button>
+            <button onclick="openOrderModal('${p.id}')" class="py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition">অর্ডার</button>
           </div>
         </div>
       `}).join('');
     }
 
     function showProductDetails(pId) {
-      const p = products.find(prod => prod.id == pId);
+      const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
       document.getElementById('customerView').classList.add('hidden');
       document.getElementById('customerProfileView').classList.add('hidden');
@@ -699,36 +986,36 @@
           </div>
           <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">${p.desc}</p>
           <div class="flex gap-3 pt-4">
-            <button onclick="addToCart(${p.id})" class="flex-1 py-3 bg-slate-100 dark:bg-slate-700 font-bold text-xs rounded-xl"><i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart</button>
-            <button onclick="openOrderModal(${p.id})" class="flex-1 py-3 bg-brand-600 text-white font-bold text-xs rounded-xl shadow">অর্ডার করুন</button>
+            <button onclick="addToCart('${p.id}')" class="flex-1 py-3 bg-slate-100 dark:bg-slate-700 font-bold text-xs rounded-xl"><i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart</button>
+            <button onclick="openOrderModal('${p.id}')" class="flex-1 py-3 bg-brand-600 text-white font-bold text-xs rounded-xl shadow">অর্ডার করুন</button>
           </div>
         </div>
       `;
     }
 
     function addToCart(pId) {
-      const p = products.find(prod => prod.id == pId);
+      const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
-      const exist = cart.find(item => item.id == pId);
-      if(exist) { exist.qty += 1; } else { cart.push({ ...p, qty: 1 }); }
-      localStorage.setItem('ebuy_cart', JSON.stringify(cart));
+      const exist = window.cart.find(item => item.id == pId);
+      if(exist) { exist.qty += 1; } else { window.cart.push({ ...p, qty: 1 }); }
+      localStorage.setItem('ebuy_cart', JSON.stringify(window.cart));
       updateCartBadge();
       alert('প্রোডাক্টটি কার্টে যোগ করা হয়েছে!');
     }
 
     function updateCartBadge() {
-      const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalQty = window.cart.reduce((sum, item) => sum + item.qty, 0);
       document.getElementById('cartCountBadge').innerText = totalQty;
     }
 
     function openCartModal() {
       const container = document.getElementById('cartItemsContainer');
-      if(cart.length === 0) {
+      if(window.cart.length === 0) {
         container.innerHTML = `<p class="text-center py-6 text-slate-400 text-xs">আপনার কার্ট খালি রয়েছে</p>`;
         document.getElementById('cartTotalPrice').innerText = '৳ 0';
       } else {
         let total = 0;
-        container.innerHTML = cart.map(item => {
+        container.innerHTML = window.cart.map(item => {
           const itemPrice = (item.price - (item.discount || 0)) * item.qty;
           total += itemPrice;
           return `
@@ -739,7 +1026,7 @@
               </div>
               <div class="flex items-center gap-2">
                 <span class="font-bold text-brand-600">৳ ${itemPrice}</span>
-                <button onclick="removeFromCart(${item.id})" class="text-red-500 p-1"><i class="fa-solid fa-trash"></i></button>
+                <button onclick="removeFromCart('${item.id}')" class="text-red-500 p-1"><i class="fa-solid fa-trash"></i></button>
               </div>
             </div>
           `;
@@ -756,27 +1043,27 @@
     }
 
     function removeFromCart(pId) {
-      cart = cart.filter(item => item.id != pId);
-      localStorage.setItem('ebuy_cart', JSON.stringify(cart));
+      window.cart = window.cart.filter(item => item.id != pId);
+      localStorage.setItem('ebuy_cart', JSON.stringify(window.cart));
       updateCartBadge();
       openCartModal();
     }
 
     function proceedCartCheckout() {
-      if(cart.length === 0) return;
+      if(window.cart.length === 0) return;
       closeCartModal();
-      openOrderModal(cart[0].id);
+      openOrderModal(window.cart[0].id);
     }
 
     function updateAuthNav() {
       const container = document.getElementById('authNavContainer');
-      if (loggedInUser) {
-        const isStaff = loggedInUser.role && loggedInUser.role !== 'client';
+      if (window.loggedInUser) {
+        const isStaff = window.loggedInUser.role && window.loggedInUser.role !== 'client';
         container.innerHTML = `
           <div class="flex items-center gap-1.5 sm:gap-2">
             <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] sm:text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-xl font-bold border border-brand-200">
               <i class="fa-solid fa-circle-user text-sm"></i>
-              <span class="truncate max-w-[100px]">${loggedInUser.name}</span>
+              <span class="truncate max-w-[100px]">${window.loggedInUser.name}</span>
             </button>
             <button onclick="handleLogout()" class="text-xs text-red-500 p-1" title="লগআউট"><i class="fa-solid fa-power-off"></i></button>
           </div>
@@ -809,66 +1096,15 @@
       }
     }
 
-    function handleLoginSubmit(e) {
-      e.preventDefault();
-      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-      const phone = document.getElementById('loginPhone').value.trim();
-      const pass = document.getElementById('loginPass').value.trim();
-
-      const user = users.find(u => u.phone === phone && u.pass === pass);
-      if(user) {
-        loggedInUser = user;
-        localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
-        updateAuthNav();
-        closeAuthModal();
-        if (user.role && user.role !== 'client') showStaffDashboard();
-        else showCustomerProfile();
-      } else {
-        alert("ভুল নম্বর বা পাসওয়ার্ড দিয়েছেন!");
-      }
-    }
-
-    function handleSignupSubmit(e) {
-      e.preventDefault();
-      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-      const phone = document.getElementById('signupPhone').value.trim();
-      
-      if(users.some(u => u.phone === phone)) {
-        alert("এই নম্বর দিয়ে আগেই অ্যাকাউন্ট খোলা হয়েছে!");
-        return;
-      }
-
-      const newUser = {
-        name: document.getElementById('signupName').value,
-        phone: phone,
-        pass: document.getElementById('signupPass').value,
-        role: 'client',
-        balance: 0,
-        email: '',
-        whatsapp: phone,
-        telegram: '',
-        address: ''
-      };
-
-      users.push(newUser);
-      localStorage.setItem('ebuy_users', JSON.stringify(users));
-      loggedInUser = newUser;
-      localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
-      updateAuthNav();
-      closeAuthModal();
-      alert("সাইনআপ সফল হয়েছে!");
-      showCustomerProfile();
-    }
-
     function handleLogout() {
-      loggedInUser = null;
+      window.loggedInUser = null;
       localStorage.removeItem('ebuy_logged_user');
       updateAuthNav();
       showCustomerView();
     }
 
     function openDepositModal() {
-      if(!loggedInUser) { openAuthModal(); return; }
+      if(!window.loggedInUser) { openAuthModal(); return; }
       selectDepositMethod('bkash');
       document.getElementById('depositModal').classList.remove('hidden');
       document.getElementById('depositModal').classList.add('flex');
@@ -879,32 +1115,12 @@
     }
 
     function selectDepositMethod(method) {
-      paymentNumbers = JSON.parse(localStorage.getItem('ebuy_payment_numbers')) || {};
       document.getElementById('selectedMethod').value = method;
-      document.getElementById('depositNumberDisplay').innerText = paymentNumbers[method] || '01700000000';
-    }
-
-    function handleDepositSubmit(e) {
-      e.preventDefault();
-      const newDeposit = {
-        id: 'DEP-' + Date.now(),
-        userPhone: loggedInUser.phone,
-        userName: loggedInUser.name,
-        method: document.getElementById('selectedMethod').value.toUpperCase(),
-        amount: parseFloat(document.getElementById('depositAmount').value),
-        trxId: document.getElementById('depositTrxId').value.trim(),
-        status: 'Pending'
-      };
-
-      deposits.push(newDeposit);
-      localStorage.setItem('ebuy_deposits', JSON.stringify(deposits));
-      closeDepositModal();
-      alert("ডিপোজিট রিকোয়েস্ট সাবমিট হয়েছে!");
-      showCustomerProfile();
+      document.getElementById('depositNumberDisplay').innerText = window.paymentNumbers[method] || '01700000000';
     }
 
     function openOrderModal(pId) {
-      const p = products.find(prod => prod.id == pId);
+      const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
       document.getElementById('orderProductId').value = pId;
       document.getElementById('orderQuantity').value = 1;
@@ -913,13 +1129,13 @@
       const select = document.getElementById('payMethodSelect');
       select.innerHTML = `
         <option value="Cash On Delivery">Cash On Delivery (ক্যাশ অন ডেলিভারি)</option>
-        <option value="Wallet">Wallet Balance (আপনার ওয়ালেট ব্যালেন্স: ৳${loggedInUser ? loggedInUser.balance : 0})</option>
+        <option value="Wallet">Wallet Balance (আপনার ওয়ালেট ব্যালেন্স: ৳${window.loggedInUser ? window.loggedInUser.balance : 0})</option>
       `;
 
-      if (loggedInUser) {
-        document.getElementById('custName').value = loggedInUser.name || '';
-        document.getElementById('custPhone').value = loggedInUser.phone || '';
-        document.getElementById('custAddress').value = loggedInUser.address || '';
+      if (window.loggedInUser) {
+        document.getElementById('custName').value = window.loggedInUser.name || '';
+        document.getElementById('custPhone').value = window.loggedInUser.phone || '';
+        document.getElementById('custAddress').value = window.loggedInUser.address || '';
       }
 
       document.getElementById('orderModal').classList.remove('hidden');
@@ -937,7 +1153,7 @@
 
     function updateCheckoutTotal() {
       const pId = document.getElementById('orderProductId').value;
-      const p = products.find(prod => prod.id == pId);
+      const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
       const qty = parseInt(document.getElementById('orderQuantity').value) || 1;
       const unitPrice = p.price - (p.discount || 0);
@@ -953,74 +1169,6 @@
       document.getElementById('orderModal').classList.remove('flex');
     }
 
-    function handleOrderSubmit(e) {
-      e.preventDefault();
-      if(!loggedInUser) { closeOrderModal(); openAuthModal(); return; }
-
-      const product = products.find(p => p.id == document.getElementById('orderProductId').value);
-      const payMethod = document.getElementById('payMethodSelect').value;
-      const qty = parseInt(document.getElementById('orderQuantity').value) || 1;
-      const totalPrice = (product.price - (product.discount || 0)) * qty;
-
-      if(payMethod === 'Wallet' && loggedInUser.balance < totalPrice) {
-        alert("ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই!");
-        return;
-      }
-
-      if(payMethod === 'Wallet') {
-        loggedInUser.balance -= totalPrice;
-        users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-        const idx = users.findIndex(u => u.phone === loggedInUser.phone);
-        if(idx !== -1) users[idx].balance = loggedInUser.balance;
-        localStorage.setItem('ebuy_users', JSON.stringify(users));
-        localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
-      }
-
-      const newOrder = {
-        id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
-        name: document.getElementById('custName').value,
-        phone: document.getElementById('custPhone').value,
-        address: document.getElementById('custAddress').value,
-        product: `${product.title} (${qty} Pcs)`,
-        price: totalPrice,
-        payMethod: payMethod,
-        status: 'Pending'
-      };
-
-      orders.push(newOrder);
-      localStorage.setItem('ebuy_orders', JSON.stringify(orders));
-      closeOrderModal();
-      updateAuthNav();
-      alert(`অর্ডার কনফার্ম হয়েছে!`);
-    }
-
-    function handleAddProduct(e) {
-      e.preventDefault();
-      const files = document.getElementById('pImageFiles').files;
-      let base64Images = [];
-      for (let i = 0; i < files.length; i++) {
-        let reader = new FileReader();
-        reader.readAsDataURL(files[i]);
-        reader.onload = function(event) {
-          base64Images.push(event.target.result);
-          if (base64Images.length === files.length) {
-            products.push({
-              id: Date.now(),
-              title: document.getElementById('pTitle').value,
-              price: parseFloat(document.getElementById('pPrice').value),
-              discount: parseFloat(document.getElementById('pDiscount').value) || 0,
-              desc: document.getElementById('pDesc').value,
-              images: base64Images
-            });
-            localStorage.setItem('ebuy_products', JSON.stringify(products));
-            renderProducts();
-            e.target.reset();
-            alert('প্রোডাক্ট সফলভাবে পোস্ট করা হয়েছে!');
-          }
-        };
-      }
-    }
-
     function showCustomerView() {
       document.getElementById('adminView').classList.add('hidden');
       document.getElementById('customerProfileView').classList.add('hidden');
@@ -1029,25 +1177,21 @@
     }
 
     function showCustomerProfile() {
-      if(!loggedInUser) return;
+      if(!window.loggedInUser) return;
       document.getElementById('customerView').classList.add('hidden');
       document.getElementById('adminView').classList.add('hidden');
       document.getElementById('productDetailsView').classList.add('hidden');
       document.getElementById('customerProfileView').classList.remove('hidden');
 
-      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-      const currentFreshUser = users.find(u => u.phone === loggedInUser.phone);
-      if(currentFreshUser) loggedInUser = currentFreshUser;
-
-      document.getElementById('userWalletBalanceDisplay').innerText = loggedInUser.balance || 0;
-      document.getElementById('editName').value = loggedInUser.name || '';
-      document.getElementById('editEmail').value = loggedInUser.email || '';
-      document.getElementById('editWhatsapp').value = loggedInUser.whatsapp || '';
-      document.getElementById('editTelegram').value = loggedInUser.telegram || '';
+      document.getElementById('userWalletBalanceDisplay').innerText = window.loggedInUser.balance || 0;
+      document.getElementById('editName').value = window.loggedInUser.name || '';
+      document.getElementById('editEmail').value = window.loggedInUser.email || '';
+      document.getElementById('editWhatsapp').value = window.loggedInUser.whatsapp || '';
+      document.getElementById('editTelegram').value = window.loggedInUser.telegram || '';
       document.getElementById('editPass').value = '';
-      document.getElementById('editAddress').value = loggedInUser.address || '';
+      document.getElementById('editAddress').value = window.loggedInUser.address || '';
 
-      document.getElementById('myOrdersTableBody').innerHTML = orders.filter(o => o.phone === loggedInUser.phone).map(o => `
+      document.getElementById('myOrdersTableBody').innerHTML = window.orders.filter(o => o.phone === window.loggedInUser.phone).map(o => `
         <tr>
           <td class="p-2 font-bold text-brand-600">${o.id}</td>
           <td class="p-2">${o.product}</td>
@@ -1056,7 +1200,7 @@
         </tr>
       `).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
 
-      document.getElementById('myDepositsTableBody').innerHTML = deposits.filter(d => d.userPhone === loggedInUser.phone).map(d => `
+      document.getElementById('myDepositsTableBody').innerHTML = window.deposits.filter(d => d.userPhone === window.loggedInUser.phone).map(d => `
         <tr>
           <td class="p-2 font-bold">${d.method}</td>
           <td class="p-2 font-bold text-emerald-600">৳ ${d.amount}</td>
@@ -1066,89 +1210,15 @@
       `).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো ডিপোজিট নেই</td></tr>`;
     }
 
-    function handleProfileUpdate(e) {
-      e.preventDefault();
-      loggedInUser.name = document.getElementById('editName').value;
-      loggedInUser.email = document.getElementById('editEmail').value;
-      loggedInUser.whatsapp = document.getElementById('editWhatsapp').value;
-      loggedInUser.telegram = document.getElementById('editTelegram').value;
-      loggedInUser.address = document.getElementById('editAddress').value;
-
-      const newPass = document.getElementById('editPass').value.trim();
-      if(newPass !== '') {
-        loggedInUser.pass = newPass;
-      }
-
-      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-      const idx = users.findIndex(u => u.phone === loggedInUser.phone);
-      if(idx !== -1) users[idx] = loggedInUser;
-
-      localStorage.setItem('ebuy_users', JSON.stringify(users));
-      localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
-      updateAuthNav();
-      alert("প্রোফাইল ও পাসওয়ার্ড সফলভাবে আপডেট হয়েছে!");
-    }
-
-    // New Function: Client Delete Profile
-    function deleteCustomerAccount(phone) {
-      if(confirm('আপনি কি নিশ্চিতভাবে আপনার অ্যাকাউন্টটি ডিলিট করতে চান? এই প্রক্রিয়াটি আর ফিরিয়ে আনা যাবে না!')) {
-        users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-        users = users.filter(u => u.phone !== phone);
-        localStorage.setItem('ebuy_users', JSON.stringify(users));
-
-        // Clear user's orders and deposits
-        orders = orders.filter(o => o.phone !== phone);
-        localStorage.setItem('ebuy_orders', JSON.stringify(orders));
-        deposits = deposits.filter(d => d.userPhone !== phone);
-        localStorage.setItem('ebuy_deposits', JSON.stringify(deposits));
-
-        if(loggedInUser && loggedInUser.phone === phone) {
-          handleLogout();
-        }
-        alert('আপনার অ্যাকাউন্ট সফলভাবে ডিলিট করা হয়েছে।');
-        showCustomerView();
-      }
-    }
-
-    // New Function: Client Reset Profile (Like New Registration)
-    function resetCustomerAccount(phone) {
-      if(confirm('আপনি কি আপনার প্রোফাইল রিসেট করতে চান? রিসেট করলে আপনার বর্তমান ব্যালেন্স জিরো এবং সমস্ত হিস্ট্রি মুছে নতুন অ্যাকাউন্টের মতো হয়ে যাবে।')) {
-        users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-        const idx = users.findIndex(u => u.phone === phone);
-        if(idx !== -1) {
-          users[idx].balance = 0;
-          users[idx].email = '';
-          users[idx].whatsapp = phone;
-          users[idx].telegram = '';
-          users[idx].address = '';
-          
-          localStorage.setItem('ebuy_users', JSON.stringify(users));
-          
-          // Remove orders & deposits for this user
-          orders = orders.filter(o => o.phone !== phone);
-          localStorage.setItem('ebuy_orders', JSON.stringify(orders));
-          deposits = deposits.filter(d => d.userPhone !== phone);
-          localStorage.setItem('ebuy_deposits', JSON.stringify(deposits));
-
-          loggedInUser = users[idx];
-          localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
-          
-          alert('প্রোফাইল সফলভাবে রিসেট করা হয়েছে!');
-          showCustomerProfile();
-        }
-      }
-    }
-
     function showStaffDashboard() {
       document.getElementById('customerView').classList.add('hidden');
       document.getElementById('customerProfileView').classList.add('hidden');
       document.getElementById('productDetailsView').classList.add('hidden');
       document.getElementById('adminView').classList.remove('hidden');
 
-      paymentNumbers = JSON.parse(localStorage.getItem('ebuy_payment_numbers')) || {};
-      document.getElementById('adminBkashNo').value = paymentNumbers.bkash || '';
-      document.getElementById('adminNagadNo').value = paymentNumbers.nagad || '';
-      document.getElementById('adminRocketNo').value = paymentNumbers.rocket || '';
+      document.getElementById('adminBkashNo').value = window.paymentNumbers.bkash || '';
+      document.getElementById('adminNagadNo').value = window.paymentNumbers.nagad || '';
+      document.getElementById('adminRocketNo').value = window.paymentNumbers.rocket || '';
 
       renderAdminAllClients();
       renderAdminDeposits();
@@ -1156,8 +1226,7 @@
     }
 
     function renderAdminAllClients() {
-      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-      const clients = users.filter(u => u.role === 'client');
+      const clients = window.users.filter(u => u.role === 'client');
       const tbody = document.getElementById('adminAllClientsTableBody');
 
       if(clients.length === 0) {
@@ -1195,43 +1264,13 @@
       }).join('');
     }
 
-    function adminChangeClientPassword(phone) {
-      const newPassInput = document.getElementById(`adminPassInput_${phone}`);
-      const newPass = newPassInput.value.trim();
-      if(!newPass) {
-        alert("দয়া করে নতুন পাসওয়ার্ড লিখুন!");
-        return;
-      }
-
-      users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-      const userIndex = users.findIndex(u => u.phone === phone);
-      if(userIndex !== -1) {
-        users[userIndex].pass = newPass;
-        localStorage.setItem('ebuy_users', JSON.stringify(users));
-        newPassInput.value = '';
-        alert("কাস্টমারের পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!");
-        renderAdminAllClients();
-      }
-    }
-
-    function handlePaymentNumbersUpdate(e) {
-      e.preventDefault();
-      const updatedNumbers = {
-        bkash: document.getElementById('adminBkashNo').value.trim(),
-        nagad: document.getElementById('adminNagadNo').value.trim(),
-        rocket: document.getElementById('adminRocketNo').value.trim()
-      };
-      localStorage.setItem('ebuy_payment_numbers', JSON.stringify(updatedNumbers));
-      alert('পেমেন্ট নম্বর আপডেট করা হয়েছে!');
-    }
-
     function renderAdminDeposits() {
       const tbody = document.getElementById('adminDepositsTableBody');
-      if(deposits.length === 0) {
+      if(window.deposits.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">কোনো ডিপোজিট লেনদেন নেই</td></tr>`;
         return;
       }
-      tbody.innerHTML = deposits.map(d => `
+      tbody.innerHTML = window.deposits.map(d => `
         <tr>
           <td class="p-2 font-bold">${d.userName} (${d.userPhone})</td>
           <td class="p-2 font-bold text-pink-600">${d.method}</td>
@@ -1245,35 +1284,13 @@
       `).join('');
     }
 
-    function approveDeposit(depId) {
-      const dep = deposits.find(d => d.id === depId);
-      if(dep && dep.status === 'Pending') {
-        dep.status = 'Approved';
-        users = JSON.parse(localStorage.getItem('ebuy_users')) || [];
-        const u = users.find(user => user.phone === dep.userPhone);
-        if(u) { u.balance = (u.balance || 0) + dep.amount; }
-
-        if(loggedInUser && loggedInUser.phone === dep.userPhone) {
-          loggedInUser.balance = u.balance;
-          localStorage.setItem('ebuy_logged_user', JSON.stringify(loggedInUser));
-        }
-
-        localStorage.setItem('ebuy_users', JSON.stringify(users));
-        localStorage.setItem('ebuy_deposits', JSON.stringify(deposits));
-        renderAdminDeposits();
-        renderAdminAllClients();
-        updateAuthNav();
-        alert("ডিপোজিট এপ্রুভ হয়েছে এবং কাস্টমারের ওয়ালেটে ব্যালেন্স যোগ হয়েছে!");
-      }
-    }
-
     function renderAdminOrders() {
       const tbody = document.getElementById('ordersTableBody');
-      if(orders.length === 0) {
+      if(window.orders.length === 0) {
         tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
         return;
       }
-      tbody.innerHTML = orders.map(o => `
+      tbody.innerHTML = window.orders.map(o => `
         <tr>
           <td class="p-2 font-bold text-brand-600">${o.id}</td>
           <td class="p-2 font-medium">
@@ -1298,35 +1315,17 @@
       `).join('');
     }
 
-    function updateOrderStatus(id, newStatus) {
-      const order = orders.find(o => o.id === id);
-      if(order) {
-        order.status = newStatus;
-        localStorage.setItem('ebuy_orders', JSON.stringify(orders));
-        alert(`স্ট্যাটাস পরিবর্তন করা হয়েছে!`);
-      }
-    }
-
-    function deleteOrder(id) {
-      if(confirm('মুছে ফেলতে চান?')) {
-        orders = orders.filter(o => o.id !== id);
-        localStorage.setItem('ebuy_orders', JSON.stringify(orders));
-        renderAdminOrders();
-      }
-    }
-
     function toggleTheme() {
       document.documentElement.classList.toggle('dark');
     }
 
     function filterProducts() {
       const query = document.getElementById('searchInput').value.toLowerCase();
-      renderProducts(products.filter(p => p.title.toLowerCase().includes(query)));
+      renderProducts(window.products.filter(p => p.title.toLowerCase().includes(query)));
     }
 
     updateAuthNav();
     updateCartBadge();
-    renderProducts();
     applyTranslations();
   </script>
 </body>
