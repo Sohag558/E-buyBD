@@ -241,22 +241,22 @@
         </button>
       </div>
 
-      <!-- ALL CLIENTS PROFILES -->
+      <!-- ALL CLIENTS PROFILES SECTION -->
       <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-indigo-200 dark:border-indigo-800 shadow-sm">
         <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between text-indigo-600">
           <span class="flex items-center gap-2">
-            <i class="fa-solid fa-users-viewfinder"></i> রেজিস্টার্ড কাস্টমার প্রোফাইল, পাসওয়ার্ড পরিবর্তন ও ম্যানেজমেন্ট
+            <i class="fa-solid fa-users-viewfinder"></i> রেজিস্টার্ড কাস্টমার প্রোফাইল তালিকা (<span id="clientCountText">0</span>)
           </span>
         </h3>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs min-w-[600px]">
+          <table class="w-full text-left text-xs min-w-[650px]">
             <thead class="bg-indigo-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
               <tr>
                 <th class="p-2">নাম ও ফোন</th>
-                <th class="p-2">Gmail / WhatsApp / Telegram</th>
-                <th class="p-2">ওয়ালেট ব্যালেন্স</th>
-                <th class="p-2">পাসওয়ার্ড পরিবর্তন (অ্যাডমিন)</th>
-                <th class="p-2">অ্যাকশন (রিসেট / ডিলিট)</th>
+                <th class="p-2">যোগাযোগ (Email/WhatsApp/TG)</th>
+                <th class="p-2">ব্যালেন্স</th>
+                <th class="p-2">পাসওয়ার্ড পরিবর্তন</th>
+                <th class="p-2">অ্যাকশন</th>
               </tr>
             </thead>
             <tbody id="adminAllClientsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -317,7 +317,7 @@
               <textarea id="pDesc" rows="3" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none"></textarea>
             </div>
             <div>
-              <label class="block text-xs font-medium mb-1">ছবি আপলোড <span class="text-[10px] text-amber-500">(এডিট করার সময় নতুন ছবি না দিলে আগের ছবি থাকবে)</span></label>
+              <label class="block text-xs font-medium mb-1">ছবি আপলোড <span class="text-[10px] text-amber-500">(ছবি স্বয়ংক্রিয়ভাবে ছোট হয়ে আপলোড হবে)</span></label>
               <input type="file" id="pImageFiles" accept="image/*" multiple class="w-full p-1.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600">
             </div>
             <div class="flex gap-2">
@@ -599,9 +599,36 @@
     window.cart = JSON.parse(localStorage.getItem('ebuy_cart')) || [];
     window.loggedInUser = JSON.parse(localStorage.getItem('ebuy_logged_user')) || null;
 
-    // Listen to Firebase Collections in Realtime
+    // Helper: Image Compressor to fix post failure
+    async function compressImage(file, maxWidth = 800, quality = 0.6) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+        };
+      });
+    }
+
+    // Realtime Listener
     function syncFirebaseData() {
-      // 1. Sync Products
       onSnapshot(collection(db, "products"), (snapshot) => {
         window.products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         renderProducts();
@@ -610,7 +637,6 @@
         }
       });
 
-      // 2. Sync Payment Numbers
       onSnapshot(doc(db, "settings", "paymentNumbers"), (docSnap) => {
         if(docSnap.exists()) {
           window.paymentNumbers = docSnap.data();
@@ -619,7 +645,6 @@
         }
       });
 
-      // 3. Sync Users
       onSnapshot(collection(db, "users"), (snapshot) => {
         window.users = snapshot.docs.map(doc => doc.data());
         if (window.loggedInUser) {
@@ -630,20 +655,26 @@
           }
         }
         updateAuthNav();
+        if(!document.getElementById('adminView').classList.contains('hidden')) {
+          renderAdminAllClients();
+        }
       });
 
-      // 4. Sync Orders
       onSnapshot(collection(db, "orders"), (snapshot) => {
         window.orders = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
+        if(!document.getElementById('adminView').classList.contains('hidden')) {
+          renderAdminOrders();
+        }
       });
 
-      // 5. Sync Deposits
       onSnapshot(collection(db, "deposits"), (snapshot) => {
         window.deposits = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
+        if(!document.getElementById('adminView').classList.contains('hidden')) {
+          renderAdminDeposits();
+        }
       });
     }
 
-    // Initialize Default Super Admin Account into DB
     async function initDB() {
       const adminDoc = await getDoc(doc(db, "users", "01700000000"));
       if (!adminDoc.exists()) {
@@ -655,7 +686,6 @@
     }
     initDB();
 
-    // UI Handlers attached to window object
     window.handleLoginSubmit = async function(e) {
       e.preventDefault();
       const phone = document.getElementById('loginPhone').value.trim();
@@ -705,29 +735,23 @@
       showCustomerProfile();
     };
 
-    // Add / Edit Product Handler
+    // Auto Compression Product Upload
     window.handleAddProduct = async function(e) {
       e.preventDefault();
       const btn = document.getElementById('postProductBtn');
       const editId = document.getElementById('editProductId').value;
       
-      btn.innerText = editId ? "আপডেট হচ্ছে..." : "পাবলিশ হচ্ছে...";
+      btn.innerText = "ছবি প্রসেস হচ্ছে...";
       btn.disabled = true;
 
       const files = document.getElementById('pImageFiles').files;
-      let base64Images = [];
+      let compressedImages = [];
 
       try {
         if (files.length > 0) {
           for (let i = 0; i < files.length; i++) {
-            let reader = new FileReader();
-            reader.readAsDataURL(files[i]);
-            await new Promise(resolve => {
-              reader.onload = function(event) {
-                base64Images.push(event.target.result);
-                resolve();
-              };
-            });
+            const compressed = await compressImage(files[i], 800, 0.6);
+            compressedImages.push(compressed);
           }
         }
 
@@ -738,30 +762,30 @@
           desc: document.getElementById('pDesc').value
         };
 
+        btn.innerText = editId ? "আপডেট হচ্ছে..." : "পাবলিশ হচ্ছে...";
+
         if(editId) {
-          // If editing product
-          if(base64Images.length > 0) {
-            productData.images = base64Images;
+          if(compressedImages.length > 0) {
+            productData.images = compressedImages;
           }
           await updateDoc(doc(db, "products", editId), productData);
           alert('প্রোডাক্ট সফলভাবে আপডেট করা হয়েছে!');
           resetProductForm();
         } else {
-          // New product
-          if(base64Images.length === 0) {
+          if(compressedImages.length === 0) {
             alert('দয়া করে অন্তত একটি ছবি সিলেক্ট করুন!');
             btn.innerText = "পাবলিশ করুন";
             btn.disabled = false;
             return;
           }
-          productData.images = base64Images;
+          productData.images = compressedImages;
           await addDoc(collection(db, "products"), productData);
           e.target.reset();
           alert('প্রোডাক্ট সফলভাবে পোস্ট করা হয়েছে!');
         }
       } catch (err) {
         console.error(err);
-        alert('সমস্যা হয়েছে! ছবির সাইজ ছোট করে আবার চেষ্টা করুন।');
+        alert('সমস্যা হয়েছে! অনুগ্রহ করে আবার চেষ্টা করুন।');
       } finally {
         btn.innerText = editId ? "আপডেট করুন" : "পাবলিশ করুন";
         btn.disabled = false;
@@ -892,8 +916,6 @@
           await updateDoc(doc(db, "users", dep.userPhone), { balance: newBalance });
         }
 
-        renderAdminDeposits();
-        renderAdminAllClients();
         alert("ডিপোজিট এপ্রুভ হয়েছে!");
       }
     };
@@ -903,7 +925,6 @@
       if(dep && dep.status === 'Pending') {
         if(confirm('আপনি কি নিশ্চিতভাবে এই ডিপোজিটটি রিজেক্ট করতে চান?')) {
           await updateDoc(doc(db, "deposits", dep.firebaseId), { status: 'Rejected' });
-          renderAdminDeposits();
           alert("ডিপোজিট রিকোয়েস্ট রিজেক্ট করা হয়েছে!");
         }
       }
@@ -943,7 +964,6 @@
         const order = window.orders.find(o => o.id === id);
         if(order) {
           await deleteDoc(doc(db, "orders", order.firebaseId));
-          renderAdminOrders();
         }
       }
     };
@@ -955,7 +975,6 @@
           handleLogout();
         }
         alert('অ্যাকাউন্ট সফলভাবে ডিলিট করা হয়েছে।');
-        showCustomerView();
       }
     };
 
@@ -963,12 +982,11 @@
       if(confirm('প্রোফাইল রিসেট করতে চান?')) {
         await updateDoc(doc(db, "users", phone), { balance: 0, email: '', telegram: '', address: '' });
         alert('প্রোফাইল সফলভাবে রিসেট করা হয়েছে!');
-        showCustomerProfile();
       }
     };
   </script>
 
-  <!-- Navigation & Interface Scripts -->
+  <!-- UI Render Helpers -->
   <script>
     const translations = {
       bn: {
@@ -1086,6 +1104,109 @@
           </tr>
         `;
       }).join('');
+    }
+
+    function renderAdminAllClients() {
+      const clients = window.users.filter(u => u.role === 'client' || !u.role);
+      const tbody = document.getElementById('adminAllClientsTableBody');
+      const countDisplay = document.getElementById('clientCountText');
+
+      if(countDisplay) countDisplay.innerText = clients.length;
+
+      if(!clients || clients.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">কোনো রেজিস্টার্ড ক্লায়েন্ট নেই</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = clients.map(c => {
+        return `
+          <tr>
+            <td class="p-2">
+              <div class="font-bold text-slate-800 dark:text-white">${c.name || 'অজানা নাম'}</div>
+              <div class="text-[10px] text-slate-500 font-mono">${c.phone}</div>
+            </td>
+            <td class="p-2 text-[11px]">
+              <div><i class="fa-solid fa-envelope text-brand-500"></i> ${c.email || 'নেই'}</div>
+              <div><i class="fa-brands fa-whatsapp text-emerald-500"></i> ${c.whatsapp || c.phone}</div>
+              <div><i class="fa-brands fa-telegram text-sky-500"></i> ${c.telegram || 'নেই'}</div>
+            </td>
+            <td class="p-2 font-bold text-emerald-600">৳ ${c.balance || 0}</td>
+            <td class="p-2">
+              <div class="flex items-center gap-1.5">
+                <input type="text" id="adminPassInput_${c.phone}" placeholder="নতুন পাসওয়ার্ড" class="p-1 text-xs border rounded w-24 dark:bg-slate-700 outline-none">
+                <button onclick="adminChangeClientPassword('${c.phone}')" class="px-2 py-1 bg-brand-600 text-white font-bold rounded text-[10px] hover:bg-brand-700">সেভ</button>
+              </div>
+            </td>
+            <td class="p-2">
+              <div class="flex items-center gap-1.5">
+                <button onclick="resetCustomerAccount('${c.phone}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600" title="রিসেট"><i class="fa-solid fa-rotate-right"></i></button>
+                <button onclick="deleteCustomerAccount('${c.phone}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700" title="ডিলিট"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderAdminDeposits() {
+      const tbody = document.getElementById('adminDepositsTableBody');
+      if(window.deposits.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">কোনো ডিপোজিট লেনদেন নেই</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = window.deposits.map(d => {
+        let badgeStyle = "bg-amber-100 text-amber-700";
+        if(d.status === 'Approved') badgeStyle = "bg-emerald-100 text-emerald-700";
+        if(d.status === 'Rejected') badgeStyle = "bg-red-100 text-red-700";
+
+        return `
+        <tr>
+          <td class="p-2 font-bold">${d.userName} (${d.userPhone})</td>
+          <td class="p-2 font-bold text-pink-600">${d.method}</td>
+          <td class="p-2 font-bold text-emerald-600">৳ ${d.amount}</td>
+          <td class="p-2 font-mono">${d.trxId}</td>
+          <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${badgeStyle}">${d.status}</span></td>
+          <td class="p-2">
+            ${d.status === 'Pending' ? `
+              <div class="flex items-center gap-1">
+                <button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[10px]">Approve</button>
+                <button onclick="rejectDeposit('${d.id}')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded text-[10px]">Reject</button>
+              </div>
+            ` : 'Done'}
+          </td>
+        </tr>
+      `}).join('');
+    }
+
+    function renderAdminOrders() {
+      const tbody = document.getElementById('ordersTableBody');
+      if(window.orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = window.orders.map(o => `
+        <tr>
+          <td class="p-2 font-bold text-brand-600">${o.id}</td>
+          <td class="p-2 font-medium">
+            <div class="font-bold">${o.name} (${o.phone})</div>
+            <div class="text-[10px] text-slate-400">${o.address}</div>
+          </td>
+          <td class="p-2">${o.product}</td>
+          <td class="p-2 font-bold">৳ ${o.price}</td>
+          <td class="p-2 font-bold text-xs">${o.payMethod}</td>
+          <td class="p-2">
+            <select onchange="updateOrderStatus('${o.id}', this.value)" class="p-1 text-[10px] font-bold rounded border bg-white dark:bg-slate-700">
+              <option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option>
+              <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
+              <option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option>
+              <option value="Cancelled" ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
+            </select>
+          </td>
+          <td class="p-2">
+            <button onclick="deleteOrder('${o.id}')" class="px-2 py-1 bg-red-600 text-white rounded"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
     }
 
     function showProductDetails(pId) {
@@ -1364,106 +1485,6 @@
       renderAdminProducts();
       renderAdminDeposits();
       renderAdminOrders();
-    }
-
-    function renderAdminAllClients() {
-      const clients = window.users.filter(u => u.role === 'client');
-      const tbody = document.getElementById('adminAllClientsTableBody');
-
-      if(clients.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">কোনো রেজিস্টার্ড ক্লায়েন্ট নেই</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = clients.map(c => {
-        return `
-          <tr>
-            <td class="p-2">
-              <div class="font-bold">${c.name}</div>
-              <div class="text-[10px] text-slate-500 font-mono">${c.phone}</div>
-            </td>
-            <td class="p-2 text-[11px]">
-              <div><i class="fa-solid fa-envelope text-brand-500"></i> ${c.email || 'নেই'}</div>
-              <div><i class="fa-brands fa-whatsapp text-emerald-500"></i> ${c.whatsapp || c.phone}</div>
-              <div><i class="fa-brands fa-telegram text-sky-500"></i> ${c.telegram || 'নেই'}</div>
-            </td>
-            <td class="p-2 font-bold text-emerald-600">৳ ${c.balance || 0}</td>
-            <td class="p-2">
-              <div class="flex items-center gap-1.5">
-                <input type="text" id="adminPassInput_${c.phone}" placeholder="নতুন পাসওয়ার্ড" class="p-1 text-xs border rounded w-24 dark:bg-slate-700 outline-none">
-                <button onclick="adminChangeClientPassword('${c.phone}')" class="px-2 py-1 bg-brand-600 text-white font-bold rounded text-[10px] hover:bg-brand-700">পরিবর্তন</button>
-              </div>
-            </td>
-            <td class="p-2">
-              <div class="flex items-center gap-1.5">
-                <button onclick="resetCustomerAccount('${c.phone}'); showStaffDashboard();" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600" title="রিসেট"><i class="fa-solid fa-rotate-right"></i></button>
-                <button onclick="deleteCustomerAccount('${c.phone}'); showStaffDashboard();" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700" title="ডিলিট"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function renderAdminDeposits() {
-      const tbody = document.getElementById('adminDepositsTableBody');
-      if(window.deposits.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">কোনো ডিপোজিট লেনদেন নেই</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = window.deposits.map(d => {
-        let badgeStyle = "bg-amber-100 text-amber-700";
-        if(d.status === 'Approved') badgeStyle = "bg-emerald-100 text-emerald-700";
-        if(d.status === 'Rejected') badgeStyle = "bg-red-100 text-red-700";
-
-        return `
-        <tr>
-          <td class="p-2 font-bold">${d.userName} (${d.userPhone})</td>
-          <td class="p-2 font-bold text-pink-600">${d.method}</td>
-          <td class="p-2 font-bold text-emerald-600">৳ ${d.amount}</td>
-          <td class="p-2 font-mono">${d.trxId}</td>
-          <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${badgeStyle}">${d.status}</span></td>
-          <td class="p-2">
-            ${d.status === 'Pending' ? `
-              <div class="flex items-center gap-1">
-                <button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[10px]">Approve</button>
-                <button onclick="rejectDeposit('${d.id}')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded text-[10px]">Reject</button>
-              </div>
-            ` : 'Done'}
-          </td>
-        </tr>
-      `}).join('');
-    }
-
-    function renderAdminOrders() {
-      const tbody = document.getElementById('ordersTableBody');
-      if(window.orders.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = window.orders.map(o => `
-        <tr>
-          <td class="p-2 font-bold text-brand-600">${o.id}</td>
-          <td class="p-2 font-medium">
-            <div class="font-bold">${o.name} (${o.phone})</div>
-            <div class="text-[10px] text-slate-400">${o.address}</div>
-          </td>
-          <td class="p-2">${o.product}</td>
-          <td class="p-2 font-bold">৳ ${o.price}</td>
-          <td class="p-2 font-bold text-xs">${o.payMethod}</td>
-          <td class="p-2">
-            <select onchange="updateOrderStatus('${o.id}', this.value)" class="p-1 text-[10px] font-bold rounded border bg-white dark:bg-slate-700">
-              <option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option>
-              <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
-              <option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option>
-              <option value="Cancelled" ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
-            </select>
-          </td>
-          <td class="p-2">
-            <button onclick="deleteOrder('${o.id}')" class="px-2 py-1 bg-red-600 text-white rounded"><i class="fa-solid fa-trash"></i></button>
-          </td>
-        </tr>
-      `).join('');
     }
 
     function toggleTheme() {
