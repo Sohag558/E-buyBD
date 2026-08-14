@@ -60,7 +60,7 @@
           <i class="fa-brands fa-whatsapp text-base sm:text-xl"></i>
         </a>
 
-        <a href="https://t.me/sohag558" target="_blank" class="p-1 sm:p-2 text-sky-500 hover:bg-sky-50 dark:hover:bg-slate-700 rounded-lg transition" title="Telegram Chat">
+        <a href="https://t.me/8801731039874" target="_blank" class="p-1 sm:p-2 text-sky-500 hover:bg-sky-50 dark:hover:bg-slate-700 rounded-lg transition" title="Telegram Chat">
           <i class="fa-brands fa-telegram text-base sm:text-xl"></i>
         </a>
 
@@ -234,7 +234,7 @@
             <i class="fa-solid fa-shield-halved text-brand-600"></i> 
             <span id="staffDashboardTitle">এডমিন কন্ট্রোল প্যানেল</span>
           </h2>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">সকল কাস্টমার প্রোফাইল, অর্ডার ও ডিপোজিট কন্ট্রোল করুন</p>
+          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">সকল প্রোডাক্ট, কাস্টমার প্রোফাইল, অর্ডার ও ডিপোজিট কন্ট্রোল করুন</p>
         </div>
         <button onclick="handleLogout()" class="w-full sm:w-auto px-4 py-1.5 sm:py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
           লগআউট
@@ -293,10 +293,11 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
         <!-- Product Posting Section -->
         <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
-          <h3 class="font-bold text-xs sm:text-md pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
+          <h3 id="productFormTitle" class="font-bold text-xs sm:text-md pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-plus text-brand-600"></i> নতুন পণ্য পোস্ট করুন
           </h3>
           <form onsubmit="handleAddProduct(event)" class="space-y-2.5">
+            <input type="hidden" id="editProductId" value="">
             <div>
               <label class="block text-xs font-medium mb-1">প্রোডাক্টের নাম</label>
               <input type="text" id="pTitle" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
@@ -316,15 +317,40 @@
               <textarea id="pDesc" rows="3" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none"></textarea>
             </div>
             <div>
-              <label class="block text-xs font-medium mb-1">ছবি আপলোড (একাধিক)</label>
-              <input type="file" id="pImageFiles" accept="image/*" multiple required class="w-full p-1.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600">
+              <label class="block text-xs font-medium mb-1">ছবি আপলোড <span class="text-[10px] text-amber-500">(এডিট করার সময় নতুন ছবি না দিলে আগের ছবি থাকবে)</span></label>
+              <input type="file" id="pImageFiles" accept="image/*" multiple class="w-full p-1.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600">
             </div>
-            <button type="submit" id="postProductBtn" class="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow">পাবলিশ করুন</button>
+            <div class="flex gap-2">
+              <button type="submit" id="postProductBtn" class="flex-grow py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow">পাবলিশ করুন</button>
+              <button type="button" id="cancelEditBtn" onclick="resetProductForm()" class="hidden py-2 px-3 bg-slate-400 hover:bg-slate-500 text-white font-bold text-xs rounded-xl">বাতিল</button>
+            </div>
           </form>
         </div>
 
         <!-- Management Section -->
         <div class="lg:col-span-2 space-y-4 sm:space-y-6">
+          
+          <!-- PRODUCT MANAGEMENT CARD -->
+          <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-brand-200 dark:border-brand-800 shadow-sm overflow-hidden">
+            <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 text-brand-600 flex items-center gap-2">
+              <i class="fa-solid fa-boxes-stacked"></i> পোস্ট করা প্রোডাক্ট ম্যানেজমেন্ট (এডিট / ডিলিট)
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs min-w-[500px]">
+                <thead class="bg-brand-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
+                  <tr>
+                    <th class="p-2">ছবি</th>
+                    <th class="p-2">নাম</th>
+                    <th class="p-2">মূল্য</th>
+                    <th class="p-2">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="adminProductsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- DEPOSITS MANAGEMENT CARD -->
           <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-sm overflow-hidden">
             <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 text-emerald-600 flex items-center gap-2">
               <i class="fa-solid fa-money-bill-wave"></i> কাস্টমার ডিপোজিট রিকোয়েস্ট
@@ -346,6 +372,7 @@
             </div>
           </div>
 
+          <!-- ORDERS MANAGEMENT CARD -->
           <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
             <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
               <i class="fa-solid fa-boxes-packing text-brand-600"></i> অর্ডার ম্যানেজমেন্ট
@@ -367,6 +394,7 @@
               </table>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -577,6 +605,9 @@
       onSnapshot(collection(db, "products"), (snapshot) => {
         window.products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         renderProducts();
+        if(!document.getElementById('adminView').classList.contains('hidden')) {
+          renderAdminProducts();
+        }
       });
 
       // 2. Sync Payment Numbers
@@ -674,41 +705,103 @@
       showCustomerProfile();
     };
 
+    // Add / Edit Product Handler
     window.handleAddProduct = async function(e) {
       e.preventDefault();
       const btn = document.getElementById('postProductBtn');
-      btn.innerText = "পাবলিশ হচ্ছে...";
+      const editId = document.getElementById('editProductId').value;
+      
+      btn.innerText = editId ? "আপডেট হচ্ছে..." : "পাবলিশ হচ্ছে...";
       btn.disabled = true;
 
       const files = document.getElementById('pImageFiles').files;
       let base64Images = [];
 
-      for (let i = 0; i < files.length; i++) {
-        let reader = new FileReader();
-        reader.readAsDataURL(files[i]);
-        await new Promise(resolve => {
-          reader.onload = function(event) {
-            base64Images.push(event.target.result);
-            resolve();
-          };
-        });
-      }
-
       try {
-        await addDoc(collection(db, "products"), {
+        if (files.length > 0) {
+          for (let i = 0; i < files.length; i++) {
+            let reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            await new Promise(resolve => {
+              reader.onload = function(event) {
+                base64Images.push(event.target.result);
+                resolve();
+              };
+            });
+          }
+        }
+
+        const productData = {
           title: document.getElementById('pTitle').value,
           price: parseFloat(document.getElementById('pPrice').value),
           discount: parseFloat(document.getElementById('pDiscount').value) || 0,
-          desc: document.getElementById('pDesc').value,
-          images: base64Images
-        });
-        e.target.reset();
-        alert('প্রোডাক্ট সফলভাবে পোস্ট করা হয়েছে!');
+          desc: document.getElementById('pDesc').value
+        };
+
+        if(editId) {
+          // If editing product
+          if(base64Images.length > 0) {
+            productData.images = base64Images;
+          }
+          await updateDoc(doc(db, "products", editId), productData);
+          alert('প্রোডাক্ট সফলভাবে আপডেট করা হয়েছে!');
+          resetProductForm();
+        } else {
+          // New product
+          if(base64Images.length === 0) {
+            alert('দয়া করে অন্তত একটি ছবি সিলেক্ট করুন!');
+            btn.innerText = "পাবলিশ করুন";
+            btn.disabled = false;
+            return;
+          }
+          productData.images = base64Images;
+          await addDoc(collection(db, "products"), productData);
+          e.target.reset();
+          alert('প্রোডাক্ট সফলভাবে পোস্ট করা হয়েছে!');
+        }
       } catch (err) {
-        alert('পোস্ট করতে সমস্যা হয়েছে!');
+        console.error(err);
+        alert('সমস্যা হয়েছে! ছবির সাইজ ছোট করে আবার চেষ্টা করুন।');
       } finally {
-        btn.innerText = "পাবলিশ করুন";
+        btn.innerText = editId ? "আপডেট করুন" : "পাবলিশ করুন";
         btn.disabled = false;
+      }
+    };
+
+    window.editProduct = function(id) {
+      const p = window.products.find(prod => prod.id == id);
+      if(!p) return;
+
+      document.getElementById('editProductId').value = p.id;
+      document.getElementById('pTitle').value = p.title;
+      document.getElementById('pPrice').value = p.price;
+      document.getElementById('pDiscount').value = p.discount || 0;
+      document.getElementById('pDesc').value = p.desc;
+
+      document.getElementById('productFormTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-amber-500"></i> প্রোডাক্ট এডিট করুন`;
+      document.getElementById('postProductBtn').innerText = "আপডেট করুন";
+      document.getElementById('cancelEditBtn').classList.remove('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.resetProductForm = function() {
+      document.getElementById('editProductId').value = '';
+      document.getElementById('pTitle').value = '';
+      document.getElementById('pPrice').value = '';
+      document.getElementById('pDiscount').value = '0';
+      document.getElementById('pDesc').value = '';
+      document.getElementById('pImageFiles').value = '';
+
+      document.getElementById('productFormTitle').innerHTML = `<i class="fa-solid fa-plus text-brand-600"></i> নতুন পণ্য পোস্ট করুন`;
+      document.getElementById('postProductBtn').innerText = "পাবলিশ করুন";
+      document.getElementById('cancelEditBtn').classList.add('hidden');
+    };
+
+    window.deleteProduct = async function(id) {
+      if(confirm('আপনি কি নিশ্চিতভাবে এই প্রোডাক্টটি ডিলিট করতে চান?')) {
+        await deleteDoc(doc(db, "products", id));
+        alert('প্রোডাক্ট ডিলিট করা হয়েছে!');
       }
     };
 
@@ -802,6 +895,17 @@
         renderAdminDeposits();
         renderAdminAllClients();
         alert("ডিপোজিট এপ্রুভ হয়েছে!");
+      }
+    };
+
+    window.rejectDeposit = async function(depId) {
+      const dep = window.deposits.find(d => d.id === depId);
+      if(dep && dep.status === 'Pending') {
+        if(confirm('আপনি কি নিশ্চিতভাবে এই ডিপোজিটটি রিজেক্ট করতে চান?')) {
+          await updateDoc(doc(db, "deposits", dep.firebaseId), { status: 'Rejected' });
+          renderAdminDeposits();
+          alert("ডিপোজিট রিকোয়েস্ট রিজেক্ট করা হয়েছে!");
+        }
       }
     };
 
@@ -955,6 +1059,33 @@
           </div>
         </div>
       `}).join('');
+    }
+
+    function renderAdminProducts() {
+      const tbody = document.getElementById('adminProductsTableBody');
+      if(!window.products || window.products.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">কোনো পোস্ট করা প্রোডাক্ট নেই</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = window.products.map(p => {
+        const imgSrc = (p.images && p.images.length > 0) ? p.images[0] : '';
+        return `
+          <tr>
+            <td class="p-2">
+              <img src="${imgSrc}" class="w-10 h-10 object-cover rounded-lg border">
+            </td>
+            <td class="p-2 font-bold max-w-[150px] truncate">${p.title}</td>
+            <td class="p-2 font-bold text-brand-600">৳ ${p.price - (p.discount || 0)}</td>
+            <td class="p-2">
+              <div class="flex items-center gap-1.5">
+                <button onclick="editProduct('${p.id}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600" title="এডিট"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="deleteProduct('${p.id}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700" title="ডিলিট"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
     function showProductDetails(pId) {
@@ -1204,14 +1335,19 @@
         </tr>
       `).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
 
-      document.getElementById('myDepositsTableBody').innerHTML = window.deposits.filter(d => d.userPhone === window.loggedInUser.phone).map(d => `
+      document.getElementById('myDepositsTableBody').innerHTML = window.deposits.filter(d => d.userPhone === window.loggedInUser.phone).map(d => {
+        let badgeStyle = "bg-amber-100 text-amber-700";
+        if(d.status === 'Approved') badgeStyle = "bg-emerald-100 text-emerald-700";
+        if(d.status === 'Rejected') badgeStyle = "bg-red-100 text-red-700";
+
+        return `
         <tr>
           <td class="p-1.5 sm:p-2 font-bold">${d.method}</td>
           <td class="p-1.5 sm:p-2 font-bold text-emerald-600">৳ ${d.amount}</td>
           <td class="p-1.5 sm:p-2 font-mono">${d.trxId}</td>
-          <td class="p-1.5 sm:p-2"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${d.status === 'Approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${d.status}</span></td>
+          <td class="p-1.5 sm:p-2"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${badgeStyle}">${d.status}</span></td>
         </tr>
-      `).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো ডিপোজিট নেই</td></tr>`;
+      `}).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো ডিপোজিট নেই</td></tr>`;
     }
 
     function showStaffDashboard() {
@@ -1225,6 +1361,7 @@
       document.getElementById('adminRocketNo').value = window.paymentNumbers.rocket || '';
 
       renderAdminAllClients();
+      renderAdminProducts();
       renderAdminDeposits();
       renderAdminOrders();
     }
@@ -1274,18 +1411,28 @@
         tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">কোনো ডিপোজিট লেনদেন নেই</td></tr>`;
         return;
       }
-      tbody.innerHTML = window.deposits.map(d => `
+      tbody.innerHTML = window.deposits.map(d => {
+        let badgeStyle = "bg-amber-100 text-amber-700";
+        if(d.status === 'Approved') badgeStyle = "bg-emerald-100 text-emerald-700";
+        if(d.status === 'Rejected') badgeStyle = "bg-red-100 text-red-700";
+
+        return `
         <tr>
           <td class="p-2 font-bold">${d.userName} (${d.userPhone})</td>
           <td class="p-2 font-bold text-pink-600">${d.method}</td>
           <td class="p-2 font-bold text-emerald-600">৳ ${d.amount}</td>
           <td class="p-2 font-mono">${d.trxId}</td>
-          <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${d.status==='Approved'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${d.status}</span></td>
+          <td class="p-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${badgeStyle}">${d.status}</span></td>
           <td class="p-2">
-            ${d.status === 'Pending' ? `<button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 text-white font-bold rounded text-[10px]">Approve</button>` : 'Done'}
+            ${d.status === 'Pending' ? `
+              <div class="flex items-center gap-1">
+                <button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[10px]">Approve</button>
+                <button onclick="rejectDeposit('${d.id}')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded text-[10px]">Reject</button>
+              </div>
+            ` : 'Done'}
           </td>
         </tr>
-      `).join('');
+      `}).join('');
     }
 
     function renderAdminOrders() {
