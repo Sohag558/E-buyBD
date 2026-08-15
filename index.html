@@ -1266,6 +1266,16 @@
       `}).join('');
     };
 
+    window.filterProducts = function() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = window.products.filter(p => p.title.toLowerCase().includes(query));
+      window.renderProducts(filtered);
+    };
+
+    window.toggleTheme = function() {
+      document.documentElement.classList.toggle('dark');
+    };
+
     window.renderAdminProducts = function() {
       const tbody = document.getElementById('adminProductsTableBody');
       if(!window.products || window.products.length === 0) {
@@ -1790,29 +1800,19 @@
       document.getElementById('productDetailsView').classList.add('hidden');
       document.getElementById('adminView').classList.remove('hidden');
 
-      document.getElementById('adminBkashNo').value = window.paymentNumbers.bkash || '';
-      document.getElementById('adminNagadNo').value = window.paymentNumbers.nagad || '';
-      document.getElementById('adminRocketNo').value = window.paymentNumbers.rocket || '';
+      if(document.getElementById('adminBkashNo')) document.getElementById('adminBkashNo').value = window.paymentNumbers.bkash || '';
+      if(document.getElementById('adminNagadNo')) document.getElementById('adminNagadNo').value = window.paymentNumbers.nagad || '';
+      if(document.getElementById('adminRocketNo')) document.getElementById('adminRocketNo').value = window.paymentNumbers.rocket || '';
 
-      window.renderAdminAllClients();
       window.renderAdminProducts();
+      window.renderAdminAllClients();
       window.renderAdminDeposits();
       window.renderAdminOrders();
       window.renderAdminReviews();
     };
 
-    window.toggleTheme = function() {
-      document.documentElement.classList.toggle('dark');
-    };
-
-    window.filterProducts = function() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      window.renderProducts(window.products.filter(p => p.title.toLowerCase().includes(query)));
-    };
-
+    // Initial Load
     window.updateAuthNav();
-    window.updateCartBadge();
-    applyTranslations();
   </script>
 </body>
 </html>
