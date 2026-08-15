@@ -1219,6 +1219,16 @@
       if(document.getElementById('staffDashboardTitle')) document.getElementById('staffDashboardTitle').innerText = t.staffTitle;
     }
 
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const filtered = window.products.filter(p => p.title.toLowerCase().includes(query) || (p.desc && p.desc.toLowerCase().includes(query)));
+      renderProducts(filtered);
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+    }
+
     function renderProducts(items = window.products) {
       const grid = document.getElementById('productsGrid');
       if(!items || items.length === 0) {
@@ -1788,24 +1798,7 @@
       document.getElementById('adminRocketNo').value = window.paymentNumbers.rocket || '';
 
       renderAdminAllClients();
-      renderAdminProducts();
-      renderAdminDeposits();
-      renderAdminOrders();
-      renderAdminReviews();
     }
-
-    function toggleTheme() {
-      document.documentElement.classList.toggle('dark');
-    }
-
-    function filterProducts() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      renderProducts(window.products.filter(p => p.title.toLowerCase().includes(query)));
-    }
-
-    updateAuthNav();
-    updateCartBadge();
-    applyTranslations();
   </script>
 </body>
 </html>
