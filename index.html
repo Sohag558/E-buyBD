@@ -112,16 +112,31 @@
         <i class="fa-solid fa-arrow-left mr-1"></i> <span id="lblBackToShop">শপে ফিরে যান</span>
       </button>
       <div id="productDetailsContainer" class="bg-white dark:bg-slate-800 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8"></div>
+      
+      <!-- DARAZ STYLE REVIEW SECTION -->
+      <div id="productReviewsContainer" class="bg-white dark:bg-slate-800 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+        <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 border-b pb-2 dark:border-slate-700">
+          <i class="fa-solid fa-star text-amber-400"></i> কাস্টমার রিভিউজ ও রেটিং (<span id="reviewCountBadge">0</span>)
+        </h3>
+        <div id="productReviewsList" class="space-y-4">
+          <!-- Reviews list dynamically loaded -->
+        </div>
+      </div>
     </div>
 
     <!-- CUSTOMER PROFILE & WALLET VIEW -->
     <div id="customerProfileView" class="hidden space-y-4 sm:space-y-8">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div>
-          <h2 class="font-bold text-sm sm:text-lg flex items-center gap-2">
-            <i class="fa-solid fa-wallet text-emerald-600"></i> <span id="lblWalletHeader">মাই ওয়ালেট ও প্রোফাইল</span>
-          </h2>
-          <p id="lblWalletSub" class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">ব্যালেন্স এড করুন এবং আপনার অর্ডার হিস্ট্রি দেখুন</p>
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <img id="userProfileAvatarDisplay" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-brand-600 shadow">
+          </div>
+          <div>
+            <h2 class="font-bold text-sm sm:text-lg flex items-center gap-2">
+              <span id="userProfileNameDisplay">কাস্টমার</span>
+            </h2>
+            <p id="lblWalletSub" class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">ব্যালেন্স এড করুন, প্রোফাইল ছবি ও অর্ডার হিস্ট্রি ম্যানেজ করুন</p>
+          </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <button onclick="resetCustomerAccount(loggedInUser.phone)" class="flex-1 sm:flex-none px-2.5 py-1.5 text-[11px] sm:text-xs bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition">
@@ -149,9 +164,13 @@
 
         <div class="md:col-span-2 bg-white dark:bg-slate-800 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
           <h3 class="font-bold text-xs sm:text-md mb-3 sm:mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
-            <i class="fa-solid fa-user-pen text-brand-600"></i> <span id="lblProfileUpdateTitle">প্রোফাইল ও পাসওয়ার্ড আপডেট</span>
+            <i class="fa-solid fa-user-pen text-brand-600"></i> <span id="lblProfileUpdateTitle">প্রোফাইল ছবি ও তথ্য আপডেট</span>
           </h3>
           <form onsubmit="handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
+            <div class="sm:col-span-2">
+              <label class="block text-[11px] sm:text-xs font-medium mb-1">প্রোফাইল পিকচার (Profile Picture)</label>
+              <input type="file" id="editAvatarFile" accept="image/*" class="w-full p-1.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600">
+            </div>
             <div>
               <label class="block text-[11px] sm:text-xs font-medium mb-1">আপনার নাম</label>
               <input type="text" id="editName" required class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
@@ -177,7 +196,7 @@
               <input type="text" id="editAddress" class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 outline-none">
             </div>
             <div class="sm:col-span-2 text-right">
-              <button type="submit" class="w-full sm:w-auto px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
+              <button type="submit" id="btnSaveProfile" class="w-full sm:w-auto px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
                 সেভ করুন
               </button>
             </div>
@@ -191,13 +210,14 @@
             <i class="fa-solid fa-bag-shopping text-brand-600"></i> <span>আমার অর্ডারসমূহ</span>
           </h3>
           <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs min-w-[300px]">
+            <table class="w-full text-left text-xs min-w-[320px]">
               <thead class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
                 <tr>
                   <th class="p-1.5 sm:p-3">আইডি</th>
                   <th class="p-1.5 sm:p-3">পণ্য</th>
                   <th class="p-1.5 sm:p-3">পেমেন্ট</th>
                   <th class="p-1.5 sm:p-3">স্ট্যাটাস</th>
+                  <th class="p-1.5 sm:p-3">অ্যাকশন</th>
                 </tr>
               </thead>
               <tbody id="myOrdersTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
@@ -234,7 +254,7 @@
             <i class="fa-solid fa-shield-halved text-brand-600"></i> 
             <span id="staffDashboardTitle">এডমিন কন্ট্রোল প্যানেল</span>
           </h2>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">সকল প্রোডাক্ট, কাস্টমার প্রোফাইল, অর্ডার ও ডিপোজিট কন্ট্রোল করুন</p>
+          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">সকল প্রোডাক্ট, কাস্টমার প্রোফাইল, অর্ডার, ডিপোজিট ও রিভিউ কন্ট্রোল করুন</p>
         </div>
         <button onclick="handleLogout()" class="w-full sm:w-auto px-4 py-1.5 sm:py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
           লগআউট
@@ -252,7 +272,7 @@
           <table class="w-full text-left text-xs min-w-[650px]">
             <thead class="bg-indigo-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
               <tr>
-                <th class="p-2">নাম ও ফোন</th>
+                <th class="p-2">প্রোফাইল</th>
                 <th class="p-2">যোগাযোগ (Email/WhatsApp/TG)</th>
                 <th class="p-2">ব্যালেন্স</th>
                 <th class="p-2">পাসওয়ার্ড পরিবর্তন</th>
@@ -395,11 +415,67 @@
             </div>
           </div>
 
+          <!-- ADMIN REVIEWS MANAGEMENT CARD -->
+          <div class="bg-white dark:bg-slate-800 p-3 sm:p-6 rounded-2xl border border-amber-200 dark:border-amber-800 shadow-sm overflow-hidden">
+            <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 text-amber-600 flex items-center gap-2">
+              <i class="fa-solid fa-star"></i> সকল কাস্টমার রিভিউজ ম্যানেজমেন্ট
+            </h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs min-w-[550px]">
+                <thead class="bg-amber-50 dark:bg-slate-700 text-slate-700 dark:text-slate-300 uppercase text-[10px] sm:text-xs">
+                  <tr>
+                    <th class="p-2">কাস্টমার</th>
+                    <th class="p-2">রেটিং</th>
+                    <th class="p-2">কমেন্ট ও ছবি</th>
+                    <th class="p-2">তারিখ</th>
+                    <th class="p-2">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody id="adminReviewsTableBody" class="divide-y divide-slate-200 dark:divide-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
   </main>
+
+  <!-- ADD REVIEW MODAL (Daraz Style) -->
+  <div id="reviewModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border relative">
+      <button onclick="closeReviewModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <h3 class="font-bold text-sm sm:text-lg mb-2 flex items-center gap-2 text-amber-500">
+        <i class="fa-solid fa-star"></i> প্রোডাক্টের রিভিউ দিন
+      </h3>
+      <form onsubmit="handleReviewSubmit(event)" class="space-y-3">
+        <input type="hidden" id="reviewProductId">
+        <input type="hidden" id="reviewRatingVal" value="5">
+        <div>
+          <label class="block text-xs font-bold mb-1">রেটিং নির্বাচন করুন:</label>
+          <div class="flex items-center gap-2 text-amber-400 text-2xl" id="starRatingSelect">
+            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(1)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(2)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(3)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(4)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(5)"></i>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">আপনার মতামত (Review Text)</label>
+          <textarea id="reviewComment" required rows="3" placeholder="প্রোডাক্টটি কেমন ছিল তা বিস্তারিত বলুন..." class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">প্রোডাক্টের ছবি যোগ করুন (ঐচ্ছিক)</label>
+          <input type="file" id="reviewPicFile" accept="image/*" class="w-full p-1.5 text-xs rounded-lg border dark:bg-slate-700">
+        </div>
+        <button type="submit" id="btnSubmitReview" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow">
+          রিভিউ সাবমিট করুন
+        </button>
+      </form>
+    </div>
+  </div>
 
   <!-- CART MODAL -->
   <div id="cartModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
@@ -595,11 +671,12 @@
     window.users = [];
     window.orders = [];
     window.deposits = [];
+    window.reviews = [];
     window.paymentNumbers = { bkash: '01700000000', nagad: '01700000000', rocket: '01700000000' };
     window.cart = JSON.parse(localStorage.getItem('ebuy_cart')) || [];
     window.loggedInUser = JSON.parse(localStorage.getItem('ebuy_logged_user')) || null;
 
-    // Helper: Image Compressor to fix post failure
+    // Helper: Image Compressor
     async function compressImage(file, maxWidth = 800, quality = 0.6) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -673,13 +750,21 @@
           renderAdminDeposits();
         }
       });
+
+      // Reviews Sync
+      onSnapshot(collection(db, "reviews"), (snapshot) => {
+        window.reviews = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
+        if(!document.getElementById('adminView').classList.contains('hidden')) {
+          renderAdminReviews();
+        }
+      });
     }
 
     async function initDB() {
       const adminDoc = await getDoc(doc(db, "users", "01700000000"));
       if (!adminDoc.exists()) {
         await setDoc(doc(db, "users", "01700000000"), {
-          name: "Super Admin", phone: "01700000000", pass: "admin123", role: "super_admin", balance: 0, email: "admin@ebuy.com", whatsapp: "01700000000", telegram: "@admin"
+          name: "Super Admin", phone: "01700000000", pass: "admin123", role: "super_admin", balance: 0, email: "admin@ebuy.com", whatsapp: "01700000000", telegram: "@admin", avatar: ''
         });
       }
       syncFirebaseData();
@@ -723,7 +808,8 @@
         email: '',
         whatsapp: phone,
         telegram: '',
-        address: ''
+        address: '',
+        avatar: ''
       };
 
       await setDoc(doc(db, "users", phone), newUser);
@@ -870,6 +956,7 @@
 
       const newOrder = {
         id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+        productId: product.id,
         name: document.getElementById('custName').value,
         phone: document.getElementById('custPhone').value,
         address: document.getElementById('custAddress').value,
@@ -885,24 +972,92 @@
       alert(`অর্ডার কনফার্ম হয়েছে!`);
     };
 
+    // Client Profile Update with Profile Picture
     window.handleProfileUpdate = async function(e) {
       e.preventDefault();
-      const updatedData = {
-        name: document.getElementById('editName').value,
-        email: document.getElementById('editEmail').value,
-        whatsapp: document.getElementById('editWhatsapp').value,
-        telegram: document.getElementById('editTelegram').value,
-        address: document.getElementById('editAddress').value
-      };
+      const saveBtn = document.getElementById('btnSaveProfile');
+      saveBtn.innerText = "সেভ হচ্ছে...";
+      saveBtn.disabled = true;
 
-      const newPass = document.getElementById('editPass').value.trim();
-      if(newPass !== '') updatedData.pass = newPass;
+      try {
+        const updatedData = {
+          name: document.getElementById('editName').value,
+          email: document.getElementById('editEmail').value,
+          whatsapp: document.getElementById('editWhatsapp').value,
+          telegram: document.getElementById('editTelegram').value,
+          address: document.getElementById('editAddress').value
+        };
 
-      await updateDoc(doc(db, "users", window.loggedInUser.phone), updatedData);
-      Object.assign(window.loggedInUser, updatedData);
-      localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
-      updateAuthNav();
-      alert("প্রোফাইল ও পাসওয়ার্ড সফলভাবে আপডেট হয়েছে!");
+        const avatarFiles = document.getElementById('editAvatarFile').files;
+        if(avatarFiles.length > 0) {
+          const compressedAvatar = await compressImage(avatarFiles[0], 300, 0.7);
+          updatedData.avatar = compressedAvatar;
+        }
+
+        const newPass = document.getElementById('editPass').value.trim();
+        if(newPass !== '') updatedData.pass = newPass;
+
+        await updateDoc(doc(db, "users", window.loggedInUser.phone), updatedData);
+        Object.assign(window.loggedInUser, updatedData);
+        localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
+        updateAuthNav();
+        alert("প্রোফাইল ছবি ও তথ্য সফলভাবে আপডেট হয়েছে!");
+        showCustomerProfile();
+      } catch(err) {
+        console.error(err);
+        alert("প্রোফাইল আপডেট করতে সমস্যা হয়েছে!");
+      } finally {
+        saveBtn.innerText = "সেভ করুন";
+        saveBtn.disabled = false;
+      }
+    };
+
+    // Daraz Style Review Handler
+    window.handleReviewSubmit = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitReview');
+      btn.innerText = "সাবমিট হচ্ছে...";
+      btn.disabled = true;
+
+      try {
+        const pId = document.getElementById('reviewProductId').value;
+        const rating = parseInt(document.getElementById('reviewRatingVal').value) || 5;
+        const comment = document.getElementById('reviewComment').value;
+        const picFiles = document.getElementById('reviewPicFile').files;
+        let reviewPic = '';
+
+        if(picFiles.length > 0) {
+          reviewPic = await compressImage(picFiles[0], 600, 0.6);
+        }
+
+        const newReview = {
+          productId: pId,
+          userName: window.loggedInUser.name,
+          userPhone: window.loggedInUser.phone,
+          userAvatar: window.loggedInUser.avatar || '',
+          rating: rating,
+          comment: comment,
+          reviewPic: reviewPic,
+          date: new Date().toLocaleDateString('bn-BD')
+        };
+
+        await addDoc(collection(db, "reviews"), newReview);
+        closeReviewModal();
+        alert("আপনার মূল্যবান রিভিউ যোগ করা হয়েছে!");
+      } catch(err) {
+        console.error(err);
+        alert("রিভিউ যোগ করতে সমস্যা হয়েছে!");
+      } finally {
+        btn.innerText = "রিভিউ সাবমিট করুন";
+        btn.disabled = false;
+      }
+    };
+
+    window.deleteReview = async function(firebaseId) {
+      if(confirm('আপনি কি রিভিউটি ডিলিট করতে চান?')) {
+        await deleteDoc(doc(db, "reviews", firebaseId));
+        alert('রিভিউ ডিলিট করা হয়েছে!');
+      }
     };
 
     window.approveDeposit = async function(depId) {
@@ -980,7 +1135,7 @@
 
     window.resetCustomerAccount = async function(phone) {
       if(confirm('প্রোফাইল রিসেট করতে চান?')) {
-        await updateDoc(doc(db, "users", phone), { balance: 0, email: '', telegram: '', address: '' });
+        await updateDoc(doc(db, "users", phone), { balance: 0, email: '', telegram: '', address: '', avatar: '' });
         alert('প্রোফাইল সফলভাবে রিসেট করা হয়েছে!');
       }
     };
@@ -1001,7 +1156,7 @@
         walletSub: "ব্যালেন্স এড করুন এবং আপনার অর্ডার হিস্ট্রি দেখুন",
         currentBalTitle: "বর্তমান ব্যালেন্স",
         depositBtnText: "ব্যালেন্স ডিপোজিট করুন",
-        profileUpdateTitle: "প্রোফাইল ও পাসওয়ার্ড আপডেট",
+        profileUpdateTitle: "প্রোফাইল ছবি ও তথ্য আপডেট",
         staffTitle: "এডমিন কন্ট্রোল প্যানেল"
       },
       en: {
@@ -1037,7 +1192,6 @@
       if(document.getElementById('lblAllProducts')) document.getElementById('lblAllProducts').innerHTML = `<i class="fa-solid fa-layer-group text-brand-600"></i> <span>${t.allProducts}</span>`;
       if(document.getElementById('searchInput')) document.getElementById('searchInput').placeholder = t.searchPlaceholder;
       if(document.getElementById('lblBackToShop')) document.getElementById('lblBackToShop').innerText = t.backToShop;
-      if(document.getElementById('lblWalletHeader')) document.getElementById('lblWalletHeader').innerText = t.walletHeader;
       if(document.getElementById('lblWalletSub')) document.getElementById('lblWalletSub').innerText = t.walletSub;
       if(document.getElementById('lblBackShopBtn')) document.getElementById('lblBackShopBtn').innerText = t.backToShop;
       if(document.getElementById('lblCurrentBalTitle')) document.getElementById('lblCurrentBalTitle').innerText = t.currentBalTitle;
@@ -1119,11 +1273,17 @@
       }
 
       tbody.innerHTML = clients.map(c => {
+        const avatarSrc = c.avatar || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
         return `
           <tr>
             <td class="p-2">
-              <div class="font-bold text-slate-800 dark:text-white">${c.name || 'অজানা নাম'}</div>
-              <div class="text-[10px] text-slate-500 font-mono">${c.phone}</div>
+              <div class="flex items-center gap-2">
+                <img src="${avatarSrc}" class="w-8 h-8 rounded-full object-cover border">
+                <div>
+                  <div class="font-bold text-slate-800 dark:text-white">${c.name || 'অজানা নাম'}</div>
+                  <div class="text-[10px] text-slate-500 font-mono">${c.phone}</div>
+                </div>
+              </div>
             </td>
             <td class="p-2 text-[11px]">
               <div><i class="fa-solid fa-envelope text-brand-500"></i> ${c.email || 'নেই'}</div>
@@ -1209,6 +1369,45 @@
       `).join('');
     }
 
+    function renderAdminReviews() {
+      const tbody = document.getElementById('adminReviewsTableBody');
+      if(!window.reviews || window.reviews.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">কোনো কাস্টমার রিভিউ পাওয়া যায়নি</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = window.reviews.map(r => {
+        const avatarSrc = r.userAvatar || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+        let starsHtml = '';
+        for(let i=1; i<=5; i++) {
+          starsHtml += `<i class="fa-solid fa-star ${i <= r.rating ? 'text-amber-400' : 'text-slate-300'}"></i>`;
+        }
+
+        return `
+          <tr>
+            <td class="p-2">
+              <div class="flex items-center gap-2">
+                <img src="${avatarSrc}" class="w-8 h-8 rounded-full object-cover border">
+                <div>
+                  <div class="font-bold text-slate-800 dark:text-white">${r.userName}</div>
+                  <div class="text-[10px] text-slate-400 font-mono">${r.userPhone}</div>
+                </div>
+              </div>
+            </td>
+            <td class="p-2 text-xs">${starsHtml}</td>
+            <td class="p-2">
+              <p class="text-xs text-slate-700 dark:text-slate-300 mb-1">${r.comment}</p>
+              ${r.reviewPic ? `<img src="${r.reviewPic}" class="w-12 h-12 object-cover rounded-lg border">` : ''}
+            </td>
+            <td class="p-2 text-[10px] text-slate-400">${r.date || ''}</td>
+            <td class="p-2">
+              <button onclick="deleteReview('${r.firebaseId}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
     function showProductDetails(pId) {
       const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
@@ -1247,6 +1446,69 @@
           </div>
         </div>
       `;
+
+      // Render Daraz style Product Reviews
+      renderProductReviews(p.id);
+    }
+
+    function renderProductReviews(pId) {
+      const prodReviews = window.reviews.filter(r => r.productId == pId);
+      document.getElementById('reviewCountBadge').innerText = prodReviews.length;
+      const listContainer = document.getElementById('productReviewsList');
+
+      if(prodReviews.length === 0) {
+        listContainer.innerHTML = `<p class="text-slate-400 text-xs py-4 text-center">এখনো কোনো রিভিউ দেওয়া হয়নি। প্রথম রিভিউ দিন!</p>`;
+        return;
+      }
+
+      listContainer.innerHTML = prodReviews.map(r => {
+        const avatarSrc = r.userAvatar || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+        let stars = '';
+        for(let i=1; i<=5; i++) {
+          stars += `<i class="fa-solid fa-star ${i <= r.rating ? 'text-amber-400' : 'text-slate-300'}"></i>`;
+        }
+
+        return `
+          <div class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-xl space-y-2 border border-slate-200 dark:border-slate-700">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img src="${avatarSrc}" class="w-8 h-8 rounded-full object-cover border">
+                <div>
+                  <h5 class="text-xs font-bold text-slate-800 dark:text-white">${r.userName}</h5>
+                  <div class="text-[10px] text-amber-400">${stars}</div>
+                </div>
+              </div>
+              <span class="text-[10px] text-slate-400">${r.date || ''}</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300">${r.comment}</p>
+            ${r.reviewPic ? `<img src="${r.reviewPic}" class="w-20 h-20 object-cover rounded-lg border mt-1 cursor-pointer" onclick="window.open('${r.reviewPic}')">` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Star Rating Helper
+    function setRating(val) {
+      document.getElementById('reviewRatingVal').value = val;
+      const stars = document.querySelectorAll('#starRatingSelect i');
+      stars.forEach((star, index) => {
+        if(index < val) star.className = "fa-solid fa-star cursor-pointer text-amber-400";
+        else star.className = "fa-solid fa-star cursor-pointer text-slate-300";
+      });
+    }
+
+    function openReviewModal(productId) {
+      document.getElementById('reviewProductId').value = productId;
+      document.getElementById('reviewComment').value = '';
+      document.getElementById('reviewPicFile').value = '';
+      setRating(5);
+      document.getElementById('reviewModal').classList.remove('hidden');
+      document.getElementById('reviewModal').classList.add('flex');
+    }
+
+    function closeReviewModal() {
+      document.getElementById('reviewModal').classList.add('hidden');
+      document.getElementById('reviewModal').classList.remove('flex');
     }
 
     function addToCart(pId) {
@@ -1315,10 +1577,11 @@
       const container = document.getElementById('authNavContainer');
       if (window.loggedInUser) {
         const isStaff = window.loggedInUser.role && window.loggedInUser.role !== 'client';
+        const avatarSrc = window.loggedInUser.avatar || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
         container.innerHTML = `
           <div class="flex items-center gap-1">
-            <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-1 px-2 py-1 text-[10px] sm:text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-lg font-bold border border-brand-200">
-              <i class="fa-solid fa-circle-user text-xs"></i>
+            <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-1.5 px-2 py-1 text-[10px] sm:text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-lg font-bold border border-brand-200">
+              <img src="${avatarSrc}" class="w-4 h-4 rounded-full object-cover">
               <span class="truncate max-w-[60px] sm:max-w-[100px]">${window.loggedInUser.name}</span>
             </button>
             <button onclick="handleLogout()" class="text-xs text-red-500 p-1" title="লগআউট"><i class="fa-solid fa-power-off"></i></button>
@@ -1439,6 +1702,8 @@
       document.getElementById('productDetailsView').classList.add('hidden');
       document.getElementById('customerProfileView').classList.remove('hidden');
 
+      document.getElementById('userProfileNameDisplay').innerText = window.loggedInUser.name || 'কাস্টমার';
+      document.getElementById('userProfileAvatarDisplay').src = window.loggedInUser.avatar || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
       document.getElementById('userWalletBalanceDisplay').innerText = window.loggedInUser.balance || 0;
       document.getElementById('editName').value = window.loggedInUser.name || '';
       document.getElementById('editEmail').value = window.loggedInUser.email || '';
@@ -1447,14 +1712,19 @@
       document.getElementById('editPass').value = '';
       document.getElementById('editAddress').value = window.loggedInUser.address || '';
 
-      document.getElementById('myOrdersTableBody').innerHTML = window.orders.filter(o => o.phone === window.loggedInUser.phone).map(o => `
+      document.getElementById('myOrdersTableBody').innerHTML = window.orders.filter(o => o.phone === window.loggedInUser.phone).map(o => {
+        const canReview = o.status === 'Delivered';
+        return `
         <tr>
           <td class="p-1.5 sm:p-2 font-bold text-brand-600">${o.id}</td>
           <td class="p-1.5 sm:p-2">${o.product}</td>
           <td class="p-1.5 sm:p-2 font-bold">${o.payMethod}</td>
           <td class="p-1.5 sm:p-2"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] bg-amber-100 text-amber-700 font-bold">${o.status}</span></td>
+          <td class="p-1.5 sm:p-2">
+            ${canReview ? `<button onclick="openReviewModal('${o.productId}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600"><i class="fa-solid fa-star"></i> রিভিউ দিন</button>` : '<span class="text-[10px] text-slate-400">N/A</span>'}
+          </td>
         </tr>
-      `).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
+      `}).join('') || `<tr><td colspan="5" class="p-2 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
 
       document.getElementById('myDepositsTableBody').innerHTML = window.deposits.filter(d => d.userPhone === window.loggedInUser.phone).map(d => {
         let badgeStyle = "bg-amber-100 text-amber-700";
@@ -1485,6 +1755,7 @@
       renderAdminProducts();
       renderAdminDeposits();
       renderAdminOrders();
+      renderAdminReviews();
     }
 
     function toggleTheme() {
