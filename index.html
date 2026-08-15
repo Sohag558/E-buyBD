@@ -40,7 +40,7 @@
   <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 shadow-sm w-full">
     <div class="max-w-7xl mx-auto px-2 sm:px-4 py-2 flex items-center justify-between gap-1 sm:gap-4">
       
-      <div class="flex items-center space-x-1.5 sm:space-x-3 cursor-pointer shrink-0" onclick="showCustomerView()">
+      <div class="flex items-center space-x-1.5 sm:space-x-3 cursor-pointer shrink-0" onclick="window.showCustomerView()">
         <div class="bg-gradient-to-r from-brand-600 to-indigo-700 text-white p-1.5 sm:p-2 rounded-xl shadow-md">
           <i class="fa-solid fa-bag-shopping text-base sm:text-2xl"></i>
         </div>
@@ -51,7 +51,7 @@
       </div>
 
       <div class="flex items-center space-x-0.5 sm:space-x-2 shrink-0">
-        <button onclick="openCartModal()" class="relative p-1 sm:p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition" title="Cart">
+        <button onclick="window.openCartModal()" class="relative p-1 sm:p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition" title="Cart">
           <i class="fa-solid fa-cart-shopping text-base sm:text-xl"></i>
           <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-[9px] sm:text-[10px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
         </button>
@@ -64,14 +64,14 @@
           <i class="fa-brands fa-telegram text-base sm:text-xl"></i>
         </a>
 
-        <button onclick="toggleLanguage()" class="px-1.5 py-1 text-[10px] sm:text-xs font-bold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg border border-slate-300 dark:border-slate-600 transition flex items-center gap-0.5 sm:gap-1">
+        <button onclick="window.toggleLanguage()" class="px-1.5 py-1 text-[10px] sm:text-xs font-bold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg border border-slate-300 dark:border-slate-600 transition flex items-center gap-0.5 sm:gap-1">
           <i class="fa-solid fa-globe text-brand-600 text-xs"></i>
           <span id="langLabel">EN</span>
         </button>
 
         <div id="authNavContainer" class="shrink-0"></div>
 
-        <button onclick="toggleTheme()" class="p-1 sm:p-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+        <button onclick="window.toggleTheme()" class="p-1 sm:p-2 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition">
           <i class="fa-solid fa-moon dark:hidden text-sm sm:text-lg"></i>
           <i class="fa-solid fa-sun hidden dark:inline text-sm sm:text-lg text-amber-400"></i>
         </button>
@@ -98,7 +98,7 @@
         </h3>
         
         <div class="relative w-full sm:w-80">
-          <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="প্রোডাক্টের নাম দিয়ে খুঁজুন..." class="w-full pl-9 pr-3 py-1.5 sm:py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition shadow-sm">
+          <input type="text" id="searchInput" onkeyup="window.filterProducts()" placeholder="প্রোডাক্টের নাম দিয়ে খুঁজুন..." class="w-full pl-9 pr-3 py-1.5 sm:py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition shadow-sm">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 sm:top-3.5 text-slate-400 text-xs sm:text-sm"></i>
         </div>
       </div>
@@ -108,7 +108,7 @@
 
     <!-- PRODUCT DETAILS VIEW -->
     <div id="productDetailsView" class="hidden space-y-4 sm:space-y-6">
-      <button onclick="showCustomerView()" class="px-3 py-1.5 sm:px-4 sm:py-2 text-xs bg-slate-200 dark:bg-slate-700 font-bold rounded-xl hover:bg-slate-300 transition">
+      <button onclick="window.showCustomerView()" class="px-3 py-1.5 sm:px-4 sm:py-2 text-xs bg-slate-200 dark:bg-slate-700 font-bold rounded-xl hover:bg-slate-300 transition">
         <i class="fa-solid fa-arrow-left mr-1"></i> <span id="lblBackToShop">শপে ফিরে যান</span>
       </button>
       <div id="productDetailsContainer" class="bg-white dark:bg-slate-800 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8"></div>
@@ -139,13 +139,13 @@
           </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button onclick="resetCustomerAccount(loggedInUser.phone)" class="flex-1 sm:flex-none px-2.5 py-1.5 text-[11px] sm:text-xs bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition">
+          <button onclick="window.resetCustomerAccount(window.loggedInUser.phone)" class="flex-1 sm:flex-none px-2.5 py-1.5 text-[11px] sm:text-xs bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition">
             <i class="fa-solid fa-rotate-right mr-1"></i> রিসেট প্রোফাইল
           </button>
-          <button onclick="deleteCustomerAccount(loggedInUser.phone)" class="flex-1 sm:flex-none px-2.5 py-1.5 text-[11px] sm:text-xs bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition">
+          <button onclick="window.deleteCustomerAccount(window.loggedInUser.phone)" class="flex-1 sm:flex-none px-2.5 py-1.5 text-[11px] sm:text-xs bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition">
             <i class="fa-solid fa-trash-can mr-1"></i> ডিলিট প্রোফাইল
           </button>
-          <button onclick="showCustomerView()" class="hidden sm:block px-4 py-2 text-xs bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition">
+          <button onclick="window.showCustomerView()" class="hidden sm:block px-4 py-2 text-xs bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition">
             <span id="lblBackShopBtn">শপে ফিরে যান</span>
           </button>
         </div>
@@ -157,7 +157,7 @@
             <span id="lblCurrentBalTitle" class="text-[10px] sm:text-xs opacity-80 font-bold uppercase tracking-wider">বর্তমান ব্যালেন্স</span>
             <h3 class="text-xl sm:text-3xl font-black mt-1">৳ <span id="userWalletBalanceDisplay">0</span></h3>
           </div>
-          <button onclick="openDepositModal()" class="mt-3 sm:mt-6 w-full py-2 sm:py-2.5 bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
+          <button onclick="window.openDepositModal()" class="mt-3 sm:mt-6 w-full py-2 sm:py-2.5 bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs rounded-xl shadow transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-plus-circle text-sm sm:text-base"></i> <span id="lblDepositBtnText">ব্যালেন্স ডিপোজিট করুন</span>
           </button>
         </div>
@@ -166,7 +166,7 @@
           <h3 class="font-bold text-xs sm:text-md mb-3 sm:mb-4 pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-user-pen text-brand-600"></i> <span id="lblProfileUpdateTitle">প্রোফাইল ছবি ও তথ্য আপডেট</span>
           </h3>
-          <form onsubmit="handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
+          <form onsubmit="window.handleProfileUpdate(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4">
             <div class="sm:col-span-2">
               <label class="block text-[11px] sm:text-xs font-medium mb-1">প্রোফাইল পিকচার (Profile Picture)</label>
               <input type="file" id="editAvatarFile" accept="image/*" class="w-full p-1.5 text-xs rounded-lg border dark:bg-slate-700 dark:border-slate-600">
@@ -256,7 +256,7 @@
           </h2>
           <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">সকল প্রোডাক্ট, স্টক, কাস্টমার প্রোফাইল, অর্ডার, ডিপোজিট ও রিভিউ কন্ট্রোল করুন</p>
         </div>
-        <button onclick="handleLogout()" class="w-full sm:w-auto px-4 py-1.5 sm:py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
+        <button onclick="window.handleLogout()" class="w-full sm:w-auto px-4 py-1.5 sm:py-2 text-xs bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
           লগআউট
         </button>
       </div>
@@ -289,7 +289,7 @@
         <h3 class="font-bold text-xs sm:text-md mb-3 pb-2 border-b border-slate-200 dark:border-slate-700 text-pink-600 flex items-center gap-2">
           <i class="fa-solid fa-gears"></i> পেমেন্ট নম্বর সেটিংস
         </h3>
-        <form onsubmit="handlePaymentNumbersUpdate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4">
+        <form onsubmit="window.handlePaymentNumbersUpdate(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-4">
           <div>
             <label class="block text-xs font-bold mb-1 text-pink-600">bKash Number</label>
             <input type="text" id="adminBkashNo" required class="w-full p-2 text-xs sm:text-sm rounded-lg border dark:bg-slate-700 dark:border-slate-600 font-mono outline-none">
@@ -316,7 +316,7 @@
           <h3 id="productFormTitle" class="font-bold text-xs sm:text-md pb-2 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
             <i class="fa-solid fa-plus text-brand-600"></i> নতুন পণ্য পোস্ট করুন
           </h3>
-          <form onsubmit="handleAddProduct(event)" class="space-y-2.5">
+          <form onsubmit="window.handleAddProduct(event)" class="space-y-2.5">
             <input type="hidden" id="editProductId" value="">
             <div>
               <label class="block text-xs font-medium mb-1">প্রোডাক্টের নাম</label>
@@ -346,7 +346,7 @@
             </div>
             <div class="flex gap-2">
               <button type="submit" id="postProductBtn" class="flex-grow py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow">পাবলিশ করুন</button>
-              <button type="button" id="cancelEditBtn" onclick="resetProductForm()" class="hidden py-2 px-3 bg-slate-400 hover:bg-slate-500 text-white font-bold text-xs rounded-xl">বাতিল</button>
+              <button type="button" id="cancelEditBtn" onclick="window.resetProductForm()" class="hidden py-2 px-3 bg-slate-400 hover:bg-slate-500 text-white font-bold text-xs rounded-xl">বাতিল</button>
             </div>
           </form>
         </div>
@@ -450,21 +450,21 @@
   <!-- ADD REVIEW MODAL (Daraz Style) -->
   <div id="reviewModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border relative">
-      <button onclick="closeReviewModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <button onclick="window.closeReviewModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
       <h3 class="font-bold text-sm sm:text-lg mb-2 flex items-center gap-2 text-amber-500">
         <i class="fa-solid fa-star"></i> প্রোডাক্টের রিভিউ দিন
       </h3>
-      <form onsubmit="handleReviewSubmit(event)" class="space-y-3">
+      <form onsubmit="window.handleReviewSubmit(event)" class="space-y-3">
         <input type="hidden" id="reviewProductId">
         <input type="hidden" id="reviewRatingVal" value="5">
         <div>
           <label class="block text-xs font-bold mb-1">রেটিং নির্বাচন করুন:</label>
           <div class="flex items-center gap-2 text-amber-400 text-2xl" id="starRatingSelect">
-            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(1)"></i>
-            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(2)"></i>
-            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(3)"></i>
-            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(4)"></i>
-            <i class="fa-solid fa-star cursor-pointer" onclick="setRating(5)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="window.setRating(1)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="window.setRating(2)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="window.setRating(3)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="window.setRating(4)"></i>
+            <i class="fa-solid fa-star cursor-pointer" onclick="window.setRating(5)"></i>
           </div>
         </div>
         <div>
@@ -485,7 +485,7 @@
   <!-- CART MODAL -->
   <div id="cartModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeCartModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <button onclick="window.closeCartModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
       <h3 class="font-bold text-sm sm:text-lg mb-3 flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-brand-600"></i> আপনার শপিং কার্ট</h3>
       <div id="cartItemsContainer" class="space-y-3 mb-4 divide-y divide-slate-200"></div>
       <div class="border-t pt-3 space-y-3">
@@ -493,7 +493,7 @@
           <span>মোট মূল্য:</span>
           <span id="cartTotalPrice" class="text-brand-600">৳ 0</span>
         </div>
-        <button onclick="proceedCartCheckout()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow">কার্ট থেকে অর্ডার করুন</button>
+        <button onclick="window.proceedCartCheckout()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow">কার্ট থেকে অর্ডার করুন</button>
       </div>
     </div>
   </div>
@@ -501,14 +501,14 @@
   <!-- DEPOSIT MODAL -->
   <div id="depositModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border relative">
-      <button onclick="closeDepositModal()" class="absolute top-3 right-3 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <button onclick="window.closeDepositModal()" class="absolute top-3 right-3 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
       <h3 class="font-bold text-sm sm:text-lg mb-1 text-emerald-600 flex items-center gap-2"><i class="fa-solid fa-wallet"></i> ওয়ালেট ব্যালেন্স ডিপোজিট</h3>
       <p class="text-[10px] sm:text-xs text-slate-500 mb-3">মেথড নির্বাচন করে টাকা পাঠান ও Trx ID দিন</p>
       
       <div class="grid grid-cols-3 gap-2 mb-3">
-        <button onclick="selectDepositMethod('bkash')" id="btnBkash" class="py-1.5 rounded-xl font-bold text-xs border border-pink-500 bg-pink-50 text-pink-600 flex flex-col items-center gap-1">bKash</button>
-        <button onclick="selectDepositMethod('nagad')" id="btnNagad" class="py-1.5 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">Nagad</button>
-        <button onclick="selectDepositMethod('rocket')" id="btnRocket" class="py-1.5 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">Rocket</button>
+        <button onclick="window.selectDepositMethod('bkash')" id="btnBkash" class="py-1.5 rounded-xl font-bold text-xs border border-pink-500 bg-pink-50 text-pink-600 flex flex-col items-center gap-1">bKash</button>
+        <button onclick="window.selectDepositMethod('nagad')" id="btnNagad" class="py-1.5 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">Nagad</button>
+        <button onclick="window.selectDepositMethod('rocket')" id="btnRocket" class="py-1.5 rounded-xl font-bold text-xs border border-slate-200 text-slate-600 flex flex-col items-center gap-1">Rocket</button>
       </div>
 
       <div class="p-2.5 bg-pink-50 dark:bg-slate-700 rounded-xl mb-3 text-center">
@@ -516,7 +516,7 @@
         <span id="depositNumberDisplay" class="text-sm sm:text-lg font-black text-pink-600 tracking-wider">017XXXXXXXX</span>
       </div>
 
-      <form onsubmit="handleDepositSubmit(event)" class="space-y-2.5">
+      <form onsubmit="window.handleDepositSubmit(event)" class="space-y-2.5">
         <input type="hidden" id="selectedMethod" value="bkash">
         <div>
           <label class="block text-[11px] font-medium mb-1">টাকার পরিমাণ (৳)</label>
@@ -534,12 +534,12 @@
   <!-- Login/Signup Modal -->
   <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-4 sm:p-6 shadow-2xl border relative">
-      <button onclick="closeAuthModal()" class="absolute top-3 right-3 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <button onclick="window.closeAuthModal()" class="absolute top-3 right-3 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
       <div class="flex border-b mb-3">
-        <button id="tabLogin" onclick="switchAuthTab('login')" class="w-1/2 py-2 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600">লগইন</button>
-        <button id="tabSignup" onclick="switchAuthTab('signup')" class="w-1/2 py-2 text-xs sm:text-sm font-bold text-slate-400">সাইনআপ</button>
+        <button id="tabLogin" onclick="window.switchAuthTab('login')" class="w-1/2 py-2 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600">লগইন</button>
+        <button id="tabSignup" onclick="window.switchAuthTab('signup')" class="w-1/2 py-2 text-xs sm:text-sm font-bold text-slate-400">সাইনআপ</button>
       </div>
-      <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-2.5">
+      <form id="formLogin" onsubmit="window.handleLoginSubmit(event)" class="space-y-2.5">
         <div>
           <label class="block text-[11px] font-medium mb-1">মোবাইল নম্বর</label>
           <input type="tel" id="loginPhone" required placeholder="017xxxxxxxx" class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
@@ -562,7 +562,7 @@
         <button type="submit" class="w-full py-2 bg-brand-600 text-white font-bold text-xs rounded-xl">লগইন করুন</button>
       </form>
 
-      <form id="formSignup" onsubmit="handleSignupSubmit(event)" class="space-y-2.5 hidden">
+      <form id="formSignup" onsubmit="window.handleSignupSubmit(event)" class="space-y-2.5 hidden">
         <div>
           <label class="block text-[11px] font-medium mb-1">আপনার নাম</label>
           <input type="text" id="signupName" required class="w-full p-2 text-xs rounded-lg border dark:bg-slate-700 outline-none">
@@ -583,17 +583,17 @@
   <!-- Checkout Modal -->
   <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border relative max-h-[90vh] overflow-y-auto">
-      <button onclick="closeOrderModal()" class="absolute top-3 right-3 text-slate-400 font-bold"><i class="fa-solid fa-xmark text-xl"></i></button>
+      <button onclick="window.closeOrderModal()" class="absolute top-3 right-3 text-slate-400 font-bold"><i class="fa-solid fa-xmark text-xl"></i></button>
       <h3 class="font-bold text-sm sm:text-lg mb-1">অর্ডার সম্পন্ন করুন</h3>
       <div id="checkoutSummaryBox" class="p-2.5 bg-slate-50 dark:bg-slate-700 rounded-xl mb-2.5 text-xs space-y-1"></div>
-      <form onsubmit="handleOrderSubmit(event)" class="space-y-2.5">
+      <form onsubmit="window.handleOrderSubmit(event)" class="space-y-2.5">
         <input type="hidden" id="orderProductId">
         <div>
           <label class="block text-[11px] font-bold mb-1">পরিমাণ (Quantity)</label>
           <div class="flex items-center gap-2">
-            <button type="button" onclick="adjustQuantity(-1)" class="w-8 h-8 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg">-</button>
-            <input type="number" id="orderQuantity" value="1" min="1" max="50" onchange="updateCheckoutTotal()" class="w-16 text-center p-1.5 text-xs rounded-lg border dark:bg-slate-700 font-bold">
-            <button type="button" onclick="adjustQuantity(1)" class="w-8 h-8 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg">+</button>
+            <button type="button" onclick="window.adjustQuantity(-1)" class="w-8 h-8 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg">-</button>
+            <input type="number" id="orderQuantity" value="1" min="1" max="50" onchange="window.updateCheckoutTotal()" class="w-16 text-center p-1.5 text-xs rounded-lg border dark:bg-slate-700 font-bold">
+            <button type="button" onclick="window.adjustQuantity(1)" class="w-8 h-8 bg-slate-200 dark:bg-slate-700 font-bold rounded-lg">+</button>
           </div>
         </div>
         <div>
@@ -629,8 +629,8 @@
       <div>
         <h4 class="text-white font-bold text-xs sm:text-sm mb-2">কুইক লিংকস</h4>
         <ul class="space-y-1.5 text-xs">
-          <li><a href="#" onclick="showCustomerView()" class="hover:text-brand-500">হোম / শপ</a></li>
-          <li><a href="#" onclick="openDepositModal()" class="hover:text-brand-500">ব্যালেন্স ডিপোজিট</a></li>
+          <li><a href="#" onclick="window.showCustomerView()" class="hover:text-brand-500">হোম / শপ</a></li>
+          <li><a href="#" onclick="window.openDepositModal()" class="hover:text-brand-500">ব্যালেন্স ডিপোজিট</a></li>
         </ul>
       </div>
       <div>
@@ -713,9 +713,9 @@
     function syncFirebaseData() {
       onSnapshot(collection(db, "products"), (snapshot) => {
         window.products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        renderProducts();
+        window.renderProducts();
         if(!document.getElementById('adminView').classList.contains('hidden')) {
-          renderAdminProducts();
+          window.renderAdminProducts();
         }
       });
 
@@ -736,23 +736,23 @@
             localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
           }
         }
-        updateAuthNav();
+        window.updateAuthNav();
         if(!document.getElementById('adminView').classList.contains('hidden')) {
-          renderAdminAllClients();
+          window.renderAdminAllClients();
         }
       });
 
       onSnapshot(collection(db, "orders"), (snapshot) => {
         window.orders = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
         if(!document.getElementById('adminView').classList.contains('hidden')) {
-          renderAdminOrders();
+          window.renderAdminOrders();
         }
       });
 
       onSnapshot(collection(db, "deposits"), (snapshot) => {
         window.deposits = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
         if(!document.getElementById('adminView').classList.contains('hidden')) {
-          renderAdminDeposits();
+          window.renderAdminDeposits();
         }
       });
 
@@ -760,7 +760,11 @@
       onSnapshot(collection(db, "reviews"), (snapshot) => {
         window.reviews = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
         if(!document.getElementById('adminView').classList.contains('hidden')) {
-          renderAdminReviews();
+          window.renderAdminReviews();
+        }
+        if(!document.getElementById('productDetailsView').classList.contains('hidden')) {
+          const currentPId = document.getElementById('reviewProductId')?.value;
+          if(currentPId) window.renderProductReviews(currentPId);
         }
       });
     }
@@ -785,10 +789,10 @@
       if (userDoc.exists() && userDoc.data().pass === pass) {
         window.loggedInUser = userDoc.data();
         localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
-        updateAuthNav();
-        closeAuthModal();
-        if (window.loggedInUser.role && window.loggedInUser.role !== 'client') showStaffDashboard();
-        else showCustomerProfile();
+        window.updateAuthNav();
+        window.closeAuthModal();
+        if (window.loggedInUser.role && window.loggedInUser.role !== 'client') window.showStaffDashboard();
+        else window.showCustomerProfile();
       } else {
         alert("ভুল নম্বর বা পাসওয়ার্ড দিয়েছেন!");
       }
@@ -820,10 +824,10 @@
       await setDoc(doc(db, "users", phone), newUser);
       window.loggedInUser = newUser;
       localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
-      updateAuthNav();
-      closeAuthModal();
+      window.updateAuthNav();
+      window.closeAuthModal();
       alert("সাইনআপ সফল হয়েছে!");
-      showCustomerProfile();
+      window.showCustomerProfile();
     };
 
     // Auto Compression Product Upload with Stock & Sales
@@ -862,7 +866,7 @@
           }
           await updateDoc(doc(db, "products", editId), productData);
           alert('প্রোডাক্ট সফলভাবে আপডেট করা হয়েছে!');
-          resetProductForm();
+          window.resetProductForm();
         } else {
           if(compressedImages.length === 0) {
             alert('দয়া করে অন্তত একটি ছবি সিলেক্ট করুন!');
@@ -937,14 +941,14 @@
       };
 
       await addDoc(collection(db, "deposits"), newDeposit);
-      closeDepositModal();
+      window.closeDepositModal();
       alert("ডিপোজিট রিকোয়েস্ট সাবমিট হয়েছে!");
-      showCustomerProfile();
+      window.showCustomerProfile();
     };
 
     window.handleOrderSubmit = async function(e) {
       e.preventDefault();
-      if(!window.loggedInUser) { closeOrderModal(); openAuthModal(); return; }
+      if(!window.loggedInUser) { window.closeOrderModal(); window.openAuthModal(); return; }
 
       const product = window.products.find(p => p.id == document.getElementById('orderProductId').value);
       const payMethod = document.getElementById('payMethodSelect').value;
@@ -986,8 +990,8 @@
       };
 
       await addDoc(collection(db, "orders"), newOrder);
-      closeOrderModal();
-      updateAuthNav();
+      window.closeOrderModal();
+      window.updateAuthNav();
       alert(`অর্ডার কনফার্ম হয়েছে!`);
     };
 
@@ -1019,9 +1023,9 @@
         await updateDoc(doc(db, "users", window.loggedInUser.phone), updatedData);
         Object.assign(window.loggedInUser, updatedData);
         localStorage.setItem('ebuy_logged_user', JSON.stringify(window.loggedInUser));
-        updateAuthNav();
+        window.updateAuthNav();
         alert("প্রোফাইল ছবি ও তথ্য সফলভাবে আপডেট হয়েছে!");
-        showCustomerProfile();
+        window.showCustomerProfile();
       } catch(err) {
         console.error(err);
         alert("প্রোফাইল আপডেট করতে সমস্যা হয়েছে!");
@@ -1061,8 +1065,11 @@
         };
 
         await addDoc(collection(db, "reviews"), newReview);
-        closeReviewModal();
+        window.closeReviewModal();
         alert("আপনার মূল্যবান রিভিউ যোগ করা হয়েছে!");
+        if(!document.getElementById('productDetailsView').classList.contains('hidden')) {
+          window.renderProductReviews(pId);
+        }
       } catch(err) {
         console.error(err);
         alert("রিভিউ যোগ করতে সমস্যা হয়েছে!");
@@ -1146,7 +1153,7 @@
       if(confirm('আপনি কি নিশ্চিতভাবে এই অ্যাকাউন্টটি ডিলিট করতে চান?')) {
         await deleteDoc(doc(db, "users", phone));
         if(window.loggedInUser && window.loggedInUser.phone === phone) {
-          handleLogout();
+          window.handleLogout();
         }
         alert('অ্যাকাউন্ট সফলভাবে ডিলিট করা হয়েছে।');
       }
@@ -1196,11 +1203,11 @@
     };
 
     let currentLang = 'bn';
-    function toggleLanguage() {
+    window.toggleLanguage = function() {
       currentLang = currentLang === 'bn' ? 'en' : 'bn';
       document.getElementById('langLabel').innerText = currentLang === 'bn' ? 'EN' : 'BN';
       applyTranslations();
-    }
+    };
 
     function applyTranslations() {
       const t = translations[currentLang];
@@ -1219,17 +1226,7 @@
       if(document.getElementById('staffDashboardTitle')) document.getElementById('staffDashboardTitle').innerText = t.staffTitle;
     }
 
-    function filterProducts() {
-      const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      const filtered = window.products.filter(p => p.title.toLowerCase().includes(query) || (p.desc && p.desc.toLowerCase().includes(query)));
-      renderProducts(filtered);
-    }
-
-    function toggleTheme() {
-      document.documentElement.classList.toggle('dark');
-    }
-
-    function renderProducts(items = window.products) {
+    window.renderProducts = function(items = window.products) {
       const grid = document.getElementById('productsGrid');
       if(!items || items.length === 0) {
         grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-400 text-xs sm:text-sm">কোনো প্রোডাক্ট পাওয়া যায়নি</div>`;
@@ -1243,7 +1240,7 @@
 
         return `
         <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col justify-between">
-          <div class="cursor-pointer" onclick="showProductDetails('${p.id}')">
+          <div class="cursor-pointer" onclick="window.showProductDetails('${p.id}')">
             <div class="h-32 sm:h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-700 relative">
               <img src="${imgSrc}" class="h-full w-full object-cover">
               ${p.discount > 0 ? `<span class="absolute top-1.5 right-1.5 bg-red-600 text-white text-[8px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full">৳ ${p.discount} ছাড়</span>` : ''}
@@ -1262,14 +1259,14 @@
             </div>
           </div>
           <div class="p-2 pt-0 grid grid-cols-2 gap-1">
-            <button onclick="addToCart('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-[11px] font-bold rounded-lg sm:rounded-xl transition flex items-center justify-center gap-1 disabled:opacity-50"><i class="fa-solid fa-cart-plus"></i> <span class="hidden xs:inline">কার্ট</span></button>
-            <button onclick="openOrderModal('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="py-1.5 bg-brand-600 hover:bg-brand-700 text-white text-[11px] font-bold rounded-lg sm:rounded-xl transition disabled:opacity-50">${isOutOfStock ? 'স্টক নেই' : 'অর্ডার'}</button>
+            <button onclick="window.addToCart('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-[11px] font-bold rounded-lg sm:rounded-xl transition flex items-center justify-center gap-1 disabled:opacity-50"><i class="fa-solid fa-cart-plus"></i> <span class="hidden xs:inline">কার্ট</span></button>
+            <button onclick="window.openOrderModal('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="py-1.5 bg-brand-600 hover:bg-brand-700 text-white text-[11px] font-bold rounded-lg sm:rounded-xl transition disabled:opacity-50">${isOutOfStock ? 'স্টক নেই' : 'অর্ডার'}</button>
           </div>
         </div>
       `}).join('');
-    }
+    };
 
-    function renderAdminProducts() {
+    window.renderAdminProducts = function() {
       const tbody = document.getElementById('adminProductsTableBody');
       if(!window.products || window.products.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">কোনো পোস্ট করা প্রোডাক্ট নেই</td></tr>`;
@@ -1291,16 +1288,16 @@
             </td>
             <td class="p-2">
               <div class="flex items-center gap-1.5">
-                <button onclick="editProduct('${p.id}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600" title="এডিট"><i class="fa-solid fa-pen"></i></button>
-                <button onclick="deleteProduct('${p.id}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700" title="ডিলিট"><i class="fa-solid fa-trash"></i></button>
+                <button onclick="window.editProduct('${p.id}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600" title="এডিট"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="window.deleteProduct('${p.id}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700" title="ডিলিট"><i class="fa-solid fa-trash"></i></button>
               </div>
             </td>
           </tr>
         `;
       }).join('');
-    }
+    };
 
-    function renderAdminAllClients() {
+    window.renderAdminAllClients = function() {
       const clients = window.users.filter(u => u.role === 'client' || !u.role);
       const tbody = document.getElementById('adminAllClientsTableBody');
       const countDisplay = document.getElementById('clientCountText');
@@ -1334,21 +1331,21 @@
             <td class="p-2">
               <div class="flex items-center gap-1.5">
                 <input type="text" id="adminPassInput_${c.phone}" placeholder="নতুন পাসওয়ার্ড" class="p-1 text-xs border rounded w-24 dark:bg-slate-700 outline-none">
-                <button onclick="adminChangeClientPassword('${c.phone}')" class="px-2 py-1 bg-brand-600 text-white font-bold rounded text-[10px] hover:bg-brand-700">সেভ</button>
+                <button onclick="window.adminChangeClientPassword('${c.phone}')" class="px-2 py-1 bg-brand-600 text-white font-bold rounded text-[10px] hover:bg-brand-700">সেভ</button>
               </div>
             </td>
             <td class="p-2">
               <div class="flex items-center gap-1.5">
-                <button onclick="resetCustomerAccount('${c.phone}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600" title="রিসেট"><i class="fa-solid fa-rotate-right"></i></button>
-                <button onclick="deleteCustomerAccount('${c.phone}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700" title="ডিলিট"><i class="fa-solid fa-trash"></i></button>
+                <button onclick="window.resetCustomerAccount('${c.phone}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600" title="রিসেট"><i class="fa-solid fa-rotate-right"></i></button>
+                <button onclick="window.deleteCustomerAccount('${c.phone}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700" title="ডিলিট"><i class="fa-solid fa-trash"></i></button>
               </div>
             </td>
           </tr>
         `;
       }).join('');
-    }
+    };
 
-    function renderAdminDeposits() {
+    window.renderAdminDeposits = function() {
       const tbody = document.getElementById('adminDepositsTableBody');
       if(window.deposits.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">কোনো ডিপোজিট লেনদেন নেই</td></tr>`;
@@ -1369,16 +1366,16 @@
           <td class="p-2">
             ${d.status === 'Pending' ? `
               <div class="flex items-center gap-1">
-                <button onclick="approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[10px]">Approve</button>
-                <button onclick="rejectDeposit('${d.id}')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded text-[10px]">Reject</button>
+                <button onclick="window.approveDeposit('${d.id}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded text-[10px]">Approve</button>
+                <button onclick="window.rejectDeposit('${d.id}')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded text-[10px]">Reject</button>
               </div>
             ` : 'Done'}
           </td>
         </tr>
       `}).join('');
-    }
+    };
 
-    function renderAdminOrders() {
+    window.renderAdminOrders = function() {
       const tbody = document.getElementById('ordersTableBody');
       if(window.orders.length === 0) {
         tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
@@ -1395,7 +1392,7 @@
           <td class="p-2 font-bold">৳ ${o.price}</td>
           <td class="p-2 font-bold text-xs">${o.payMethod}</td>
           <td class="p-2">
-            <select onchange="updateOrderStatus('${o.id}', this.value)" class="p-1 text-[10px] font-bold rounded border bg-white dark:bg-slate-700">
+            <select onchange="window.updateOrderStatus('${o.id}', this.value)" class="p-1 text-[10px] font-bold rounded border bg-white dark:bg-slate-700">
               <option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option>
               <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
               <option value="Delivered" ${o.status==='Delivered'?'selected':''}>Delivered</option>
@@ -1403,13 +1400,13 @@
             </select>
           </td>
           <td class="p-2">
-            <button onclick="deleteOrder('${o.id}')" class="px-2 py-1 bg-red-600 text-white rounded"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="window.deleteOrder('${o.id}')" class="px-2 py-1 bg-red-600 text-white rounded"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
       `).join('');
-    }
+    };
 
-    function renderAdminReviews() {
+    window.renderAdminReviews = function() {
       const tbody = document.getElementById('adminReviewsTableBody');
       if(!window.reviews || window.reviews.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">কোনো কাস্টমার রিভিউ পাওয়া যায়নি</td></tr>`;
@@ -1441,14 +1438,14 @@
             </td>
             <td class="p-2 text-[10px] text-slate-400">${r.date || ''}</td>
             <td class="p-2">
-              <button onclick="deleteReview('${r.firebaseId}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700"><i class="fa-solid fa-trash"></i></button>
+              <button onclick="window.deleteReview('${r.firebaseId}')" class="px-2 py-1 bg-red-600 text-white font-bold rounded text-[10px] hover:bg-red-700"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
         `;
       }).join('');
-    }
+    };
 
-    function showProductDetails(pId) {
+    window.showProductDetails = function(pId) {
       const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
       document.getElementById('customerView').classList.add('hidden');
@@ -1486,17 +1483,17 @@
           </div>
           <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${p.desc}</p>
           <div class="flex gap-2 sm:gap-3 pt-2 sm:pt-4">
-            <button onclick="addToCart('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="flex-1 py-2.5 sm:py-3 bg-slate-100 dark:bg-slate-700 font-bold text-xs rounded-xl disabled:opacity-50"><i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart</button>
-            <button onclick="openOrderModal('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="flex-1 py-2.5 sm:py-3 bg-brand-600 text-white font-bold text-xs rounded-xl shadow disabled:opacity-50">${isOutOfStock ? 'স্টক নেই' : 'অর্ডার করুন'}</button>
+            <button onclick="window.addToCart('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="flex-1 py-2.5 sm:py-3 bg-slate-100 dark:bg-slate-700 font-bold text-xs rounded-xl disabled:opacity-50"><i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart</button>
+            <button onclick="window.openOrderModal('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="flex-1 py-2.5 sm:py-3 bg-brand-600 text-white font-bold text-xs rounded-xl shadow disabled:opacity-50">${isOutOfStock ? 'স্টক নেই' : 'অর্ডার করুন'}</button>
           </div>
         </div>
       `;
 
       // Render Daraz style Product Reviews for everyone
-      renderProductReviews(p.id);
-    }
+      window.renderProductReviews(p.id);
+    };
 
-    function renderProductReviews(pId) {
+    window.renderProductReviews = function(pId) {
       const prodReviews = window.reviews.filter(r => r.productId == pId);
       document.getElementById('reviewCountBadge').innerText = prodReviews.length;
       const listContainer = document.getElementById('productReviewsList');
@@ -1530,49 +1527,49 @@
           </div>
         `;
       }).join('');
-    }
+    };
 
     // Star Rating Helper
-    function setRating(val) {
+    window.setRating = function(val) {
       document.getElementById('reviewRatingVal').value = val;
       const stars = document.querySelectorAll('#starRatingSelect i');
       stars.forEach((star, index) => {
         if(index < val) star.className = "fa-solid fa-star cursor-pointer text-amber-400";
         else star.className = "fa-solid fa-star cursor-pointer text-slate-300";
       });
-    }
+    };
 
-    function openReviewModal(productId) {
+    window.openReviewModal = function(productId) {
       document.getElementById('reviewProductId').value = productId;
       document.getElementById('reviewComment').value = '';
       document.getElementById('reviewPicFile').value = '';
-      setRating(5);
+      window.setRating(5);
       document.getElementById('reviewModal').classList.remove('hidden');
       document.getElementById('reviewModal').classList.add('flex');
-    }
+    };
 
-    function closeReviewModal() {
+    window.closeReviewModal = function() {
       document.getElementById('reviewModal').classList.add('hidden');
       document.getElementById('reviewModal').classList.remove('flex');
-    }
+    };
 
-    function addToCart(pId) {
+    window.addToCart = function(pId) {
       const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
       if(p.stock <= 0) { alert('দুঃখিত, পণ্যটির স্টক শেষ!'); return; }
       const exist = window.cart.find(item => item.id == pId);
       if(exist) { exist.qty += 1; } else { window.cart.push({ ...p, qty: 1 }); }
       localStorage.setItem('ebuy_cart', JSON.stringify(window.cart));
-      updateCartBadge();
+      window.updateCartBadge();
       alert('প্রোডাক্টটি কার্টে যোগ করা হয়েছে!');
-    }
+    };
 
-    function updateCartBadge() {
+    window.updateCartBadge = function() {
       const totalQty = window.cart.reduce((sum, item) => sum + item.qty, 0);
       document.getElementById('cartCountBadge').innerText = totalQty;
-    }
+    };
 
-    function openCartModal() {
+    window.openCartModal = function() {
       const container = document.getElementById('cartItemsContainer');
       if(window.cart.length === 0) {
         container.innerHTML = `<p class="text-center py-6 text-slate-400 text-xs">আপনার কার্ট খালি রয়েছে</p>`;
@@ -1590,7 +1587,7 @@
               </div>
               <div class="flex items-center gap-2">
                 <span class="font-bold text-brand-600">৳ ${itemPrice}</span>
-                <button onclick="removeFromCart('${item.id}')" class="text-red-500 p-1"><i class="fa-solid fa-trash"></i></button>
+                <button onclick="window.removeFromCart('${item.id}')" class="text-red-500 p-1"><i class="fa-solid fa-trash"></i></button>
               </div>
             </div>
           `;
@@ -1599,55 +1596,55 @@
       }
       document.getElementById('cartModal').classList.remove('hidden');
       document.getElementById('cartModal').classList.add('flex');
-    }
+    };
 
-    function closeCartModal() {
+    window.closeCartModal = function() {
       document.getElementById('cartModal').classList.add('hidden');
       document.getElementById('cartModal').classList.remove('flex');
-    }
+    };
 
-    function removeFromCart(pId) {
+    window.removeFromCart = function(pId) {
       window.cart = window.cart.filter(item => item.id != pId);
       localStorage.setItem('ebuy_cart', JSON.stringify(window.cart));
-      updateCartBadge();
-      openCartModal();
-    }
+      window.updateCartBadge();
+      window.openCartModal();
+    };
 
-    function proceedCartCheckout() {
+    window.proceedCartCheckout = function() {
       if(window.cart.length === 0) return;
-      closeCartModal();
-      openOrderModal(window.cart[0].id);
-    }
+      window.closeCartModal();
+      window.openOrderModal(window.cart[0].id);
+    };
 
-    function updateAuthNav() {
+    window.updateAuthNav = function() {
       const container = document.getElementById('authNavContainer');
       if (window.loggedInUser) {
         const isStaff = window.loggedInUser.role && window.loggedInUser.role !== 'client';
         const avatarSrc = window.loggedInUser.avatar || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
         container.innerHTML = `
           <div class="flex items-center gap-1">
-            <button onclick="${isStaff ? 'showStaffDashboard()' : 'showCustomerProfile()'}" class="flex items-center gap-1.5 px-2 py-1 text-[10px] sm:text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-lg font-bold border border-brand-200">
+            <button onclick="${isStaff ? 'window.showStaffDashboard()' : 'window.showCustomerProfile()'}" class="flex items-center gap-1.5 px-2 py-1 text-[10px] sm:text-xs bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-500 rounded-lg font-bold border border-brand-200">
               <img src="${avatarSrc}" class="w-4 h-4 rounded-full object-cover">
               <span class="truncate max-w-[60px] sm:max-w-[100px]">${window.loggedInUser.name}</span>
             </button>
-            <button onclick="handleLogout()" class="text-xs text-red-500 p-1" title="লগআউট"><i class="fa-solid fa-power-off"></i></button>
+            <button onclick="window.handleLogout()" class="text-xs text-red-500 p-1" title="লগআউট"><i class="fa-solid fa-power-off"></i></button>
           </div>
         `;
       } else {
-        container.innerHTML = `<button onclick="openAuthModal()" class="px-2.5 py-1 text-xs font-bold bg-brand-600 text-white rounded-lg">লগইন</button>`;
+        container.innerHTML = `<button onclick="window.openAuthModal()" class="px-2.5 py-1 text-xs font-bold bg-brand-600 text-white rounded-lg">লগইন</button>`;
       }
-    }
+    };
 
-    function openAuthModal() {
+    window.openAuthModal = function() {
       document.getElementById('authModal').classList.remove('hidden');
       document.getElementById('authModal').classList.add('flex');
-    }
-    function closeAuthModal() {
+    };
+    window.closeAuthModal = function() {
       document.getElementById('authModal').classList.add('hidden');
       document.getElementById('authModal').classList.remove('flex');
-    }
+    };
 
-    function switchAuthTab(tab) {
+    window.switchAuthTab = function(tab) {
       if(tab === 'login') {
         document.getElementById('formLogin').classList.remove('hidden');
         document.getElementById('formSignup').classList.add('hidden');
@@ -1659,37 +1656,37 @@
         document.getElementById('tabSignup').className = "w-1/2 py-2 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600";
         document.getElementById('tabLogin').className = "w-1/2 py-2 text-xs sm:text-sm font-bold text-slate-400";
       }
-    }
+    };
 
-    function handleLogout() {
+    window.handleLogout = function() {
       window.loggedInUser = null;
       localStorage.removeItem('ebuy_logged_user');
-      updateAuthNav();
-      showCustomerView();
-    }
+      window.updateAuthNav();
+      window.showCustomerView();
+    };
 
-    function openDepositModal() {
-      if(!window.loggedInUser) { openAuthModal(); return; }
-      selectDepositMethod('bkash');
+    window.openDepositModal = function() {
+      if(!window.loggedInUser) { window.openAuthModal(); return; }
+      window.selectDepositMethod('bkash');
       document.getElementById('depositModal').classList.remove('hidden');
       document.getElementById('depositModal').classList.add('flex');
-    }
-    function closeDepositModal() {
+    };
+    window.closeDepositModal = function() {
       document.getElementById('depositModal').classList.add('hidden');
       document.getElementById('depositModal').classList.remove('flex');
-    }
+    };
 
-    function selectDepositMethod(method) {
+    window.selectDepositMethod = function(method) {
       document.getElementById('selectedMethod').value = method;
       document.getElementById('depositNumberDisplay').innerText = window.paymentNumbers[method] || '01700000000';
-    }
+    };
 
-    function openOrderModal(pId) {
+    window.openOrderModal = function(pId) {
       const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
       document.getElementById('orderProductId').value = pId;
       document.getElementById('orderQuantity').value = 1;
-      updateCheckoutTotal();
+      window.updateCheckoutTotal();
 
       const select = document.getElementById('payMethodSelect');
       select.innerHTML = `
@@ -1705,18 +1702,18 @@
 
       document.getElementById('orderModal').classList.remove('hidden');
       document.getElementById('orderModal').classList.add('flex');
-    }
+    };
 
-    function adjustQuantity(val) {
+    window.adjustQuantity = function(val) {
       const qtyInput = document.getElementById('orderQuantity');
       let currentQty = parseInt(qtyInput.value) || 1;
       currentQty += val;
       if(currentQty < 1) currentQty = 1;
       qtyInput.value = currentQty;
-      updateCheckoutTotal();
-    }
+      window.updateCheckoutTotal();
+    };
 
-    function updateCheckoutTotal() {
+    window.updateCheckoutTotal = function() {
       const pId = document.getElementById('orderProductId').value;
       const p = window.products.find(prod => prod.id == pId);
       if(!p) return;
@@ -1727,21 +1724,21 @@
         <p>মূল্য: ৳ ${unitPrice} × ${qty}</p>
         <p class="font-bold text-brand-600">সর্বমোট: ৳ ${unitPrice * qty}</p>
       `;
-    }
+    };
 
-    function closeOrderModal() {
+    window.closeOrderModal = function() {
       document.getElementById('orderModal').classList.add('hidden');
       document.getElementById('orderModal').classList.remove('flex');
-    }
+    };
 
-    function showCustomerView() {
+    window.showCustomerView = function() {
       document.getElementById('adminView').classList.add('hidden');
       document.getElementById('customerProfileView').classList.add('hidden');
       document.getElementById('productDetailsView').classList.add('hidden');
       document.getElementById('customerView').classList.remove('hidden');
-    }
+    };
 
-    function showCustomerProfile() {
+    window.showCustomerProfile = function() {
       if(!window.loggedInUser) return;
       document.getElementById('customerView').classList.add('hidden');
       document.getElementById('adminView').classList.add('hidden');
@@ -1767,7 +1764,7 @@
           <td class="p-1.5 sm:p-2 font-bold">${o.payMethod}</td>
           <td class="p-1.5 sm:p-2"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] bg-amber-100 text-amber-700 font-bold">${o.status}</span></td>
           <td class="p-1.5 sm:p-2">
-            ${canReview ? `<button onclick="openReviewModal('${o.productId}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600"><i class="fa-solid fa-star"></i> রিভিউ দিন</button>` : '<span class="text-[10px] text-slate-400">N/A</span>'}
+            ${canReview ? `<button onclick="window.openReviewModal('${o.productId}')" class="px-2 py-1 bg-amber-500 text-white font-bold rounded text-[10px] hover:bg-amber-600"><i class="fa-solid fa-star"></i> রিভিউ দিন</button>` : '<span class="text-[10px] text-slate-400">N/A</span>'}
           </td>
         </tr>
       `}).join('') || `<tr><td colspan="5" class="p-2 text-center text-slate-400">কোনো অর্ডার নেই</td></tr>`;
@@ -1785,9 +1782,9 @@
           <td class="p-1.5 sm:p-2"><span class="px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${badgeStyle}">${d.status}</span></td>
         </tr>
       `}).join('') || `<tr><td colspan="4" class="p-2 text-center text-slate-400">কোনো ডিপোজিট নেই</td></tr>`;
-    }
+    };
 
-    function showStaffDashboard() {
+    window.showStaffDashboard = function() {
       document.getElementById('customerView').classList.add('hidden');
       document.getElementById('customerProfileView').classList.add('hidden');
       document.getElementById('productDetailsView').classList.add('hidden');
@@ -1797,8 +1794,25 @@
       document.getElementById('adminNagadNo').value = window.paymentNumbers.nagad || '';
       document.getElementById('adminRocketNo').value = window.paymentNumbers.rocket || '';
 
-      renderAdminAllClients();
-    }
+      window.renderAdminAllClients();
+      window.renderAdminProducts();
+      window.renderAdminDeposits();
+      window.renderAdminOrders();
+      window.renderAdminReviews();
+    };
+
+    window.toggleTheme = function() {
+      document.documentElement.classList.toggle('dark');
+    };
+
+    window.filterProducts = function() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      window.renderProducts(window.products.filter(p => p.title.toLowerCase().includes(query)));
+    };
+
+    window.updateAuthNav();
+    window.updateCartBadge();
+    applyTranslations();
   </script>
 </body>
 </html>
