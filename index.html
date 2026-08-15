@@ -113,7 +113,7 @@
       </button>
       <div id="productDetailsContainer" class="bg-white dark:bg-slate-800 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8"></div>
       
-      <!-- DARAZ STYLE REVIEW SECTION -->
+      <!-- REVIEW SECTION -->
       <div id="productReviewsContainer" class="bg-white dark:bg-slate-800 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
         <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 border-b pb-2 dark:border-slate-700">
           <i class="fa-solid fa-star text-amber-400"></i> কাস্টমার রিভিউজ ও রেটিং (<span id="reviewCountBadge">0</span>)
@@ -442,7 +442,7 @@
 
   </main>
 
-  <!-- ADD REVIEW MODAL (Daraz Style) -->
+  <!-- ADD REVIEW MODAL -->
   <div id="reviewModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border relative">
       <button onclick="closeReviewModal()" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -526,7 +526,7 @@
     </div>
   </div>
 
-  <!-- Login/Signup Modal -->
+  <!-- LOGIN/SIGNUP MODAL -->
   <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-4 sm:p-6 shadow-2xl border relative">
       <button onclick="closeAuthModal()" class="absolute top-3 right-3 text-slate-400"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -575,7 +575,7 @@
     </div>
   </div>
 
-  <!-- Checkout Modal -->
+  <!-- CHECKOUT MODAL -->
   <div id="orderModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-3 z-50">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl border relative max-h-[90vh] overflow-y-auto">
       <button onclick="closeOrderModal()" class="absolute top-3 right-3 text-slate-400 font-bold"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -649,7 +649,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
-      getFirestore, collection, addDoc, getDocs, setDoc, doc, getDoc, updateDoc, deleteDoc, query, where, onSnapshot 
+      getFirestore, collection, addDoc, getDocs, setDoc, doc, getDoc, updateDoc, deleteDoc, onSnapshot 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     // Firebase Config
@@ -666,7 +666,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Dynamic Variables
+    // Global Variables
     window.products = [];
     window.users = [];
     window.orders = [];
@@ -751,7 +751,6 @@
         }
       });
 
-      // Reviews Sync
       onSnapshot(collection(db, "reviews"), (snapshot) => {
         window.reviews = snapshot.docs.map(doc => ({ firebaseId: doc.id, ...doc.data() }));
         if(!document.getElementById('adminView').classList.contains('hidden')) {
@@ -821,7 +820,6 @@
       showCustomerProfile();
     };
 
-    // Auto Compression Product Upload
     window.handleAddProduct = async function(e) {
       e.preventDefault();
       const btn = document.getElementById('postProductBtn');
@@ -972,7 +970,6 @@
       alert(`অর্ডার কনফার্ম হয়েছে!`);
     };
 
-    // Client Profile Update with Profile Picture
     window.handleProfileUpdate = async function(e) {
       e.preventDefault();
       const saveBtn = document.getElementById('btnSaveProfile');
@@ -1012,7 +1009,6 @@
       }
     };
 
-    // Daraz Style Review Handler
     window.handleReviewSubmit = async function(e) {
       e.preventDefault();
       const btn = document.getElementById('btnSubmitReview');
@@ -1141,7 +1137,7 @@
     };
   </script>
 
-  <!-- UI Render Helpers -->
+  <!-- UI Navigation & Dynamic Rendering Functions -->
   <script>
     const translations = {
       bn: {
@@ -1447,7 +1443,6 @@
         </div>
       `;
 
-      // Render Daraz style Product Reviews
       renderProductReviews(p.id);
     }
 
@@ -1487,7 +1482,6 @@
       }).join('');
     }
 
-    // Star Rating Helper
     function setRating(val) {
       document.getElementById('reviewRatingVal').value = val;
       const stars = document.querySelectorAll('#starRatingSelect i');
